@@ -10,7 +10,7 @@ public class LoggedInActivity extends AppCompatActivity {
 
     private Button logout;
 
-
+    private boolean shouldAllowBack = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,12 +20,18 @@ public class LoggedInActivity extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent goBack = new Intent(LoggedInActivity.this, MainActivity.class);
+                Intent goBack = new Intent(LoggedInActivity.this, HomeActivity.class);
                 startActivity(goBack);
 
             }
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        if (shouldAllowBack) {
+            super.onBackPressed();
+        }
+    }
 
 }

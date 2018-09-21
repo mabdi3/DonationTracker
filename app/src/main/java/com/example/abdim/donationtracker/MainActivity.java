@@ -17,7 +17,8 @@ public class MainActivity extends AppCompatActivity {
     private int loginAttemptsRemaining = 5;
     private EditText Name;
     private EditText Password;
-    private Button Login;
+    private Button Submit;
+    private Button Cancel;
     private TextView Info;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,17 +27,29 @@ public class MainActivity extends AppCompatActivity {
 
         Name = (EditText)findViewById(R.id.etUser);
         Password = (EditText)findViewById(R.id.etPassword);
-        Info = (TextView)findViewById(R.id.tvInfo);
-        Login = (Button)findViewById(R.id.btnLogin);
+        Info = (TextView)findViewById(R.id.textLoginInfo);
+        Submit = (Button)findViewById(R.id.btnSubmit);
+        Cancel = (Button)findViewById(R.id.btnCancel);
 
-        Info.setText("Login Attempts Remaining: 5");
-
-        Login.setOnClickListener(new View.OnClickListener() {
+        Submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 checkLogin(Name.getText().toString(), Password.getText().toString());
             }
         });
+
+        Cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent cancel = new Intent(MainActivity.this, HomeActivity.class);
+                startActivity(cancel);
+                finish();
+            }
+        });
+
+
+
+        Info.setText("Login Attempts Remaining: 5");
     }
 
     private void checkLogin(String userName, String userPassword) {
@@ -44,11 +57,12 @@ public class MainActivity extends AppCompatActivity {
             loggedIn = true;
             Intent intent = new Intent(MainActivity.this, LoggedInActivity.class);
             startActivity(intent);
+            finish();
         } else {
             loginAttemptsRemaining--;
             Info.setText("Login Attempts Remaining: " + String.valueOf(loginAttemptsRemaining));
             if (loginAttemptsRemaining == 0) {
-                Login.setEnabled(false); // disable button
+                Submit.setEnabled(false); // disable button
             }
 
         }
