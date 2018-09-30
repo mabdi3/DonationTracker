@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText Password;
     private Button Submit;
     private Button Cancel;
+    private Button Register;
     private TextView Info;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         Info = (TextView)findViewById(R.id.textLoginInfo);
         Submit = (Button)findViewById(R.id.btnSubmit);
         Cancel = (Button)findViewById(R.id.btnCancel);
+        Register = (Button)findViewById(R.id.registrationButton);
 
         Submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,6 +45,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent cancel = new Intent(MainActivity.this, HomeActivity.class);
                 startActivity(cancel);
+                finish();
+            }
+        });
+        Register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+                startActivity(intent);
                 finish();
             }
         });
