@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         Info.setText("Login Attempts Remaining: 5");
     }
 
+    //TODO 3 change checkLogin to compare the information put into the login box to the list of Registered accounts
     private void checkLogin(String userName, String userPassword) {
         if (userName.equals("user") && userPassword.equals("pass")) {
             loggedIn = true;
