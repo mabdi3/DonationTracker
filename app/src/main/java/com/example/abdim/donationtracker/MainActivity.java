@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText Password;
     private Button Submit;
     private Button Cancel;
+    private Button Register;
     private TextView Info;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         Info = (TextView)findViewById(R.id.textLoginInfo);
         Submit = (Button)findViewById(R.id.btnSubmit);
         Cancel = (Button)findViewById(R.id.btnCancel);
+        Register = (Button)findViewById(R.id.registrationButton);
 
         Submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,6 +48,14 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+        Register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
 
 
@@ -53,18 +63,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkLogin(String userName, String userPassword) {
-        if (userName.equals("user") && userPassword.equals("pass")) {
-            loggedIn = true;
-            Intent intent = new Intent(MainActivity.this, LoggedInActivity.class);
-            startActivity(intent);
-            finish();
-        } else {
-            loginAttemptsRemaining--;
-            Info.setText("Login Attempts Remaining: " + String.valueOf(loginAttemptsRemaining));
-            if (loginAttemptsRemaining == 0) {
-                Submit.setEnabled(false); // disable button
+        for (Account account : RegisteredAccounts.getAccountStorage()) {
+            if (userName.equals(account.getUsername()) && userPassword.equals(account.getPass())) {
+                loggedIn = true;
+                Intent intent = new Intent(MainActivity.this, LoggedInActivity.class);
+                startActivity(intent);
+                finish();
             }
-
+        }
+        loginAttemptsRemaining--;
+        Info.setText("Login Attempts Remaining: " + String.valueOf(loginAttemptsRemaining));
+        if (loginAttemptsRemaining == 0) {
+            Submit.setEnabled(false); // disable button
         }
     }
 }
