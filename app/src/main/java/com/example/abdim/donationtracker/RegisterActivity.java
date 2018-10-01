@@ -24,24 +24,28 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        username = (EditText)findViewById(R.id.new_username);
-        password = (EditText)findViewById(R.id.new_password);
-        confirmPassword = (EditText)findViewById(R.id.confirm_password);
-        back = (Button)findViewById(R.id.back_button);
-        register = (Button)findViewById(R.id.register_button);
+        username = (EditText) findViewById(R.id.new_username);
+        password = (EditText) findViewById(R.id.new_password);
+        confirmPassword = (EditText) findViewById(R.id.confirm_password);
+        back = (Button) findViewById(R.id.back_button);
+        register = (Button) findViewById(R.id.register_button);
         accountType = (Spinner) findViewById(R.id.account_type_spinner);
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO 1 have the register button create an account object with the info provided; store it in RegisteredAccounts
+                //TODO 5 tell the user if they are already registered
+                Account newAcc = new Account(username.toString(), password.toString(), (AccountType) accountType.getSelectedItem());
+                RegisteredAccounts.addAccount(newAcc);
             }
         });
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO 2 make it go back
+                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
     }

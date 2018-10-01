@@ -63,19 +63,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkLogin(String userName, String userPassword) {
-//        if (userName.equals("user") && userPassword.equals("pass")) {
-//            loggedIn = true;
-//            Intent intent = new Intent(MainActivity.this, LoggedInActivity.class);
-//            startActivity(intent);
-//            finish();
-//        } else {
-//            loginAttemptsRemaining--;
-//            Info.setText("Login Attempts Remaining: " + String.valueOf(loginAttemptsRemaining));
-//            if (loginAttemptsRemaining == 0) {
-//                Submit.setEnabled(false); // disable button
-//            }
-//
-//        }
         for (Account account : RegisteredAccounts.getAccountStorage()) {
             if (userName.equals(account.getUsername()) && userPassword.equals(account.getPass())) {
                 loggedIn = true;

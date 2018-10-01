@@ -3,7 +3,7 @@ package com.example.abdim.donationtracker;
 import java.util.ArrayList;
 
 public class RegisteredAccounts {
-    private static ArrayList<Account> accountStorage;
+    private static ArrayList<Account> accountStorage = new ArrayList<>();
 
     public static void addAccount(Account addedAccount) {
         accountStorage.add(addedAccount);
