@@ -63,20 +63,19 @@ public class MainActivity extends AppCompatActivity {
         Info.setText("Login Attempts Remaining: 5");
     }
 
-    //TODO 3 change checkLogin to compare the information put into the login box to the list of Registered accounts
     private void checkLogin(String userName, String userPassword) {
-        if (userName.equals("user") && userPassword.equals("pass")) {
-            loggedIn = true;
-            Intent intent = new Intent(MainActivity.this, LoggedInActivity.class);
-            startActivity(intent);
-            finish();
-        } else {
-            loginAttemptsRemaining--;
-            Info.setText("Login Attempts Remaining: " + String.valueOf(loginAttemptsRemaining));
-            if (loginAttemptsRemaining == 0) {
-                Submit.setEnabled(false); // disable button
+        for (Account account : RegisteredAccounts.getAccountStorage()) {
+            if (userName.equals(account.getUsername()) && userPassword.equals(account.getPass())) {
+                loggedIn = true;
+                Intent intent = new Intent(MainActivity.this, LoggedInActivity.class);
+                startActivity(intent);
+                finish();
             }
-
+        }
+        loginAttemptsRemaining--;
+        Info.setText("Login Attempts Remaining: " + String.valueOf(loginAttemptsRemaining));
+        if (loginAttemptsRemaining == 0) {
+            Submit.setEnabled(false); // disable button
         }
     }
 

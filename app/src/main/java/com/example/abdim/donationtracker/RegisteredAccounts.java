@@ -3,14 +3,31 @@ package com.example.abdim.donationtracker;
 import java.util.ArrayList;
 
 public class RegisteredAccounts {
-    public static ArrayList<Account> accountStorage;
+    private static ArrayList<Account> accountStorage = new ArrayList<>();
 
     public static void addAccount(Account addedAccount) {
         accountStorage.add(addedAccount);
     }
-    //TODO 4 make this compare the username, password, and account types independently instead of just a .contains
-    public static boolean accountExists(Account existAccount) {
-        return accountStorage.contains(existAccount);
 
+    public static ArrayList<Account> getAccountStorage() {
+        return accountStorage;
+    }
+
+
+    /**
+     * Checks if {existAccount} is already logged in the system.
+     *
+     * @param existAccount Account to see if in system
+     * @return true if {existAccount} is in system
+     */
+    public static boolean accountExists(Account existAccount) {
+        for (Account account : accountStorage) {
+            if (existAccount.getUsername().equals(account.getUsername()) &&
+                existAccount.getPass().equals(account.getPass()) &&
+                existAccount.getTypeEnum() == account.getTypeEnum()) {
+                return true;
+            }
+        }
+        return false;
     }
 }
