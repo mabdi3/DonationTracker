@@ -11,5 +11,6 @@ public class RegisteredAccounts {
     //TODO 4 make this compare the username, password, and account types independently instead of just a .contains
     public static boolean accountExists(Account existAccount) {
         return accountStorage.contains(existAccount);
+
     }
 }
