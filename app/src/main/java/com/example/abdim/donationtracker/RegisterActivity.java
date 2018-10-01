@@ -42,7 +42,6 @@ public class RegisterActivity extends AppCompatActivity {
                     AccountType.valueOf(accountType.getSelectedItem().toString()));
                 if (password.equals(confirmPassword) && !(rA.accountExists(account))) {
                     rA.addAccount(account);
-
                 }
             }
         });
