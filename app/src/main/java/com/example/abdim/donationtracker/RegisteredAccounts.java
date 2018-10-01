@@ -3,10 +3,14 @@ package com.example.abdim.donationtracker;
 import java.util.ArrayList;
 
 public class RegisteredAccounts {
-    public static ArrayList<Account> accountStorage;
+    private static ArrayList<Account> accountStorage;
 
     public static void addAccount(Account addedAccount) {
         accountStorage.add(addedAccount);
+    }
+
+    public static ArrayList<Account> getAccountStorage() {
+        return accountStorage;
     }
 
 
