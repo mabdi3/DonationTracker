@@ -42,9 +42,15 @@ public class RegisterActivity extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO 5 tell the user if they are already registered
-                Account newAcc = new Account(username.toString(), password.toString(), (AccountType) accountType.getSelectedItem());
-                RegisteredAccounts.addAccount(newAcc);
+            //TODO 1 have the register button create an account object with the info provided;
+            // store it in RegisteredAccounts
+                RegisteredAccounts rA = MainActivity.getRegisteredAccounts();
+                Account account = new Account(username.getText().toString(),
+                    password.getText().toString(),
+                    AccountType.valueOf(accountType.getSelectedItem().toString()));
+                if (password.equals(confirmPassword) && !(rA.accountExists(account))) {
+                    rA.addAccount(account);
+                }
             }
         });
 

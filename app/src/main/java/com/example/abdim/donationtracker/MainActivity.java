@@ -21,11 +21,12 @@ public class MainActivity extends AppCompatActivity {
     private Button Cancel;
     private Button Register;
     private TextView Info;
+    private static RegisteredAccounts registeredAccounts;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        registeredAccounts = new RegisteredAccounts();
         Name = (EditText)findViewById(R.id.etUser);
         Password = (EditText)findViewById(R.id.etPassword);
         Info = (TextView)findViewById(R.id.textLoginInfo);
@@ -76,5 +77,9 @@ public class MainActivity extends AppCompatActivity {
         if (loginAttemptsRemaining == 0) {
             Submit.setEnabled(false); // disable button
         }
+    }
+
+    public static RegisteredAccounts getRegisteredAccounts() {
+        return registeredAccounts;
     }
 }

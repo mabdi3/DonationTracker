@@ -23,8 +23,8 @@ public class RegisteredAccounts {
     public static boolean accountExists(Account existAccount) {
         for (Account account : accountStorage) {
             if (existAccount.getUsername().equals(account.getUsername()) &&
-                    existAccount.getPass().equals(account.getPass()) &&
-                    existAccount.getTypeEnum() == account.getTypeEnum()) {
+                existAccount.getPass().equals(account.getPass()) &&
+                existAccount.getTypeEnum() == account.getTypeEnum()) {
                 return true;
             }
         }
