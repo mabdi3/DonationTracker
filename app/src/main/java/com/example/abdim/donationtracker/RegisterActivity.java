@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -30,6 +31,13 @@ public class RegisterActivity extends AppCompatActivity {
         back = (Button) findViewById(R.id.back_button);
         register = (Button) findViewById(R.id.register_button);
         accountType = (Spinner) findViewById(R.id.account_type_spinner);
+
+        /*
+          Set up the adapter to display the allowable AccountTypes in the spinner
+         */
+        ArrayAdapter<AccountType> adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, AccountType.values());
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        accountType.setAdapter(adapter);
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
