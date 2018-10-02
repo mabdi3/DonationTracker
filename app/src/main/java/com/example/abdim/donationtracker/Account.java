@@ -22,4 +22,7 @@ public class Account {
     public AccountType getTypeEnum() {
         return userType;
     }
+    public String toString() {
+        return username + " has the password: " + password + " and is a: " + userType;
+    }
 }

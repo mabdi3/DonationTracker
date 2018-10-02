@@ -1,5 +1,7 @@
 package com.example.abdim.donationtracker;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 public class RegisteredAccounts {
@@ -11,6 +13,12 @@ public class RegisteredAccounts {
 
     public static ArrayList<Account> getAccountStorage() {
         return accountStorage;
+    }
+
+    public static void printData(){
+        for (Account count : accountStorage) {
+            Log.d("Register", "Adding: " + count.toString());
+        }
     }
 
 

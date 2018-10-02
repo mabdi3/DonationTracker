@@ -3,6 +3,7 @@ package com.example.abdim.donationtracker;
 import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -35,7 +36,7 @@ public class RegisterActivity extends AppCompatActivity {
         /*
           Set up the adapter to display the allowable AccountTypes in the spinner
          */
-        ArrayAdapter<AccountType> adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, AccountType.values());
+        ArrayAdapter<String> adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, AccountType.values());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         accountType.setAdapter(adapter);
 
@@ -46,11 +47,13 @@ public class RegisterActivity extends AppCompatActivity {
             // store it in RegisteredAccounts
                 RegisteredAccounts rA = MainActivity.getRegisteredAccounts();
                 Account account = new Account(username.getText().toString(),
-                    password.getText().toString(),
-                    AccountType.valueOf(accountType.getSelectedItem().toString()));
-                if (password.equals(confirmPassword) && !(rA.accountExists(account))) {
+                        password.getText().toString(),
+                        (AccountType) accountType.getSelectedItem());
+                if (password.getText().toString().equals(confirmPassword.getText().toString()) && !(rA.accountExists(account))) {
                     rA.addAccount(account);
                 }
+                Log.d("Register",account.toString());
+                RegisteredAccounts.printData();
             }
         });
 
