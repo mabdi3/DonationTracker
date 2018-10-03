@@ -43,7 +43,6 @@ public class RegisterActivity extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            //TODO 1 have the register button create an account object with the info provided;
             // store it in RegisteredAccounts
                 RegisteredAccounts rA = MainActivity.getRegisteredAccounts();
                 Account account = new Account(username.getText().toString(),
@@ -54,6 +53,11 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 Log.d("Register",account.toString());
                 RegisteredAccounts.printData();
+
+                //send back to login page
+                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();hi
             }
         });
 
