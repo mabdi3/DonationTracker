@@ -57,7 +57,7 @@ public class RegisterActivity extends AppCompatActivity {
                 //send back to login page
                 Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                 startActivity(intent);
-                finish();hi
+                finish();
             }
         });
 
