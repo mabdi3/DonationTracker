@@ -11,8 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import org.w3c.dom.Text;
 
@@ -141,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             //open a stream on the raw file
-            InputStream is = getResources().openRawResource(R.raw.LocationData);
+            InputStream is = getResources().openRawResource(R.raw.locationdata);
             //from here we probably should call a model method and pass the inputstream
             //wrap it in a BufferedReader so that we get the readLine() method
 
