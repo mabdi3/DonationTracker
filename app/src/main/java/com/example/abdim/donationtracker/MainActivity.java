@@ -1,5 +1,7 @@
 package com.example.abdim.donationtracker;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -67,15 +69,33 @@ public class MainActivity extends AppCompatActivity {
         for (Account account : RegisteredAccounts.getAccountStorage()) {
             if (userName.equals(account.getUsername()) && userPassword.equals(account.getPass())) {
                 loggedIn = true;
-                Intent intent = new Intent(MainActivity.this, LoggedInActivity.class);
-                startActivity(intent);
-                finish();
+
             }
         }
-        loginAttemptsRemaining--;
-        Info.setText("Login Attempts Remaining: " + String.valueOf(loginAttemptsRemaining));
-        if (loginAttemptsRemaining == 0) {
-            Submit.setEnabled(false); // disable button
+        if (loggedIn) {
+            Intent intent = new Intent(MainActivity.this, LoggedInActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
+
+            loginAttemptsRemaining--;
+
+            AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+            alertDialog.setTitle("Login Failure");
+            alertDialog.setMessage("Login credentials were incorrect, " + loginAttemptsRemaining
+                    + " attempts remaining.");
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            alertDialog.show();
+
+            Info.setText("Login Attempts Remaining: " + String.valueOf(loginAttemptsRemaining));
+            if (loginAttemptsRemaining == 0) {
+                Submit.setEnabled(false); // disable button
+            }
         }
     }
 
