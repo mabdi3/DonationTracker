@@ -1,6 +1,8 @@
-package com.example.abdim.donationtracker;
+package com.example.abdim.donationtracker.models;
 
 import android.util.Log;
+
+import com.example.abdim.donationtracker.models.Account;
 
 import java.util.ArrayList;
 

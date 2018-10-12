@@ -1,4 +1,4 @@
-package com.example.abdim.donationtracker;
+package com.example.abdim.donationtracker.models;
 
 import java.util.ArrayList;
 import java.util.List;

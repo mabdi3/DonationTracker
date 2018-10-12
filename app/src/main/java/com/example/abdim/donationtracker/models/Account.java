@@ -1,4 +1,4 @@
-package com.example.abdim.donationtracker;
+package com.example.abdim.donationtracker.models;
 
 public class Account {
     public String username;

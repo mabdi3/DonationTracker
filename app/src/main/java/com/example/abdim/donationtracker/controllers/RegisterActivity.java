@@ -1,4 +1,4 @@
-package com.example.abdim.donationtracker;
+package com.example.abdim.donationtracker.controllers;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -13,6 +13,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+
+import com.example.abdim.donationtracker.R;
+import com.example.abdim.donationtracker.models.RegisteredAccounts;
+import com.example.abdim.donationtracker.models.Account;
+import com.example.abdim.donationtracker.models.AccountType;
 // import android.widget.TextView;
 // import java.util.ArrayList;
 

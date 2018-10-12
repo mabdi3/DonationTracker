@@ -1,4 +1,4 @@
-package com.example.abdim.donationtracker;
+package com.example.abdim.donationtracker.models;
 
 public enum LocationType {
 //    Dropoff-only, Store (drop-off and sales), Warehouse (inventory storage only)

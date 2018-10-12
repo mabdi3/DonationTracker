@@ -1,4 +1,4 @@
-package com.example.abdim.donationtracker;
+package com.example.abdim.donationtracker.controllers;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -12,7 +12,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 
-import org.w3c.dom.Text;
+import com.example.abdim.donationtracker.models.Location;
+import com.example.abdim.donationtracker.models.LocationType;
+import com.example.abdim.donationtracker.models.Locations;
+import com.example.abdim.donationtracker.R;
+import com.example.abdim.donationtracker.models.RegisteredAccounts;
+import com.example.abdim.donationtracker.models.Account;
 
 import java.io.BufferedReader;
 import java.io.IOException;
