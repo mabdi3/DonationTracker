@@ -11,8 +11,9 @@
         android:theme="@style/AppTheme">
         <activity android:name=".controllers.MainActivity" />
         <activity android:name=".controllers.LoggedInActivity" />
+        <activity android:name=".controllers.LocationListActivity" />
         <activity android:name=".controllers.RegisterActivity" />
-        <activity android:name=".controllers.HomeActivity">
+        <activity android:name=".controllers.HomeActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
