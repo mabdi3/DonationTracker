@@ -7,7 +7,7 @@ public class Locations {
 
     private static List<Location> locations = new ArrayList<>();
 
-    public List<Location> getLocations() {
+    public static List<Location> getLocations() {
         return locations;
     }
 

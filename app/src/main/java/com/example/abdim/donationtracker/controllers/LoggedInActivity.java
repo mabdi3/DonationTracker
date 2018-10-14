@@ -22,8 +22,8 @@ public class LoggedInActivity extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent goBack = new Intent(LoggedInActivity.this, HomeActivity.class);
-                startActivity(goBack);
+                Intent goList = new Intent(LoggedInActivity.this, LocationListActivity.class);
+                startActivity(goList);
 
             }
         });

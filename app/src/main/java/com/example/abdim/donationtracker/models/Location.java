@@ -89,4 +89,8 @@ public class Location {
     public void setWebsiteLink(String websiteLink) {
         this.websiteLink = websiteLink;
     }
+
+    public String toString() {
+        return name;
+    }
 }
