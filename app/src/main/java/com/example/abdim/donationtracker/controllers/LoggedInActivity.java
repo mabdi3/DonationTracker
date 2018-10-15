@@ -24,6 +24,7 @@ public class LoggedInActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent goList = new Intent(LoggedInActivity.this, LocationListActivity.class);
                 startActivity(goList);
+                finish();
 
             }
         });
