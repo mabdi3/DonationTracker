@@ -10,6 +10,8 @@ import com.example.abdim.donationtracker.R;
 import com.example.abdim.donationtracker.models.Location;
 import com.example.abdim.donationtracker.models.Locations;
 
+import java.util.List;
+
 public class LocationListActivity extends AppCompatActivity {
     private ListView locationList;
     protected void onCreate(Bundle saveInstanceState) {
@@ -22,7 +24,21 @@ public class LocationListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent locationDetails = new Intent(LocationListActivity.this, LocationInfoActivity.class);
-                getIntent().putExtra("name", Locations.getLocations().get(position).getName());
+                Location location = Locations.getLocations().get(position);
+                String name = location.getName();
+                String locationType = location.getLocationType().toString();
+                Double longitude = location.getLongitude();
+                Double latitude = location.getLatitude();
+                String address = location.getAddress();
+                String phoneNumber = location.getPhoneNumber();
+                String websiteLink = location.getWebsiteLink();
+                locationDetails.putExtra("name", name);
+                locationDetails.putExtra("locationType", locationType);
+                locationDetails.putExtra("longitude", latitude.toString());
+                locationDetails.putExtra("latitude", latitude.toString());
+                locationDetails.putExtra("address", address);
+                locationDetails.putExtra("phoneNumber", phoneNumber);
+                locationDetails.putExtra("websiteLink", websiteLink);
                 startActivity(locationDetails);
             }
         });
