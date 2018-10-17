@@ -155,7 +155,16 @@ public class MainActivity extends AppCompatActivity {
             while((line = br.readLine()) != null) {
                 Log.d(MainActivity.TAG, line);
                 String[] tokens = line.split(",");
-                Location newLocal = new Location(Integer.parseInt(tokens[0]), tokens[1], LocationType.DROPOFFONLY, Double.parseDouble(tokens[3]), Double.parseDouble(tokens[2]), tokens[4] + ", " + tokens[5] + ", " + tokens[6] + " " + tokens[7], tokens[9], tokens[10]);
+                Location newLocal = new Location(Integer.parseInt(tokens[0]),
+                        tokens[1], LocationType.DROPOFFONLY,
+                        Double.parseDouble(tokens[3]),
+                        Double.parseDouble(tokens[2]),
+                        tokens[4] + ", " +
+                                tokens[5] + ", " +
+                                tokens[6] + " " +
+                                tokens[7],
+                        tokens[9],
+                        tokens[10]);
                 if (tokens[8].equals("Store")) {
                     newLocal.setLocationType(LocationType.STORE);
                 } else if (tokens[8].equals("Warehouse")) {

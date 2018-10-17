@@ -29,6 +29,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText confirmPassword;
     private Spinner accountType;
     private final int USERNAME_MINLENGTH = 4;
+    private final int PASSWORD_MINLENGTH = 4;
 
     /*
      * Check to see if passwords match, if username filled out to enable register button
@@ -85,6 +86,10 @@ public class RegisterActivity extends AppCompatActivity {
             public void afterTextChanged(Editable arg0) {
                 if (!(password.getText().toString().length() > 0)) {
                     password.setError("Password must have at least one character");
+                }
+                if (password.getText().toString().length() < 4) {
+                    password.setError("Password must be " + PASSWORD_MINLENGTH
+                        + " characters or greater");
                 }
             }
 

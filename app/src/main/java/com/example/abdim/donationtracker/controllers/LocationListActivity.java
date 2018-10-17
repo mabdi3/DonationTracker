@@ -34,7 +34,7 @@ public class LocationListActivity extends AppCompatActivity {
                 String websiteLink = location.getWebsiteLink();
                 locationDetails.putExtra("name", name);
                 locationDetails.putExtra("locationType", locationType);
-                locationDetails.putExtra("longitude", latitude.toString());
+                locationDetails.putExtra("longitude", longitude.toString());
                 locationDetails.putExtra("latitude", latitude.toString());
                 locationDetails.putExtra("address", address);
                 locationDetails.putExtra("phoneNumber", phoneNumber);

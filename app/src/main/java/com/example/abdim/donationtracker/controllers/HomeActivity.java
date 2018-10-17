@@ -12,6 +12,7 @@ import com.example.abdim.donationtracker.R;
 public class HomeActivity extends AppCompatActivity {
     private Button login;
     private TextView welcome;
+    private Button Register;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +22,16 @@ public class HomeActivity extends AppCompatActivity {
         login = findViewById(R.id.btnLogin);
         welcome = findViewById(R.id.textWelcome);
         welcome.setText("Welcome to Donation Tracker");
+        Register = (Button)findViewById(R.id.registerBtn);
+
+        Register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, RegisterActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
