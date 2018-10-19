@@ -10,6 +10,7 @@ public class Location {
     private String address;
     private String phoneNumber;
     private String websiteLink;
+    private ItemList locationItemList = new ItemList();
 
     public Location() {
         //Default constructor
@@ -92,5 +93,15 @@ public class Location {
 
     public String toString() {
         return name;
+    }
+
+    public void addItem(Item item) {
+        locationItemList.addItem(item);
+    }
+
+    public void addDonation (Donation donation) {
+        for (Item i : donation.getItems().getItemList()) {
+            addItem(i);
+        }
     }
 }
