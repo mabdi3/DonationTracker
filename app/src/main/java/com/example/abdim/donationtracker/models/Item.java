@@ -12,24 +12,17 @@ public class Item {
     Location location;
     ItemCategory category;
     String time;
+    Double value;
 
-    Item (String n, String d, int q, Location l, ItemCategory c, String t) {
-        name = n;
-        description = d;
-        quantity = q;
-        itemPhoto = null;
-        location = l;
-        category = c;
-        time = t;
-    }
-    Item (String n, String d, int q, Image i, Location l, ItemCategory c, String t) {
-        name = n;
-        description = d;
-        quantity = q;
-        itemPhoto = i;
-        location = l;
-        category = c;
-        time = t;
+    public Item(String name, String description, int quantity, Image itemPhoto, Location location, ItemCategory category, String time, Double value) {
+        this.name = name;
+        this.description = description;
+        this.quantity = quantity;
+        this.itemPhoto = itemPhoto;
+        this.location = location;
+        this.category = category;
+        this.time = time;
+        this.value = value;
     }
 
     public Image getItemPhoto() {
@@ -50,5 +43,53 @@ public class Item {
 
     public String toString() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Double getValue() {
+        return value;
+    }
+
+    public void setValue(Double value) {
+        this.value = value;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public void setItemPhoto(Image itemPhoto) {
+        this.itemPhoto = itemPhoto;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public ItemCategory getCategory() {
+        return category;
+    }
+
+    public void setCategory(ItemCategory category) {
+        this.category = category;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }
