@@ -72,7 +72,7 @@
         tools:layout_editor_absoluteY="253dp" />
 
     <TextView
-        android:id="@+id/itemcategory"
+        android:id="@+id/itemaddcategory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Category"

@@ -1,5 +1,7 @@
 package com.example.abdim.donationtracker.models;
 
+import java.util.Objects;
+
 public class Location {
 
     private int id;
@@ -103,5 +105,27 @@ public class Location {
         for (Item i : donation.getItems().getItemList()) {
             addItem(i);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Location location = (Location) o;
+        return id == location.id &&
+                Double.compare(location.longitude, longitude) == 0 &&
+                Double.compare(location.latitude, latitude) == 0 &&
+                Objects.equals(name, location.name) &&
+                locationType == location.locationType &&
+                Objects.equals(address, location.address) &&
+                Objects.equals(phoneNumber, location.phoneNumber) &&
+                Objects.equals(websiteLink, location.websiteLink) &&
+                Objects.equals(locationItemList, location.locationItemList);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, name, locationType, longitude, latitude, address, phoneNumber, websiteLink, locationItemList);
     }
 }

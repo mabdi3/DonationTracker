@@ -170,6 +170,9 @@ public class MainActivity extends AppCompatActivity {
                 } else if (tokens[8].equals("Warehouse")) {
                     newLocal.setLocationType(LocationType.WAREHOUSE);
                 }
+                if(!model.getLocations().contains(newLocal)) {
+                    model.addLocation(newLocal);
+                }
                 model.addLocation(newLocal);
             }
             br.close();
