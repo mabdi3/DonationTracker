@@ -65,7 +65,7 @@
         tools:layout_editor_absoluteY="180dp" />
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/spinnercate"
         android:layout_width="355dp"
         android:layout_height="46dp"
         tools:layout_editor_absoluteX="15dp"
@@ -85,15 +85,23 @@
         android:layout_width="362dp"
         android:layout_height="193dp"
         android:ems="10"
+        android:gravity="top|left"
         android:inputType="textMultiLine"
         android:lines="8"
-        android:minLines="6"
-        android:gravity="top|left"
         android:maxLines="10"
+        android:minLines="6"
         android:selectAllOnFocus="true"
         android:singleLine="false"
-        android:text="Name"
+        android:text="Item Description Here"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="309dp" />
+
+    <Button
+        android:id="@+id/buttonAddItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Item"
+        tools:layout_editor_absoluteX="260dp"
+        tools:layout_editor_absoluteY="180dp" />
 
 </android.support.constraint.ConstraintLayout>
