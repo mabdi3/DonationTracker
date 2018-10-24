@@ -35,7 +35,7 @@ public class LocationListActivity extends AppCompatActivity {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.activity_location_list);
         locationList = (ListView) findViewById(R.id.location_list);
-        List<Location> locationsAsList = new ArrayList<>(Locations.locations);
+        final List<Location> locationsAsList = new ArrayList<>(Locations.locations);
         ArrayAdapter<Location> locationAdapter = new ArrayAdapter<Location>(this, android.R.layout.simple_list_item_1, locationsAsList);
         locationList.setAdapter(locationAdapter);
 
@@ -43,18 +43,12 @@ public class LocationListActivity extends AppCompatActivity {
         locationList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent locationDetails = new Intent(LocationListActivity.this, LocationInfoActivity.class);
-                List<Location> locationsAsList = new ArrayList<>(Locations.locations);
+                Intent intent = new Intent(LocationListActivity.this, LocationInfoActivity.class);
+
                 Location location = locationsAsList.get(position);
-                locationDetails.putExtra("location", location);
-//                locationDetails.putExtra("name", location.getName());
-//                locationDetails.putExtra("locationType", location.getLocationType().toString());
-//                locationDetails.putExtra("longitude", location.getLongitude());
-//                locationDetails.putExtra("latitude", location.getLatitude());
-//                locationDetails.putExtra("address", location.getAddress());
-//                locationDetails.putExtra("phoneNumber", location.getPhoneNumber());
-//                locationDetails.putExtra("websiteLink", location.getWebsiteLink());
-                startActivity(locationDetails);
+                intent.putExtra("location", location);
+
+                startActivity(intent);
                 finish();
             }
         });

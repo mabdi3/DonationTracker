@@ -1,6 +1,8 @@
 package com.example.abdim.donationtracker.models;
 
-public class ItemCategory {
+import java.io.Serializable;
+
+public class ItemCategory implements Serializable {
     String categoryName;
 
     public ItemCategory(String name) {

@@ -6,74 +6,108 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="106dp"
-        android:layout_height="95dp"
-        app:srcCompat="@mipmap/ic_launcher"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="16dp" />
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/item_name"
-        android:layout_width="221dp"
-        android:layout_height="41dp"
-        android:text="TextView"
-        android:background="@drawable/back"
-        tools:layout_editor_absoluteX="142dp"
-        tools:layout_editor_absoluteY="16dp" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="426dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="112dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/backButton"
+        app:layout_constraintVertical_bias="1.0">
 
-    <TextView
-        android:id="@+id/item_value"
-        android:layout_width="221dp"
-        android:layout_height="42dp"
-        android:text="TextView"
-        android:background="@drawable/back"
-        tools:layout_editor_absoluteX="142dp"
-        tools:layout_editor_absoluteY="69dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/time"
-        android:layout_width="165dp"
-        android:layout_height="52dp"
-        android:background="@drawable/back"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="126dp" />
+            <TextView
+                android:id="@+id/item_name"
+                android:layout_width="match_parent"
+                android:layout_height="41dp"
+                android:background="@drawable/back"
+                android:text="Item Name"
+                tools:layout_editor_absoluteX="142dp"
+                tools:layout_editor_absoluteY="16dp" />
 
-    <TextView
-        android:id="@+id/location"
-        android:layout_width="165dp"
-        android:layout_height="49dp"
-        android:text="TextView"
-        android:background="@drawable/back"
-        tools:layout_editor_absoluteX="198dp"
-        tools:layout_editor_absoluteY="126dp" />
+            <TextView
+                android:id="@+id/item_value"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:background="@drawable/back"
+                android:text="Item Value"
+                tools:layout_editor_absoluteX="142dp"
+                tools:layout_editor_absoluteY="69dp" />
 
-    <TextView
-        android:id="@+id/Category"
-        android:layout_width="166dp"
-        android:layout_height="50dp"
-        android:text="TextView"
-        android:background="@drawable/back"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="196dp" />
+            <TextView
+                android:id="@+id/location"
+                android:layout_width="match_parent"
+                android:layout_height="49dp"
+                android:background="@drawable/back"
+                android:text="Location of Donation"
+                tools:layout_editor_absoluteX="198dp"
+                tools:layout_editor_absoluteY="126dp" />
 
-    <TextView
-        android:id="@+id/Time"
-        android:layout_width="165dp"
-        android:layout_height="51dp"
-        android:text="TextView"
-        android:background="@drawable/back"
-        tools:layout_editor_absoluteX="198dp"
-        tools:layout_editor_absoluteY="196dp" />
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="95dp"
+                app:srcCompat="@mipmap/ic_launcher"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="16dp" />
 
-    <TextView
-        android:id="@+id/Description"
-        android:layout_width="348dp"
-        android:layout_height="223dp"
-        android:text="TextView"
-        android:background="@drawable/back"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="264dp" />
+            <TextView
+                android:id="@+id/quantity"
+                android:layout_width="match_parent"
+                android:layout_height="51dp"
+                android:background="@drawable/back"
+                android:text="Item Quantity"
+                tools:layout_editor_absoluteX="198dp"
+                tools:layout_editor_absoluteY="196dp" />
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:background="@drawable/back"
+                android:text="Time of Donation"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="126dp" />
+
+            <TextView
+                android:id="@+id/Category"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/back"
+                android:text="Category"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="196dp" />
+
+            <TextView
+                android:id="@+id/Description"
+                android:layout_width="match_parent"
+                android:layout_height="223dp"
+                android:background="@drawable/back"
+                android:text="TextView"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="264dp" />
+        </LinearLayout>
+    </ScrollView>
+
 </android.support.constraint.ConstraintLayout>

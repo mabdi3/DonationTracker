@@ -14,11 +14,15 @@ import com.example.abdim.donationtracker.models.ItemCategory;
 import com.example.abdim.donationtracker.models.ItemList;
 import com.example.abdim.donationtracker.models.Location;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Locale;
+
 public class AddItemActivity extends AppCompatActivity {
     private EditText itemname;
     private EditText itemquantity;
-    private EditText itemtime;
-    private EditText itemdate;
     private EditText itemdesc;
     private EditText itemvalue;
     private TextView addcategory;
@@ -31,8 +35,6 @@ public class AddItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_item);
         itemname = findViewById(R.id.itemname);
         itemquantity = findViewById(R.id.itemquantity);
-        itemtime = findViewById(R.id.itemtime);
-        itemdate = findViewById(R.id.itemdate);
         itemdesc = findViewById(R.id.itemdesc);
         itemvalue = findViewById(R.id.itemvalue);
         addcategory = findViewById(R.id.itemaddcategory);
@@ -46,15 +48,22 @@ public class AddItemActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(AddItemActivity.this, ItemListActivity.class);
 
-                ItemList.addItem(new Item(itemname.getText().toString(),
+                Location currLocation = (Location) getIntent().getExtras().getSerializable("location");
+
+                Calendar calendar = Calendar.getInstance();
+                SimpleDateFormat format = new SimpleDateFormat("EEEE, MMMM d, yyyy 'DELIM' h:mm a");
+                String datetime = format.format(calendar.getTime());
+
+                currLocation.addItem(new Item(itemname.getText().toString(),
                         itemdesc.getText().toString(),
                         Integer.parseInt(itemquantity.getText().toString()),
                         null,
-                        (Location) intent.getExtras().getSerializable("location"),
+                        (Location) getIntent().getExtras().getSerializable("location"),
                         new ItemCategory(addcategory.getText().toString()),
-                        itemdate.getText().toString() + ", " + itemtime.getText().toString(),
+                        datetime,
                         Double.parseDouble(itemvalue.getText().toString())));
 
+                intent.putExtra("location", currLocation);
                 startActivity(intent);
                 finish();
             }
@@ -64,6 +73,7 @@ public class AddItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AddItemActivity.this, ItemListActivity.class);
+                intent.putExtra("location", getIntent().getExtras().getSerializable("location"));
                 startActivity(intent);
                 finish();
             }

@@ -2,13 +2,14 @@ package com.example.abdim.donationtracker.models;
 
 import android.media.Image;
 
+import java.io.Serializable;
 import java.util.Locale;
 
-public class Item {
+public class Item implements Serializable {
     String name;
     String description;
     int quantity;
-    Image itemPhoto;
+//    Image itemPhoto;
     Location location;
     ItemCategory category;
     String time;
@@ -18,16 +19,16 @@ public class Item {
         this.name = name;
         this.description = description;
         this.quantity = quantity;
-        this.itemPhoto = itemPhoto;
+//        this.itemPhoto = itemPhoto;
         this.location = location;
         this.category = category;
         this.time = time;
         this.value = value;
     }
 
-    public Image getItemPhoto() {
-        return itemPhoto;
-    }
+//    public Image getItemPhoto() {
+//        return itemPhoto;
+//    }
 
     public int getQuantity() {
         return quantity;
@@ -65,9 +66,9 @@ public class Item {
         this.quantity = quantity;
     }
 
-    public void setItemPhoto(Image itemPhoto) {
-        this.itemPhoto = itemPhoto;
-    }
+//    public void setItemPhoto(Image itemPhoto) {
+//        this.itemPhoto = itemPhoto;
+//    }
 
     public Location getLocation() {
         return location;

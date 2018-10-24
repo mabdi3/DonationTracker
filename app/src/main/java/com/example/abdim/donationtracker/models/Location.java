@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Location implements Parcelable {
+public class Location implements Serializable {
 
     private int id;
     private String name;
@@ -16,7 +16,7 @@ public class Location implements Parcelable {
     private String address;
     private String phoneNumber;
     private String websiteLink;
-    private ItemList locationItemList = new ItemList();
+    private ItemList locationItemList;
 
     public Location() {
         //Default constructor
@@ -31,6 +31,7 @@ public class Location implements Parcelable {
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.websiteLink = websiteLink;
+        this.locationItemList = new ItemList();
     }
 
     public int getId() {
@@ -119,45 +120,45 @@ public class Location implements Parcelable {
         }
     }
 
-    public Location(Parcel in) {
-        Object[] data = new Object[8];
-        in.read(data);
-        this.id = (Integer) data[0];
-        this.name = (String) data[1];
-        this.locationType = LocationType.parseLocationType((String) data[2]);
-        this.longitude = Double.parseDouble((String) data[3]);
-        this.latitude = Double.parseDouble((String) data[4]);
-        this.address = (String) data[5];
-        this.phoneNumber = (String) data[6];
-        this.websiteLink = (String) data[7];
-    }
-
-    @Override
-    public int describeContents(){
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeArray(new Object[] {this.id,
-                                        this.name,
-                                        this.locationType,
-                                        this.longitude,
-                                        this.latitude,
-                                        this.address,
-                                        this.phoneNumber,
-                                        this.websiteLink});
-    }
-
-    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
-        public Location createFromParcel(Parcel in) {
-            return new Location(in);
-        }
-
-        public Location[] newArray(int size) {
-            return new Location[size];
-        }
-    };
+//    public Location(Parcel in) {
+//        Object[] data = new Object[8];
+//        in.read(data);
+//        this.id = (Integer) data[0];
+//        this.name = (String) data[1];
+//        this.locationType = LocationType.parseLocationType((String) data[2]);
+//        this.longitude = Double.parseDouble((String) data[3]);
+//        this.latitude = Double.parseDouble((String) data[4]);
+//        this.address = (String) data[5];
+//        this.phoneNumber = (String) data[6];
+//        this.websiteLink = (String) data[7];
+//    }
+//
+//    @Override
+//    public int describeContents(){
+//        return 0;
+//    }
+//
+//    @Override
+//    public void writeToParcel(Parcel dest, int flags) {
+//        dest.writeArray(new Object[] {this.id,
+//                                        this.name,
+//                                        this.locationType,
+//                                        this.longitude,
+//                                        this.latitude,
+//                                        this.address,
+//                                        this.phoneNumber,
+//                                        this.websiteLink});
+//    }
+//
+//    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+//        public Location createFromParcel(Parcel in) {
+//            return new Location(in);
+//        }
+//
+//        public Location[] newArray(int size) {
+//            return new Location[size];
+//        }
+//    };
 
 
     @Override

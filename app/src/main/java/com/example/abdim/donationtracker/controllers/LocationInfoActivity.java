@@ -24,6 +24,7 @@ public class LocationInfoActivity extends AppCompatActivity {
     TextView phoneNumber;
     TextView websiteLink;
     Button toItemList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,36 +39,14 @@ public class LocationInfoActivity extends AppCompatActivity {
         websiteLink = findViewById(R.id.websiteText);
         Intent intent = getIntent();
 
-//        String receivedName = intent.getExtras().getString("name");
-//        locationName.setText(receivedName);
-//
-//        String receivedType = intent.getStringExtra("locationType");
-//        locationType.setText(receivedType);
-//
-//        String receivedLongitude = intent.getStringExtra("longitude");
-//        longitude.setText(receivedLongitude);
-//
-//        String receivedLatitude = intent.getStringExtra("latitude");
-//        latitude.setText(receivedLatitude);
-//
-//        String receivedAddress = intent.getStringExtra("address");
-//        address.setText(receivedAddress);
-//
-//        String receivedPhone = intent.getStringExtra("phoneNumber");
-//        phoneNumber.setText(receivedPhone);
-//
-//        String receivedWebsite = intent.getStringExtra("websiteLink");
-//        websiteLink.setText(receivedWebsite);
-
-
-        Location receivedLocation = intent.getExtras().getParcelable("location");
+        Location receivedLocation = (Location) intent.getExtras().getSerializable("location");
         locationName.setText(receivedLocation.getName());
 
         locationType.setText(receivedLocation.getLocationType().toString());
 
-        longitude.setText(Double.toString(receivedLocation.getLongitude()));
+        longitude.setText(String.format("%5.3f", receivedLocation.getLongitude()));
 
-        latitude.setText(Double.toString(receivedLocation.getLatitude()));
+        latitude.setText(String.format("%5.3f", receivedLocation.getLatitude()));
 
         address.setText(receivedLocation.getAddress());
 
@@ -75,15 +54,12 @@ public class LocationInfoActivity extends AppCompatActivity {
 
         websiteLink.setText(receivedLocation.getWebsiteLink());
 
-
-
         toItemList = findViewById(R.id.lookAtInventoryButton);
         toItemList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LocationInfoActivity.this, ItemListActivity.class);
-                Location location = (Location) intent.getExtras().getSerializable("location");
-                intent.putExtra("location", location);
+                intent.putExtra("location", getIntent().getExtras().getSerializable("location"));
                 startActivity(intent);
                 finish();
             }

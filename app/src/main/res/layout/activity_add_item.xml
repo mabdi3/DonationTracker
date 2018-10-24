@@ -27,8 +27,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
+                    android:hint="Name"
                     android:inputType="textPersonName"
-                    android:text="Name"
                     tools:layout_editor_absoluteX="16dp"
                     tools:layout_editor_absoluteY="16dp" />
 
@@ -38,13 +38,13 @@
                     android:layout_height="193dp"
                     android:ems="10"
                     android:gravity="top|left"
+                    android:hint="Item Description Here"
                     android:inputType="textMultiLine"
                     android:lines="8"
                     android:maxLines="10"
                     android:minLines="6"
                     android:selectAllOnFocus="true"
                     android:singleLine="false"
-                    android:text="Item Description Here"
                     tools:layout_editor_absoluteX="16dp"
                     tools:layout_editor_absoluteY="309dp" />
 
@@ -53,10 +53,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:inputType="numberDecimal"
-                    android:text="Quantity"
+                    android:hint="Quantity"
+                    android:inputType="number"
                     tools:layout_editor_absoluteX="16dp"
                     tools:layout_editor_absoluteY="62dp" />
+
+                <EditText
+                    android:id="@+id/itemvalue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Value in $"
+                    android:inputType="numberDecimal"
+                    tools:layout_editor_absoluteX="16dp"
+                    tools:layout_editor_absoluteY="180dp" />
 
                 <ImageView
                     android:id="@+id/imageView2"
@@ -66,33 +76,6 @@
                     tools:layout_editor_absoluteX="241dp"
                     tools:layout_editor_absoluteY="16dp" />
 
-                <EditText
-                    android:id="@+id/itemdate"
-                    android:layout_width="match_parent"
-                    android:layout_height="44dp"
-                    android:ems="10"
-                    android:inputType="date"
-                    android:text="Date"
-                    tools:layout_editor_absoluteX="168dp"
-                    tools:layout_editor_absoluteY="122dp" />
-
-                <EditText
-                    android:id="@+id/itemtime"
-                    android:layout_width="match_parent"
-                    android:layout_height="47dp"
-                    android:ems="10"
-                    android:inputType="time"
-                    android:text="Time"
-                    tools:layout_editor_absoluteX="16dp"
-                    tools:layout_editor_absoluteY="122dp" />
-
-                <Spinner
-                    android:id="@+id/spinnercate"
-                    android:layout_width="match_parent"
-                    android:layout_height="46dp"
-                    tools:layout_editor_absoluteX="15dp"
-                    tools:layout_editor_absoluteY="253dp" />
-
                 <TextView
                     android:id="@+id/itemaddcategory"
                     android:layout_width="match_parent"
@@ -101,6 +84,13 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                     tools:layout_editor_absoluteX="16dp"
                     tools:layout_editor_absoluteY="234dp" />
+
+                <Spinner
+                    android:id="@+id/spinnercate"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    tools:layout_editor_absoluteX="15dp"
+                    tools:layout_editor_absoluteY="253dp" />
 
                 <Button
                     android:id="@+id/buttonAddItem"
@@ -117,16 +107,6 @@
                     android:text="Cancel"
                     tools:layout_editor_absoluteX="290dp"
                     tools:layout_editor_absoluteY="217dp" />
-
-                <EditText
-                    android:id="@+id/itemvalue"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="number"
-                    android:text="Value"
-                    tools:layout_editor_absoluteX="16dp"
-                    tools:layout_editor_absoluteY="180dp" />
 
             </LinearLayout>
         </ScrollView>
