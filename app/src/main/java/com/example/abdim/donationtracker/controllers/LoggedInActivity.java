@@ -10,6 +10,7 @@ import com.example.abdim.donationtracker.R;
 
 public class LoggedInActivity extends AppCompatActivity {
 
+    private Button toList;
     private Button logout;
 
     private boolean shouldAllowBack = false;
@@ -18,11 +19,22 @@ public class LoggedInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logged_in);
 
+        toList = findViewById(R.id.btnToList);
+        toList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goList = new Intent(LoggedInActivity.this, LocationListActivity.class);
+                startActivity(goList);
+                finish();
+
+            }
+        });
+
         logout = findViewById(R.id.btnLogout);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent goList = new Intent(LoggedInActivity.this, LocationListActivity.class);
+                Intent goList = new Intent(LoggedInActivity.this, MainActivity.class);
                 startActivity(goList);
                 finish();
 
