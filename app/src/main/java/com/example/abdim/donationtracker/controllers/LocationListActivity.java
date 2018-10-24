@@ -10,6 +10,7 @@ import com.example.abdim.donationtracker.R;
 import com.example.abdim.donationtracker.models.Location;
 import com.example.abdim.donationtracker.models.Locations;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class LocationListActivity extends AppCompatActivity {
@@ -32,6 +33,7 @@ public class LocationListActivity extends AppCompatActivity {
                 String address = location.getAddress();
                 String phoneNumber = location.getPhoneNumber();
                 String websiteLink = location.getWebsiteLink();
+                locationDetails.putExtra("location", (Serializable) location);
                 locationDetails.putExtra("name", name);
                 locationDetails.putExtra("locationType", locationType);
                 locationDetails.putExtra("longitude", longitude.toString());

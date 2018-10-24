@@ -8,8 +8,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.abdim.donationtracker.R;
+import com.example.abdim.donationtracker.models.Location;
 
 import org.w3c.dom.Text;
+
+import java.io.Serializable;
 
 public class LocationInfoActivity extends AppCompatActivity {
     TextView locationName;
@@ -56,10 +59,14 @@ public class LocationInfoActivity extends AppCompatActivity {
         String receivedWebsite = intent.getStringExtra("websiteLink");
         websiteLink.setText(receivedWebsite);
 
+
+
         toItemList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LocationInfoActivity.this, ItemListActivity.class);
+                Location location = (Location) intent.getExtras().getSerializable("location");
+                intent.putExtra("location", (Serializable) location);
                 startActivity(intent);
                 finish();
             }
