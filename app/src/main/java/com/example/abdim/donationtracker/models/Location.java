@@ -77,6 +77,14 @@ public class Location {
         this.address = address;
     }
 
+    public ItemList getLocationItemList() {
+        return locationItemList;
+    }
+
+    public void setLocationItemList(ItemList locationItemList) {
+        this.locationItemList = locationItemList;
+    }
+
     public String getPhoneNumber() {
         return phoneNumber;
     }
