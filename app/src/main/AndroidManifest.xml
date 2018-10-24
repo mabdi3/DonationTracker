@@ -9,10 +9,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".controllers.MainActivity" />
-        <activity android:name=".controllers.LoggedInActivity" />
-        <activity android:name=".controllers.LocationListActivity" />
-        <activity android:name=".controllers.RegisterActivity" />
         <activity android:name=".controllers.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,7 +16,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".controllers.LocationInfoActivity"></activity>
+        <activity android:name=".controllers.MainActivity" />
+        <activity android:name=".controllers.RegisterActivity" />
+        <activity android:name=".controllers.LoggedInActivity" />
+        <activity android:name=".controllers.LocationListActivity" />
+        <activity android:name=".controllers.LocationInfoActivity" />
+        <activity android:name=".controllers.AddItemActivity" />
     </application>
 
 </manifest>

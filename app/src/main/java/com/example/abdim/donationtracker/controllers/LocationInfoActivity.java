@@ -5,6 +5,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.abdim.donationtracker.R;
@@ -22,7 +23,7 @@ public class LocationInfoActivity extends AppCompatActivity {
     TextView address;
     TextView phoneNumber;
     TextView websiteLink;
-    FloatingActionButton toItemList;
+    Button toItemList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,38 +36,54 @@ public class LocationInfoActivity extends AppCompatActivity {
         address = findViewById(R.id.addressText);
         phoneNumber = findViewById(R.id.phoneText);
         websiteLink = findViewById(R.id.websiteText);
-        toItemList = findViewById(R.id.lookAtInventoryButton);
         Intent intent = getIntent();
 
-        String receivedName = intent.getExtras().getString("name");
-        locationName.setText(receivedName);
+//        String receivedName = intent.getExtras().getString("name");
+//        locationName.setText(receivedName);
+//
+//        String receivedType = intent.getStringExtra("locationType");
+//        locationType.setText(receivedType);
+//
+//        String receivedLongitude = intent.getStringExtra("longitude");
+//        longitude.setText(receivedLongitude);
+//
+//        String receivedLatitude = intent.getStringExtra("latitude");
+//        latitude.setText(receivedLatitude);
+//
+//        String receivedAddress = intent.getStringExtra("address");
+//        address.setText(receivedAddress);
+//
+//        String receivedPhone = intent.getStringExtra("phoneNumber");
+//        phoneNumber.setText(receivedPhone);
+//
+//        String receivedWebsite = intent.getStringExtra("websiteLink");
+//        websiteLink.setText(receivedWebsite);
 
-        String receivedType = intent.getStringExtra("locationType");
-        locationType.setText(receivedType);
 
-        String receivedLongitude = intent.getStringExtra("longitude");
-        longitude.setText(receivedLongitude);
+        Location receivedLocation = intent.getExtras().getParcelable("location");
+        locationName.setText(receivedLocation.getName());
 
-        String receivedLatitude = intent.getStringExtra("latitude");
-        latitude.setText(receivedLatitude);
+        locationType.setText(receivedLocation.getLocationType().toString());
 
-        String receivedAddress = intent.getStringExtra("address");
-        address.setText(receivedAddress);
+        longitude.setText(Double.toString(receivedLocation.getLongitude()));
 
-        String receivedPhone = intent.getStringExtra("phoneNumber");
-        phoneNumber.setText(receivedPhone);
+        latitude.setText(Double.toString(receivedLocation.getLatitude()));
 
-        String receivedWebsite = intent.getStringExtra("websiteLink");
-        websiteLink.setText(receivedWebsite);
+        address.setText(receivedLocation.getAddress());
+
+        phoneNumber.setText(receivedLocation.getPhoneNumber());
+
+        websiteLink.setText(receivedLocation.getWebsiteLink());
 
 
 
+        toItemList = findViewById(R.id.lookAtInventoryButton);
         toItemList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LocationInfoActivity.this, ItemListActivity.class);
                 Location location = (Location) intent.getExtras().getSerializable("location");
-                intent.putExtra("location", (Serializable) location);
+                intent.putExtra("location", location);
                 startActivity(intent);
                 finish();
             }

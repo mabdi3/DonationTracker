@@ -1,48 +1,138 @@
 package com.example.abdim.donationtracker.controllers;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ArrayAdapter;
 import com.example.abdim.donationtracker.R;
 import com.example.abdim.donationtracker.models.Location;
+import com.example.abdim.donationtracker.models.LocationType;
 import com.example.abdim.donationtracker.models.Locations;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
 public class LocationListActivity extends AppCompatActivity {
+    private static final String TAG = "LocationListActivity";
     private ListView locationList;
+
+    private Button backButton;
+
+    private Button loadLocationFromCSVButton;
+
     protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.activity_location_list);
         locationList = (ListView) findViewById(R.id.location_list);
-        ArrayAdapter<Location> locationAdapter = new ArrayAdapter<Location>(this, android.R.layout.simple_list_item_1, Locations.getLocations());
+        List<Location> locationsAsList = new ArrayList<>(Locations.locations);
+        ArrayAdapter<Location> locationAdapter = new ArrayAdapter<Location>(this, android.R.layout.simple_list_item_1, locationsAsList);
         locationList.setAdapter(locationAdapter);
+
+
         locationList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent locationDetails = new Intent(LocationListActivity.this, LocationInfoActivity.class);
-                Location location = Locations.getLocations().get(position);
-                String name = location.getName();
-                String locationType = location.getLocationType().toString();
-                Double longitude = location.getLongitude();
-                Double latitude = location.getLatitude();
-                String address = location.getAddress();
-                String phoneNumber = location.getPhoneNumber();
-                String websiteLink = location.getWebsiteLink();
-                locationDetails.putExtra("location", (Serializable) location);
-                locationDetails.putExtra("name", name);
-                locationDetails.putExtra("locationType", locationType);
-                locationDetails.putExtra("longitude", longitude.toString());
-                locationDetails.putExtra("latitude", latitude.toString());
-                locationDetails.putExtra("address", address);
-                locationDetails.putExtra("phoneNumber", phoneNumber);
-                locationDetails.putExtra("websiteLink", websiteLink);
+                List<Location> locationsAsList = new ArrayList<>(Locations.locations);
+                Location location = locationsAsList.get(position);
+                locationDetails.putExtra("location", location);
+//                locationDetails.putExtra("name", location.getName());
+//                locationDetails.putExtra("locationType", location.getLocationType().toString());
+//                locationDetails.putExtra("longitude", location.getLongitude());
+//                locationDetails.putExtra("latitude", location.getLatitude());
+//                locationDetails.putExtra("address", location.getAddress());
+//                locationDetails.putExtra("phoneNumber", location.getPhoneNumber());
+//                locationDetails.putExtra("websiteLink", location.getWebsiteLink());
                 startActivity(locationDetails);
+                finish();
             }
         });
+
+        backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goback = new Intent(LocationListActivity.this, LoggedInActivity.class);
+                startActivity(goback);
+                finish();
+            }
+        });
+
+        loadLocationFromCSVButton = findViewById(R.id.loadLocationFromCSVButton);
+        loadLocationFromCSVButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                readSDFile();
+                finish();
+                startActivity(getIntent());
+            }
+        });
+
+    }
+
+    /**
+     * Opens the LocationData.csv file in the /res/raw directory
+     *
+     * Key,Name,Latitude,Longitude,Street Address,City,State,Zip,Type,Phone,Website
+     * Line Entry format:
+     *  [0] = key
+     *  [1] = name
+     *  [2] = latitude
+     *  [3] = longitude
+     *  [4] = address
+     *  [5] = city
+     *  [6] = state
+     *  [7] = zip
+     *  [8] = type
+     *  [9] = phone
+     *  [10] = website
+     */
+    private void readSDFile() {
+        try {
+            //open a stream on the raw file
+            InputStream is = getResources().openRawResource(R.raw.locationdata);
+            //from here we probably should call a model method and pass the inputstream
+            //wrap it in a BufferedReader so that we get the readLine() method
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
+
+            String line;
+            br.readLine();
+            while((line = br.readLine()) != null) {
+                Log.d(LocationListActivity.TAG, line);
+                String[] tokens = line.split(",");
+                Location newLocal = new Location(Integer.parseInt(tokens[0]),
+                        tokens[1], LocationType.DROPOFFONLY,
+                        Double.parseDouble(tokens[3]),
+                        Double.parseDouble(tokens[2]),
+                        tokens[4] + ", " +
+                                tokens[5] + ", " +
+                                tokens[6] + " " +
+                                tokens[7],
+                        tokens[9],
+                        tokens[10]);
+                if (tokens[8].equals("Store")) {
+                    newLocal.setLocationType(LocationType.STORE);
+                } else if (tokens[8].equals("Warehouse")) {
+                    newLocal.setLocationType(LocationType.WAREHOUSE);
+                }
+                Locations.locations.add(newLocal);
+            }
+            br.close();
+        } catch (IOException e) {
+            Log.e(LocationListActivity.TAG, "error reading assets", e);
         }
+    }
+
 }

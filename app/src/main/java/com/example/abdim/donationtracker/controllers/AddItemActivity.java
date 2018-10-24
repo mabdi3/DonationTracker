@@ -9,6 +9,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import com.example.abdim.donationtracker.R;
+import com.example.abdim.donationtracker.models.Item;
+import com.example.abdim.donationtracker.models.ItemCategory;
+import com.example.abdim.donationtracker.models.ItemList;
 import com.example.abdim.donationtracker.models.Location;
 
 public class AddItemActivity extends AppCompatActivity {
@@ -21,6 +24,7 @@ public class AddItemActivity extends AppCompatActivity {
     private TextView addcategory;
     private Spinner spinnercate;
     private Button addbutton;
+    private Button backbutton;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,13 +38,32 @@ public class AddItemActivity extends AppCompatActivity {
         addcategory = findViewById(R.id.itemaddcategory);
         spinnercate = findViewById(R.id.spinnercate);
         addbutton = findViewById(R.id.buttonAddItem);
+        backbutton = findViewById(R.id.buttonBack);
         Intent intent = getIntent();
-
 
         addbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ItemListActivity.this, RegisterActivity.class);
+                Intent intent = new Intent(AddItemActivity.this, ItemListActivity.class);
+
+                ItemList.addItem(new Item(itemname.getText().toString(),
+                        itemdesc.getText().toString(),
+                        Integer.parseInt(itemquantity.getText().toString()),
+                        null,
+                        (Location) intent.getExtras().getSerializable("location"),
+                        new ItemCategory(addcategory.getText().toString()),
+                        itemdate.getText().toString() + ", " + itemtime.getText().toString(),
+                        Double.parseDouble(itemvalue.getText().toString())));
+
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        backbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AddItemActivity.this, ItemListActivity.class);
                 startActivity(intent);
                 finish();
             }

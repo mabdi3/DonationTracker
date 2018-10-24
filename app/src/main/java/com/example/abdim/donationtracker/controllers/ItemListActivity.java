@@ -17,11 +17,13 @@ import com.example.abdim.donationtracker.models.ItemList;
 import com.example.abdim.donationtracker.models.Location;
 import com.example.abdim.donationtracker.models.Locations;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ItemListActivity extends AppCompatActivity {
     private RecyclerView itemlist;
+    private Button addbutton;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +39,11 @@ public class ItemListActivity extends AppCompatActivity {
         addbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ItemListActivity.this, RegisterActivity.class);
+                Intent intent = new Intent(ItemListActivity.this, AddItemActivity.class);
+
+                Location location = (Location) intent.getExtras().getSerializable("location");
+                intent.putExtra("location", location);
+
                 startActivity(intent);
                 finish();
             }

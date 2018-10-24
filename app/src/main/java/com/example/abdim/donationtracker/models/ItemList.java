@@ -6,7 +6,7 @@ import java.util.List;
 public class ItemList {
     private static List<Item> itemList = new ArrayList<>();
 
-    public void addItem(Item newItem) {
+    public static void addItem(Item newItem) {
         itemList.add(newItem);
     }
 

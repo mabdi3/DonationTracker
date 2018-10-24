@@ -15,4 +15,13 @@ public enum LocationType {
     public String toString() {
         return name;
     }
+
+    public static LocationType parseLocationType(String str) {
+        for (LocationType type : LocationType.values()) {
+            if(str.equals(type.toString())) {
+                return type;
+            }
+        }
+        return null;
+    }
 }
