@@ -8,10 +8,18 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="0dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -21,6 +29,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/buttonBack"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:text="Cancel"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
                     android:id="@+id/itemname"
@@ -68,14 +88,6 @@
                     tools:layout_editor_absoluteX="16dp"
                     tools:layout_editor_absoluteY="180dp" />
 
-                <ImageView
-                    android:id="@+id/imageView2"
-                    android:layout_width="match_parent"
-                    android:layout_height="96dp"
-                    app:srcCompat="@mipmap/ic_launcher"
-                    tools:layout_editor_absoluteX="241dp"
-                    tools:layout_editor_absoluteY="16dp" />
-
                 <TextView
                     android:id="@+id/itemaddcategory"
                     android:layout_width="match_parent"
@@ -99,14 +111,6 @@
                     android:text="Add Item"
                     tools:layout_editor_absoluteX="231dp"
                     tools:layout_editor_absoluteY="169dp" />
-
-                <Button
-                    android:id="@+id/buttonBack"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Cancel"
-                    tools:layout_editor_absoluteX="290dp"
-                    tools:layout_editor_absoluteY="217dp" />
 
             </LinearLayout>
         </ScrollView>

@@ -14,7 +14,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.abdim.donationtracker.R;
+import com.example.abdim.donationtracker.models.Account;
 import com.example.abdim.donationtracker.models.Item;
+import com.example.abdim.donationtracker.models.ItemCategories;
 import com.example.abdim.donationtracker.models.ItemCategory;
 import com.example.abdim.donationtracker.models.ItemList;
 import com.example.abdim.donationtracker.models.Location;
@@ -27,6 +29,7 @@ import java.util.List;
 public class ItemListActivity extends AppCompatActivity {
     private ListView itemlist;
     private Button addButton;
+    private Button backButton;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +40,14 @@ public class ItemListActivity extends AppCompatActivity {
         final Location location = (Location) intent.getExtras().getSerializable("location");
         List<Item> itemArray = location.getLocationItemList().getItemList();
 
-        //TODO for testing purposes
-        itemArray.add(new Item("hi", "hi", 20, null, location, new ItemCategory("cate"), "tim", 20.00 ));
+        //TODO for testing purposes, adds a random item in
+        itemArray.add(new Item("adidas ultraboost", "good shoes", 6, null, location, new ItemCategory("Clothing"), "Thursday, October 25, 2018 at 9:01 PM", 50.00) );
 
         ArrayAdapter<Item> itemAdapter = new ArrayAdapter<Item>(this, android.R.layout.simple_list_item_1, itemArray);
         itemlist.setAdapter(itemAdapter);
+
+        final Account currentAccount = (Account) getIntent().getExtras().getSerializable("currentAccount");
+
 
         addButton = findViewById(R.id.addButton);
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -49,8 +55,8 @@ public class ItemListActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ItemListActivity.this, AddItemActivity.class);
 
-                Location location = (Location) getIntent().getExtras().getSerializable("location");
-                intent.putExtra("location", location);
+                intent.putExtra("location", getIntent().getExtras().getSerializable("location"));
+                intent.putExtra("currentAccount", currentAccount);
 
                 startActivity(intent);
                 finish();
@@ -65,12 +71,23 @@ public class ItemListActivity extends AppCompatActivity {
                 Item item = itemsAsList.get(position);
                 itemDetails.putExtra("location", location);
                 itemDetails.putExtra("item", item);
+                itemDetails.putExtra("currentAccount", currentAccount);
                 startActivity(itemDetails);
                 finish();
             }
         });
 
-
+        backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ItemListActivity.this, LocationInfoActivity.class);
+                intent.putExtra("location", getIntent().getExtras().getSerializable("location"));
+                intent.putExtra("currentAccount", currentAccount);
+                startActivity(intent);
+                finish();
+            }
+        });
 
     }
 

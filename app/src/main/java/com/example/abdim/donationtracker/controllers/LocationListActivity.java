@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ArrayAdapter;
 import com.example.abdim.donationtracker.R;
+import com.example.abdim.donationtracker.models.Account;
 import com.example.abdim.donationtracker.models.Location;
 import com.example.abdim.donationtracker.models.LocationType;
 import com.example.abdim.donationtracker.models.Locations;
@@ -39,6 +40,8 @@ public class LocationListActivity extends AppCompatActivity {
         ArrayAdapter<Location> locationAdapter = new ArrayAdapter<Location>(this, android.R.layout.simple_list_item_1, locationsAsList);
         locationList.setAdapter(locationAdapter);
 
+        final Account currentAccount = (Account) getIntent().getExtras().getSerializable("currentAccount");
+
 
         locationList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -46,7 +49,9 @@ public class LocationListActivity extends AppCompatActivity {
                 Intent intent = new Intent(LocationListActivity.this, LocationInfoActivity.class);
 
                 Location location = locationsAsList.get(position);
+
                 intent.putExtra("location", location);
+                intent.putExtra("currentAccount", currentAccount);
 
                 startActivity(intent);
                 finish();
@@ -58,6 +63,7 @@ public class LocationListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent goback = new Intent(LocationListActivity.this, LoggedInActivity.class);
+                goback.putExtra("currentAccount", currentAccount);
                 startActivity(goback);
                 finish();
             }

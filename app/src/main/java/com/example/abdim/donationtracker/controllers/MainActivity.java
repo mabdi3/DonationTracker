@@ -84,18 +84,25 @@ public class MainActivity extends AppCompatActivity {
 //        DatabaseReference myRef = database.getReference("message");
 //
 //        myRef.setValue("Hello, World!");
+
+        Account possibleLoggedIn = null;
+
         for (Account account : RegisteredAccounts.getAccountStorage()) {
             if (userName.equals(account.getUsername()) && userPassword.equals(account.getPass())) {
                 loggedIn = true;
-
+                possibleLoggedIn = account;
+                break;
             }
         }
+
         if (loggedIn) {
             Intent intent = new Intent(MainActivity.this, LoggedInActivity.class);
+
+            intent.putExtra("currentAccount", possibleLoggedIn);
+
             startActivity(intent);
             finish();
         } else {
-
             loginAttemptsRemaining--;
 
             AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();

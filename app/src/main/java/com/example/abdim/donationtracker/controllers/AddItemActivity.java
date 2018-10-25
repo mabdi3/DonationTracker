@@ -4,12 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import com.example.abdim.donationtracker.R;
+import com.example.abdim.donationtracker.models.Account;
 import com.example.abdim.donationtracker.models.Item;
+import com.example.abdim.donationtracker.models.ItemCategories;
 import com.example.abdim.donationtracker.models.ItemCategory;
 import com.example.abdim.donationtracker.models.ItemList;
 import com.example.abdim.donationtracker.models.Location;
@@ -17,6 +21,7 @@ import com.example.abdim.donationtracker.models.Location;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -43,6 +48,10 @@ public class AddItemActivity extends AppCompatActivity {
         backbutton = findViewById(R.id.buttonBack);
         Intent intent = getIntent();
 
+        spinnercate.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new ArrayList<>(ItemCategories.itemCategories)));
+
+        final Account currentAccount = (Account) getIntent().getExtras().getSerializable("currentAccount");
+
         addbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,7 +60,7 @@ public class AddItemActivity extends AppCompatActivity {
                 Location currLocation = (Location) getIntent().getExtras().getSerializable("location");
 
                 Calendar calendar = Calendar.getInstance();
-                SimpleDateFormat format = new SimpleDateFormat("EEEE, MMMM d, yyyy 'DELIM' h:mm a");
+                SimpleDateFormat format = new SimpleDateFormat("EEEE, MMMM d, yyyy 'at' h:mm a");
                 String datetime = format.format(calendar.getTime());
 
                 currLocation.addItem(new Item(itemname.getText().toString(),
@@ -64,6 +73,7 @@ public class AddItemActivity extends AppCompatActivity {
                         Double.parseDouble(itemvalue.getText().toString())));
 
                 intent.putExtra("location", currLocation);
+                intent.putExtra("currentAccount", currentAccount);
                 startActivity(intent);
                 finish();
             }
@@ -74,6 +84,7 @@ public class AddItemActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(AddItemActivity.this, ItemListActivity.class);
                 intent.putExtra("location", getIntent().getExtras().getSerializable("location"));
+                intent.putExtra("currentAccount", currentAccount);
                 startActivity(intent);
                 finish();
             }

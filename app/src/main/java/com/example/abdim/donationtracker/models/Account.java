@@ -1,6 +1,8 @@
 package com.example.abdim.donationtracker.models;
 
-public class Account {
+import java.io.Serializable;
+
+public class Account implements Serializable {
     public String username;
     private String password;
     AccountType userType;

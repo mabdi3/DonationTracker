@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.abdim.donationtracker.R;
+import com.example.abdim.donationtracker.models.Account;
 
 public class LoggedInActivity extends AppCompatActivity {
 
@@ -19,11 +20,16 @@ public class LoggedInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logged_in);
 
+        final Account currentAccount = (Account) getIntent().getExtras().getSerializable("currentAccount");
+
         toList = findViewById(R.id.btnToList);
         toList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent goList = new Intent(LoggedInActivity.this, LocationListActivity.class);
+
+                goList.putExtra("currentAccount", currentAccount);
+
                 startActivity(goList);
                 finish();
 
