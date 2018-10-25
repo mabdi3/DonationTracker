@@ -26,6 +26,8 @@ public class LoggedInActivity extends AppCompatActivity {
         toList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // add static boolean to track if location list activity is opened for the first time
+
                 Intent goList = new Intent(LoggedInActivity.this, LocationListActivity.class);
 
                 goList.putExtra("currentAccount", currentAccount);

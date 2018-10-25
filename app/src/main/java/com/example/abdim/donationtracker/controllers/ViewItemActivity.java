@@ -47,9 +47,9 @@ public class ViewItemActivity extends AppCompatActivity {
 //        time = findViewById(R.id.time);
 //        value = findViewById(R.id.item_value);
         backButton = findViewById(R.id.backButton);
-        Intent intent = getIntent();
+        final Intent intents = getIntent();
 
-        Item receievedItem = (Item) intent.getExtras().getSerializable("item");
+        Item receievedItem = (Item) intents.getExtras().getSerializable("item");
         final List<String> itemPropertiesList = new ArrayList<>(Arrays.asList(
                 "Name: " + receievedItem.getName(),
                 "Description:\n" + receievedItem.getDescription(),
@@ -77,8 +77,8 @@ public class ViewItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ViewItemActivity.this, ItemListActivity.class);
-                Location location = (Location) getIntent().getExtras().getSerializable("location");
-                intent.putExtra("location", location);
+                Location location = Locations.getLocationsAsList().get(intents.getExtras().getInt("location"));
+                intent.putExtra("location", intents.getExtras().getInt("location"));
                 intent.putExtra("currentAccount", currentAccount);
                 startActivity(intent);
                 finish();

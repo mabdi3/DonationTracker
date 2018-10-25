@@ -50,7 +50,9 @@ public class LocationListActivity extends AppCompatActivity {
 
                 Location location = locationsAsList.get(position);
 
-                intent.putExtra("location", location);
+
+
+                intent.putExtra("location", position);
                 intent.putExtra("currentAccount", currentAccount);
 
                 startActivity(intent);
@@ -69,70 +71,18 @@ public class LocationListActivity extends AppCompatActivity {
             }
         });
 
-        loadLocationFromCSVButton = findViewById(R.id.loadLocationFromCSVButton);
-        loadLocationFromCSVButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                readSDFile();
-                finish();
-                startActivity(getIntent());
-            }
-        });
+//        loadLocationFromCSVButton = findViewById(R.id.loadLocationFromCSVButton);
+//        loadLocationFromCSVButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                readSDFile();
+//                finish();
+//                startActivity(getIntent());
+//            }
+//        });
 
     }
 
-    /**
-     * Opens the LocationData.csv file in the /res/raw directory
-     *
-     * Key,Name,Latitude,Longitude,Street Address,City,State,Zip,Type,Phone,Website
-     * Line Entry format:
-     *  [0] = key
-     *  [1] = name
-     *  [2] = latitude
-     *  [3] = longitude
-     *  [4] = address
-     *  [5] = city
-     *  [6] = state
-     *  [7] = zip
-     *  [8] = type
-     *  [9] = phone
-     *  [10] = website
-     */
-    private void readSDFile() {
-        try {
-            //open a stream on the raw file
-            InputStream is = getResources().openRawResource(R.raw.locationdata);
-            //from here we probably should call a model method and pass the inputstream
-            //wrap it in a BufferedReader so that we get the readLine() method
 
-            BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
-
-            String line;
-            br.readLine();
-            while((line = br.readLine()) != null) {
-                Log.d(LocationListActivity.TAG, line);
-                String[] tokens = line.split(",");
-                Location newLocal = new Location(Integer.parseInt(tokens[0]),
-                        tokens[1], LocationType.DROPOFFONLY,
-                        Double.parseDouble(tokens[3]),
-                        Double.parseDouble(tokens[2]),
-                        tokens[4] + ", " +
-                                tokens[5] + ", " +
-                                tokens[6] + " " +
-                                tokens[7],
-                        tokens[9],
-                        tokens[10]);
-                if (tokens[8].equals("Store")) {
-                    newLocal.setLocationType(LocationType.STORE);
-                } else if (tokens[8].equals("Warehouse")) {
-                    newLocal.setLocationType(LocationType.WAREHOUSE);
-                }
-                Locations.addLocation(newLocal);
-            }
-            br.close();
-        } catch (IOException e) {
-            Log.e(LocationListActivity.TAG, "error reading assets", e);
-        }
-    }
 
 }

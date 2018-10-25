@@ -14,6 +14,7 @@ import com.example.abdim.donationtracker.R;
 import com.example.abdim.donationtracker.models.Account;
 import com.example.abdim.donationtracker.models.Item;
 import com.example.abdim.donationtracker.models.Location;
+import com.example.abdim.donationtracker.models.Locations;
 
 import org.w3c.dom.Text;
 
@@ -47,9 +48,9 @@ public class LocationInfoActivity extends AppCompatActivity {
 //        phoneNumber = findViewById(R.id.phoneText);
 //        websiteLink = findViewById(R.id.websiteText);
 //        backButton = findViewById(R.id.backButton);
-        Intent intent = getIntent();
+        final Intent intents = getIntent();
 
-        Location receivedLocation = (Location) intent.getExtras().getSerializable("location");
+        Location receivedLocation = Locations.getLocationsAsList().get(intents.getExtras().getInt("location"));
 //        locationName.setText(receivedLocation.getName());
 //
 //        locationType.setText(receivedLocation.getLocationType().toString());
@@ -86,7 +87,7 @@ public class LocationInfoActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(LocationInfoActivity.this, ItemListActivity.class);
 
-                intent.putExtra("location", getIntent().getExtras().getSerializable("location"));
+                intent.putExtra("location", intents.getExtras().getInt("location"));
                 intent.putExtra("currentAccount", currentAccount);
 
                 startActivity(intent);
@@ -100,6 +101,7 @@ public class LocationInfoActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(LocationInfoActivity.this, LocationListActivity.class);
                 intent.putExtra("currentAccount", currentAccount);
+                HomeActivity.setFirstTime(false);
                 startActivity(intent);
                 finish();
             }

@@ -37,7 +37,8 @@ public class ItemListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_item_list);
         itemlist = findViewById(R.id.itemList);
         Intent intent = getIntent();
-        final Location location = (Location) intent.getExtras().getSerializable("location");
+        Locations.getLocationsAsList();
+        final Location location = (Location) Locations.getLocationsAsList().get(intent.getExtras().getInt("location"));
         List<Item> itemArray = location.getLocationItemList().getItemList();
 
 //        // for testing purposes, adds a random item in
@@ -55,7 +56,7 @@ public class ItemListActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ItemListActivity.this, AddItemActivity.class);
 
-                intent.putExtra("location", getIntent().getExtras().getSerializable("location"));
+                intent.putExtra("location", getIntent().getExtras().getInt("location"));
                 intent.putExtra("currentAccount", currentAccount);
 
                 startActivity(intent);
@@ -82,7 +83,7 @@ public class ItemListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ItemListActivity.this, LocationInfoActivity.class);
-                intent.putExtra("location", getIntent().getExtras().getSerializable("location"));
+                intent.putExtra("location", getIntent().getExtras().getInt("location"));
                 intent.putExtra("currentAccount", currentAccount);
                 startActivity(intent);
                 finish();
