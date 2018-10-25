@@ -48,7 +48,7 @@ public class AddItemActivity extends AppCompatActivity {
         backbutton = findViewById(R.id.buttonBack);
         Intent intent = getIntent();
 
-        spinnercate.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new ArrayList<>(ItemCategories.itemCategories)));
+        spinnercate.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, ItemCategories.getItemCategoriesAsList()));
 
         final Account currentAccount = (Account) getIntent().getExtras().getSerializable("currentAccount");
 
@@ -68,7 +68,7 @@ public class AddItemActivity extends AppCompatActivity {
                         Integer.parseInt(itemquantity.getText().toString()),
                         null,
                         (Location) getIntent().getExtras().getSerializable("location"),
-                        new ItemCategory(addcategory.getText().toString()),
+                        new ItemCategory(spinnercate.getSelectedItem().toString()),
                         datetime,
                         Double.parseDouble(itemvalue.getText().toString())));
 

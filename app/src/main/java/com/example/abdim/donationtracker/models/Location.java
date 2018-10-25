@@ -120,66 +120,18 @@ public class Location implements Serializable {
         }
     }
 
-//    public Location(Parcel in) {
-//        Object[] data = new Object[8];
-//        in.read(data);
-//        this.id = (Integer) data[0];
-//        this.name = (String) data[1];
-//        this.locationType = LocationType.parseLocationType((String) data[2]);
-//        this.longitude = Double.parseDouble((String) data[3]);
-//        this.latitude = Double.parseDouble((String) data[4]);
-//        this.address = (String) data[5];
-//        this.phoneNumber = (String) data[6];
-//        this.websiteLink = (String) data[7];
-//    }
-//
-//    @Override
-//    public int describeContents(){
-//        return 0;
-//    }
-//
-//    @Override
-//    public void writeToParcel(Parcel dest, int flags) {
-//        dest.writeArray(new Object[] {this.id,
-//                                        this.name,
-//                                        this.locationType,
-//                                        this.longitude,
-//                                        this.latitude,
-//                                        this.address,
-//                                        this.phoneNumber,
-//                                        this.websiteLink});
-//    }
-//
-//    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
-//        public Location createFromParcel(Parcel in) {
-//            return new Location(in);
-//        }
-//
-//        public Location[] newArray(int size) {
-//            return new Location[size];
-//        }
-//    };
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Location location = (Location) o;
         return id == location.id &&
-                Double.compare(location.longitude, longitude) == 0 &&
-                Double.compare(location.latitude, latitude) == 0 &&
-                Objects.equals(name, location.name) &&
-                locationType == location.locationType &&
-                Objects.equals(address, location.address) &&
-                Objects.equals(phoneNumber, location.phoneNumber) &&
-                Objects.equals(websiteLink, location.websiteLink) &&
-                Objects.equals(locationItemList, location.locationItemList);
+                Objects.equals(name, location.name);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, name, locationType, longitude, latitude, address, phoneNumber, websiteLink, locationItemList);
+        return Objects.hash(id, name);
     }
 }

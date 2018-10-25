@@ -40,8 +40,8 @@ public class ItemListActivity extends AppCompatActivity {
         final Location location = (Location) intent.getExtras().getSerializable("location");
         List<Item> itemArray = location.getLocationItemList().getItemList();
 
-        //TODO for testing purposes, adds a random item in
-        itemArray.add(new Item("adidas ultraboost", "good shoes", 6, null, location, new ItemCategory("Clothing"), "Thursday, October 25, 2018 at 9:01 PM", 50.00) );
+//        // for testing purposes, adds a random item in
+//        itemArray.add(new Item("adidas ultraboost", "good shoes", 6, null, location, new ItemCategory("Clothing"), "Thursday, October 25, 2018 at 9:01 PM", 50.00) );
 
         ArrayAdapter<Item> itemAdapter = new ArrayAdapter<Item>(this, android.R.layout.simple_list_item_1, itemArray);
         itemlist.setAdapter(itemAdapter);

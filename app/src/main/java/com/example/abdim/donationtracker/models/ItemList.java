@@ -5,7 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ItemList implements Serializable {
-    private ArrayList<Item> itemList = new ArrayList<>();
+    private ArrayList<Item> itemList;
+
+    public ItemList() {
+        itemList = new ArrayList<>();
+    }
 
     public void addItem(Item newItem) {
         itemList.add(newItem);

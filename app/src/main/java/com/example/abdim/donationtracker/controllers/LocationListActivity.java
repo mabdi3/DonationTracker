@@ -36,7 +36,7 @@ public class LocationListActivity extends AppCompatActivity {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.activity_location_list);
         locationList = (ListView) findViewById(R.id.location_list);
-        final List<Location> locationsAsList = new ArrayList<>(Locations.locations);
+        final List<Location> locationsAsList = Locations.getLocationsAsList();
         ArrayAdapter<Location> locationAdapter = new ArrayAdapter<Location>(this, android.R.layout.simple_list_item_1, locationsAsList);
         locationList.setAdapter(locationAdapter);
 
@@ -127,7 +127,7 @@ public class LocationListActivity extends AppCompatActivity {
                 } else if (tokens[8].equals("Warehouse")) {
                     newLocal.setLocationType(LocationType.WAREHOUSE);
                 }
-                Locations.locations.add(newLocal);
+                Locations.addLocation(newLocal);
             }
             br.close();
         } catch (IOException e) {
