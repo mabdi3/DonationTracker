@@ -27,10 +27,7 @@ import java.util.List;
 public class LocationListActivity extends AppCompatActivity {
     private static final String TAG = "LocationListActivity";
     private ListView locationList;
-
     private Button backButton;
-
-    private Button loadLocationFromCSVButton;
 
     protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
@@ -70,17 +67,6 @@ public class LocationListActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-//        loadLocationFromCSVButton = findViewById(R.id.loadLocationFromCSVButton);
-//        loadLocationFromCSVButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                readSDFile();
-//                finish();
-//                startActivity(getIntent());
-//            }
-//        });
-
     }
 
 

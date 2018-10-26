@@ -50,8 +50,13 @@ public class ItemListActivity extends AppCompatActivity {
 
         final Account currentAccount = (Account) getIntent().getExtras().getSerializable("currentAccount");
 
-
         addButton = findViewById(R.id.addButton);
+
+
+        if (currentAccount.getType().equals("Location Employee")) {
+            addButton.setVisibility(View.VISIBLE);
+        }
+
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

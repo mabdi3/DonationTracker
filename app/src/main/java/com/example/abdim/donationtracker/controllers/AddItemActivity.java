@@ -45,12 +45,12 @@ public class AddItemActivity extends AppCompatActivity {
 
         int itemQuantityInt = itemquantity.getText().toString().equals("") ? 0 : Integer.parseInt(
                 itemquantity.getText().toString());
-        int itemValueInt = itemvalue.getText().toString().equals("") ? 0 : Integer.parseInt(
+        double itemValueDouble = itemvalue.getText().toString().equals("") ? 0 : Double.parseDouble(
                 itemvalue.getText().toString());
         if (itemname.getText().toString().length() >= 4
                 && itemdesc.getText().toString().length() > 0
                 && itemQuantityInt > 0
-                && itemValueInt > 0) {
+                && itemValueDouble >= 0) {
             valid = true;
         }
         return valid;
@@ -78,10 +78,10 @@ public class AddItemActivity extends AppCompatActivity {
         itemvalue.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable arg0) {
-                int itemValueInt = itemvalue.getText().toString().equals("") ? 0 : Integer.parseInt(
+                double itemValueDouble = itemvalue.getText().toString().equals("") ? 0 : Double.parseDouble(
                         itemvalue.getText().toString());
 
-                if (!(itemValueInt > 0)) {
+                if (!(itemValueDouble >= 0)) {
                     itemvalue.setError("Passwords must match");
                 }
                 addbutton.setEnabled(enableAdd());

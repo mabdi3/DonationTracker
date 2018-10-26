@@ -14,6 +14,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:text="Add Item"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/Items"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
