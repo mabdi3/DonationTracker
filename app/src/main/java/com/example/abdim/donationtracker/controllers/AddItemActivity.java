@@ -18,6 +18,7 @@ import com.example.abdim.donationtracker.models.ItemCategories;
 import com.example.abdim.donationtracker.models.ItemCategory;
 import com.example.abdim.donationtracker.models.ItemList;
 import com.example.abdim.donationtracker.models.Location;
+import com.example.abdim.donationtracker.models.Locations;
 
 import android.text.TextWatcher;
 import android.util.Log;
@@ -66,7 +67,7 @@ public class AddItemActivity extends AppCompatActivity {
         spinnercate = findViewById(R.id.spinnercate);
         addbutton = findViewById(R.id.buttonAddItem);
         backbutton = findViewById(R.id.buttonBack);
-        Intent intent = getIntent();
+        final Intent intents = getIntent();
 
         spinnercate.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, ItemCategories.getItemCategoriesAsList()));
 
@@ -99,7 +100,7 @@ public class AddItemActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(AddItemActivity.this, ItemListActivity.class);
 
-                Location currLocation = (Location) getIntent().getExtras().getSerializable("location");
+                Location currLocation = Locations.getLocationsAsList().get(intents.getExtras().getInt("location"));
 
                 Calendar calendar = Calendar.getInstance();
                 SimpleDateFormat format = new SimpleDateFormat("EEEE, MMMM d, yyyy 'at' h:mm a");
@@ -109,12 +110,11 @@ public class AddItemActivity extends AppCompatActivity {
                         itemdesc.getText().toString(),
                         Integer.parseInt(itemquantity.getText().toString()),
                         null,
-                        (Location) getIntent().getExtras().getSerializable("location"),
+                        currLocation,
                         new ItemCategory(spinnercate.getSelectedItem().toString()),
                         datetime,
                         Double.parseDouble(itemvalue.getText().toString())));
-
-                intent.putExtra("location", currLocation);
+                intent.putExtra("location", intents.getExtras().getInt("location"));
                 intent.putExtra("currentAccount", currentAccount);
                 startActivity(intent);
                 finish();
