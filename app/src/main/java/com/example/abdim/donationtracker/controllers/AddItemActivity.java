@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.text.Editable;
 import android.widget.TextView;
 import com.example.abdim.donationtracker.R;
 import com.example.abdim.donationtracker.models.Account;
@@ -17,6 +18,9 @@ import com.example.abdim.donationtracker.models.ItemCategories;
 import com.example.abdim.donationtracker.models.ItemCategory;
 import com.example.abdim.donationtracker.models.ItemList;
 import com.example.abdim.donationtracker.models.Location;
+
+import android.text.TextWatcher;
+import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -35,6 +39,22 @@ public class AddItemActivity extends AppCompatActivity {
     private Button addbutton;
     private Button backbutton;
 
+    private boolean enableAdd() {
+        boolean valid = false;
+
+        int itemQuantityInt = itemquantity.getText().toString().equals("") ? 0 : Integer.parseInt(
+                itemquantity.getText().toString());
+        int itemValueInt = itemvalue.getText().toString().equals("") ? 0 : Integer.parseInt(
+                itemvalue.getText().toString());
+        if (itemname.getText().toString().length() >= 4
+                && itemdesc.getText().toString().length() > 0
+                && itemQuantityInt > 0
+                && itemValueInt > 0) {
+            valid = true;
+        }
+        return valid;
+    }
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
@@ -51,6 +71,28 @@ public class AddItemActivity extends AppCompatActivity {
         spinnercate.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, ItemCategories.getItemCategoriesAsList()));
 
         final Account currentAccount = (Account) getIntent().getExtras().getSerializable("currentAccount");
+
+        addbutton.setEnabled(enableAdd());
+
+        itemvalue.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                int itemValueInt = itemvalue.getText().toString().equals("") ? 0 : Integer.parseInt(
+                        itemvalue.getText().toString());
+
+                if (!(itemValueInt > 0)) {
+                    itemvalue.setError("Passwords must match");
+                }
+                addbutton.setEnabled(enableAdd());
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+        });
 
         addbutton.setOnClickListener(new View.OnClickListener() {
             @Override
