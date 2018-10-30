@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         registeredAccounts = new RegisteredAccounts();
+
         Name = (EditText)findViewById(R.id.etUser);
         Password = (EditText)findViewById(R.id.etPassword);
         Info = (TextView)findViewById(R.id.textLoginInfo);
