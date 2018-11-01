@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+
         if (loggedIn) {
             Intent intent = new Intent(MainActivity.this, LoggedInActivity.class);
 

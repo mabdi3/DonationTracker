@@ -29,10 +29,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ItemListActivity extends AppCompatActivity {
-    private SearchView itemSearch;
+    private EditText itemSearch;
     private ListView itemlist;
     private Button addButton;
     private Button backButton;
+    private Button searchNameButton;
+    private Button searchTypeButton;
 
 
 
@@ -40,7 +42,9 @@ public class ItemListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
         itemlist = findViewById(R.id.itemList);
-        itemSearch = findViewById(R.id.itemSearch);
+        itemSearch = findViewById(R.id.searchEditText);
+        searchNameButton = findViewById(R.id.searchNameButton);
+        searchTypeButton = findViewById(R.id.searchCategoryButton);
         Intent intent = getIntent();
         Locations.getLocationsAsList();
         final Location location = (Location) Locations.getLocationsAsList().get(intent.getExtras().getInt("location"));
@@ -53,23 +57,6 @@ public class ItemListActivity extends AppCompatActivity {
         final ArrayAdapter<Item> itemAdapter = new ArrayAdapter<Item>(this, android.R.layout.simple_list_item_1, itemArray);
         itemlist.setAdapter(itemAdapter);
 
-        itemSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                if (itemArray.contains(query)) {
-                    itemAdapter.getFilter().filter(query);
-                } else {
-                    Toast.makeText(ItemListActivity.this, "No Match Found",Toast.LENGTH_LONG).show();
-                }
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
-
         final Account currentAccount = (Account) getIntent().getExtras().getSerializable("currentAccount");
 
         addButton = findViewById(R.id.addButton);
@@ -78,7 +65,44 @@ public class ItemListActivity extends AppCompatActivity {
         if (currentAccount.getType().equals("Location Employee")) {
             addButton.setVisibility(View.VISIBLE);
         }
-
+        searchNameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String itemNameToSearch = itemSearch.getText().toString();
+                if(itemNameToSearch.equals("")) {
+                    itemAdapter.clear();
+                    itemAdapter.addAll(itemArray);
+                } else {
+                    List<Item> newList = new ArrayList<Item>();
+                    for (Item i : itemArray) {
+                        if (i.getName().equals(itemNameToSearch)) {
+                            newList.add(i);
+                        }
+                    }
+                    itemAdapter.clear();
+                    itemAdapter.addAll(newList);
+                }
+            }
+        });
+        searchTypeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String itemNameToSearch = itemSearch.getText().toString();
+                if(itemNameToSearch.equals("")) {
+                    itemAdapter.clear();
+                    itemAdapter.addAll(itemArray);
+                } else {
+                    List<Item> newList = new ArrayList<Item>();
+                    for (Item i : itemArray) {
+                        if (i.getCategory().toString().equals(itemNameToSearch)) {
+                            newList.add(i);
+                        }
+                    }
+                    itemAdapter.clear();
+                    itemAdapter.addAll(newList);
+                }
+            }
+        });
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,7 +141,5 @@ public class ItemListActivity extends AppCompatActivity {
                 finish();
             }
         });
-
     }
-
 }
