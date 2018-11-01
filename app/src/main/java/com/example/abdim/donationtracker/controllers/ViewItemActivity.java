@@ -62,8 +62,6 @@ public class ViewItemActivity extends AppCompatActivity {
         ArrayAdapter<String> itemAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, itemPropertiesList);
         list.setAdapter(itemAdapter);
 
-        final Account currentAccount = (Account) getIntent().getExtras().getSerializable("currentAccount");
-
 
 //        name.setText(receievedItem.getName());
 //        description.setText(receievedItem.getDescription());
@@ -79,7 +77,6 @@ public class ViewItemActivity extends AppCompatActivity {
                 Intent intent = new Intent(ViewItemActivity.this, ItemListActivity.class);
                 Location location = Locations.getLocationsAsList().get(intents.getExtras().getInt("location"));
                 intent.putExtra("location", intents.getExtras().getInt("location"));
-                intent.putExtra("currentAccount", currentAccount);
                 startActivity(intent);
                 finish();
             }

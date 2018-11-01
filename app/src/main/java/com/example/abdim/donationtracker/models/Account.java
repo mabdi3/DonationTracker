@@ -1,24 +1,28 @@
 package com.example.abdim.donationtracker.models;
 
-import java.io.Serializable;
-
-public class Account implements Serializable {
+public class Account {
     public String username;
     private String email;
-    private String password;
-    AccountType userType;
+    private String pass;
+    private AccountType type;
+
+
+    public Account() {
+
+    }
 
     public Account(String userIn, String passIn, AccountType ut, String emailIn) {
         username = userIn;
-        password = passIn;
+        pass = passIn;
         email = emailIn;
-        userType = ut;
+        type = ut;
     }
 
     public Account(String userIn, String passIn, AccountType ut) {
         this(userIn, passIn, ut, "");
     }
 
+    // getters
     public String getUsername() {
         return username;
     }
@@ -26,15 +30,27 @@ public class Account implements Serializable {
         return email;
     }
     public String getPass() {
-        return password;
+        return pass;
     }
-    public String getType() {
-        return userType.toString();
+    public AccountType getType() {
+        return type;
     }
-    public AccountType getTypeEnum() {
-        return userType;
+
+    // setters
+    public void setUsername(String username) {
+        this.username = username;
     }
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    public void setPass(String pass) {
+        this.pass = pass;
+    }
+    public void setType(AccountType type) {
+        this.type = type;
+    }
+
     public String toString() {
-        return username + " has the password: " + password + " and is a: " + userType;
+        return username + " has the password: " + pass + " and is a: " + type;
     }
 }

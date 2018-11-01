@@ -18,53 +18,70 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
+import java.util.HashMap;
 
-public class HomeActivity extends AppCompatActivity {
-    private Button login;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private static final String TAG = "HomeActivity";
+
     private TextView welcome;
-    private Button Register;
-    private static boolean firstTime = true;
-    private static final String TAG = "LocationListActivity";
+
+    private Button btnLogin;
+    private Button btnReadCSV;
+    private Button btnRegister;
+
+    private DatabaseReference mDatabase;
 
 
-    public static void setFirstTime(boolean first) {
-        firstTime = first;
-    }
-
-
-    public static boolean getFirstTime() {
-        return firstTime;
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_home);
-        login = findViewById(R.id.btnLogin);
         welcome = findViewById(R.id.textWelcome);
         welcome.setText("Welcome to Donation Tracker");
-        Register = (Button)findViewById(R.id.registerBtn);
 
-        Register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this, RegisterActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
 
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent login = new Intent(HomeActivity.this, MainActivity.class);
-                startActivity(login);
-                // finish();
-            }
-        });
-        if (firstTime) {
+        btnLogin = findViewById(R.id.btnLogin);
+        btnReadCSV = findViewById(R.id.btnReadCSV);
+        btnRegister = findViewById(R.id.btnRegister);
+
+        btnLogin.setOnClickListener(this);
+        btnReadCSV.setOnClickListener(this);
+        btnRegister.setOnClickListener(this);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+    }
+
+    @Override
+    public void onClick(View v) {
+        super.onStart();
+
+        int i = v.getId();
+
+        if (i == R.id.btnLogin) {
+            startActivity(new Intent(HomeActivity.this, MainActivity.class));
+            finish();
+        } else if (i == R.id.btnRegister) {
+            startActivity(new Intent(HomeActivity.this, RegisterActivity.class));
+            finish();
+        } else if (i == R.id.btnReadCSV) {
             readSDFile();
         }
+    }
+
+    private void writeNewLocation(Location newLocation) {
+        // String key = mDatabase.child("locations").push().getKey();
+        Map<String, Object> locationValues = newLocation.toMap();
+
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put("/locations/" + newLocation.getLocationId(), locationValues);
+
+        mDatabase.updateChildren(childUpdates);
     }
 
     /**
@@ -85,6 +102,7 @@ public class HomeActivity extends AppCompatActivity {
      *  [10] = website
      */
     private void readSDFile() {
+
         try {
             //open a stream on the raw file
             InputStream is = getResources().openRawResource(R.raw.locationdata);
@@ -113,7 +131,9 @@ public class HomeActivity extends AppCompatActivity {
                 } else if (tokens[8].equals("Warehouse")) {
                     newLocal.setLocationType(LocationType.WAREHOUSE);
                 }
-                Locations.addLocation(newLocal);
+
+                writeNewLocation(newLocal);
+                // Locations.addLocation(newLocal);
             }
             br.close();
         } catch (IOException e) {
