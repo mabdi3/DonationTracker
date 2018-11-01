@@ -10,8 +10,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.abdim.donationtracker.R;
 import com.example.abdim.donationtracker.models.Account;
@@ -27,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ItemListActivity extends AppCompatActivity {
+    private SearchView itemSearch;
     private ListView itemlist;
     private Button addButton;
     private Button backButton;
@@ -37,16 +40,35 @@ public class ItemListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
         itemlist = findViewById(R.id.itemList);
+        itemSearch = findViewById(R.id.itemSearch);
         Intent intent = getIntent();
         Locations.getLocationsAsList();
         final Location location = (Location) Locations.getLocationsAsList().get(intent.getExtras().getInt("location"));
-        List<Item> itemArray = location.getLocationItemList().getItemList();
+        final List<Item> itemArray = location.getLocationItemList().getItemList();
 
 //        // for testing purposes, adds a random item in
 //        itemArray.add(new Item("adidas ultraboost", "good shoes", 6, null, location, new ItemCategory("Clothing"), "Thursday, October 25, 2018 at 9:01 PM", 50.00) );
+        List tempList = new ArrayList<Item>();
 
-        ArrayAdapter<Item> itemAdapter = new ArrayAdapter<Item>(this, android.R.layout.simple_list_item_1, itemArray);
+        final ArrayAdapter<Item> itemAdapter = new ArrayAdapter<Item>(this, android.R.layout.simple_list_item_1, itemArray);
         itemlist.setAdapter(itemAdapter);
+
+        itemSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if (itemArray.contains(query)) {
+                    itemAdapter.getFilter().filter(query);
+                } else {
+                    Toast.makeText(ItemListActivity.this, "No Match Found",Toast.LENGTH_LONG).show();
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
 
         final Account currentAccount = (Account) getIntent().getExtras().getSerializable("currentAccount");
 
@@ -97,6 +119,5 @@ public class ItemListActivity extends AppCompatActivity {
         });
 
     }
-
 
 }
