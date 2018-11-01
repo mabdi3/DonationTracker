@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/itemcategory"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/buttonBack"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:text="Cancel"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/itemname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Name"
+                    android:inputType="textPersonName"
+                    tools:layout_editor_absoluteX="16dp"
+                    tools:layout_editor_absoluteY="16dp" />
+
+                <EditText
+                    android:id="@+id/itemdesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="193dp"
+                    android:ems="10"
+                    android:gravity="top|left"
+                    android:hint="Item Description Here"
+                    android:inputType="textMultiLine"
+                    android:lines="8"
+                    android:maxLines="10"
+                    android:minLines="6"
+                    android:selectAllOnFocus="true"
+                    android:singleLine="false"
+                    tools:layout_editor_absoluteX="16dp"
+                    tools:layout_editor_absoluteY="309dp" />
+
+                <EditText
+                    android:id="@+id/itemquantity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Quantity"
+                    android:inputType="number"
+                    tools:layout_editor_absoluteX="16dp"
+                    tools:layout_editor_absoluteY="62dp" />
+
+                <EditText
+                    android:id="@+id/itemvalue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Value in $"
+                    android:inputType="numberDecimal"
+                    tools:layout_editor_absoluteX="16dp"
+                    tools:layout_editor_absoluteY="180dp" />
+
+                <TextView
+                    android:id="@+id/itemaddcategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Category"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    tools:layout_editor_absoluteX="16dp"
+                    tools:layout_editor_absoluteY="234dp" />
+
+                <Spinner
+                    android:id="@+id/spinnercate"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    tools:layout_editor_absoluteX="15dp"
+                    tools:layout_editor_absoluteY="253dp" />
+
+                <Button
+                    android:id="@+id/buttonAddItem"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Add Item"
+                    tools:layout_editor_absoluteX="231dp"
+                    tools:layout_editor_absoluteY="169dp" />
+
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

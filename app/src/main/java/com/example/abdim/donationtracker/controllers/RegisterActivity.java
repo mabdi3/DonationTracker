@@ -1,4 +1,4 @@
-package com.example.abdim.donationtracker;
+package com.example.abdim.donationtracker.controllers;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -13,50 +13,194 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-// import android.widget.TextView;
-// import java.util.ArrayList;
+import android.text.TextUtils;
+import android.util.Log;
+import android.support.annotation.NonNull;
 
-public class RegisterActivity extends AppCompatActivity {
+import android.widget.Toast;
+
+
+import com.example.abdim.donationtracker.R;
+import com.example.abdim.donationtracker.models.RegisteredAccounts;
+import com.example.abdim.donationtracker.models.Account;
+import com.example.abdim.donationtracker.models.AccountType;
+
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+
+
+public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private static final String TAG = "RegisterActivity";
+
     private Button back;
     private Button register;
-    private EditText username;
-    private EditText password;
-    private EditText confirmPassword;
-    private Spinner accountType;
+    private EditText emailField;
+    private EditText passField;
+    private EditText confirmPassField;
+    private Spinner accountTypeField;
+
+    private DatabaseReference mDatabase;
+    private FirebaseAuth mAuth;
+
     private final int USERNAME_MINLENGTH = 4;
+    private final int PASSWORD_MINLENGTH = 4;
 
     /*
      * Check to see if passwords match, if username filled out to enable register button
      */
+    /*
     private void enableRegister() {
 
         boolean isReady = username.getText().toString().length() >= USERNAME_MINLENGTH
                 && password.getText().toString().length() > 0
                 && confirmPassword.getText().toString().equals(password.getText().toString());
         register.setEnabled(isReady);
-    };
+    }
+    */
 
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        username = (EditText) findViewById(R.id.new_username);
-        password = (EditText) findViewById(R.id.new_password);
-        confirmPassword = (EditText) findViewById(R.id.confirm_password);
+        emailField = (EditText) findViewById(R.id.new_username);
+        passField = (EditText) findViewById(R.id.new_password);
+        confirmPassField = (EditText) findViewById(R.id.confirm_password);
         back = (Button) findViewById(R.id.back_button);
         register = (Button) findViewById(R.id.register_button);
-        accountType = (Spinner) findViewById(R.id.account_type_spinner);
+        accountTypeField = (Spinner) findViewById(R.id.account_type_spinner);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mAuth = FirebaseAuth.getInstance();
 
         /*
           Set up the adapter to display the allowable AccountTypes in the spinner
          */
-        ArrayAdapter<String> adapter = new ArrayAdapter(this,
+        ArrayAdapter<AccountType> adapter = new ArrayAdapter<AccountType>(this,
                 android.R.layout.simple_spinner_item, AccountType.values());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        accountType.setAdapter(adapter);
+        accountTypeField.setAdapter(adapter);
 
-        enableRegister();
 
+        // click listeners
+        register.setOnClickListener(this);
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d(TAG, "current user: " + mAuth.getCurrentUser());
+
+        if (mAuth.getCurrentUser() != null) {
+            // onAuthSuccess(mAuth.getCurrentUser());
+            Log.d(TAG, "signing out");
+            mAuth.signOut();
+        }
+    }
+
+    private void register() {
+        Log.d(TAG, "register");
+
+        if (!validateForm()) {
+            return;
+        }
+
+        String username = emailField.getText().toString();
+        String password = passField.getText().toString();
+
+        Log.d(TAG, "username: " + username);
+        Log.d(TAG, "password: " + password);
+
+        mAuth.createUserWithEmailAndPassword(username, password)
+            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    Log.d(TAG, "createUser:onComplete: " + task.isSuccessful());
+                    // Log.d(TAG, "onComplete" + task.getException().getMessage());
+                    if (task.getException() != null) {
+                        Log.d(TAG, "onComplete EXCEPTION " + task.getException().getMessage());
+                    }
+                    if (task.isSuccessful()) {
+                        onAuthSuccess(task.getResult().getUser());
+                    } else {
+                        Toast.makeText(RegisterActivity.this, "Sign Up Failed",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
+        });
+    }
+
+    private void onAuthSuccess(FirebaseUser user) {
+        String username = usernameFromEmail(user.getEmail());
+        String password = passField.getText().toString();
+        AccountType accountType = (AccountType) accountTypeField.getSelectedItem();
+
+        // Write new user
+        writeNewUser(user.getUid(), username, user.getEmail(), password, accountType);
+
+        // Go to MainActivity
+        startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+        finish();
+    }
+
+    private void writeNewUser(String userId, String username, String email, String pass,
+                              AccountType accountType) {
+
+        Account account = new Account(username, pass, accountType, email);
+        mDatabase.child("users").child(userId).setValue(account);
+    }
+
+    private String usernameFromEmail(String email) {
+        if (email.contains("@")) {
+            return email.split("@")[0];
+        } else {
+            return email;
+        }
+    }
+
+    private boolean validateForm() {
+        boolean valid = true;
+        if (TextUtils.isEmpty(emailField.getText().toString())) {
+            emailField.setError("Required");
+            valid = false;
+        } else {
+            emailField.setError(null);
+        }
+
+        if (TextUtils.isEmpty(passField.getText().toString())) {
+            passField.setError("Required");
+            valid = false;
+        } else {
+            passField.setError(null);
+        }
+        return valid;
+    }
+
+    @Override
+    public void onClick(View v) {
+        int i = v.getId();
+
+        if (i == R.id.register_button) {
+            register();
+        } else if (i == R.id.back_button) {
+            startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+            finish();
+        }
+    }
+
+}
+
+        /*
         username.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable arg0) {
@@ -80,6 +224,10 @@ public class RegisterActivity extends AppCompatActivity {
             public void afterTextChanged(Editable arg0) {
                 if (!(password.getText().toString().length() > 0)) {
                     password.setError("Password must have at least one character");
+                }
+                if (password.getText().toString().length() < 4) {
+                    password.setError("Password must be " + PASSWORD_MINLENGTH
+                        + " characters or greater");
                 }
             }
 
@@ -159,3 +307,4 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 }
+*/

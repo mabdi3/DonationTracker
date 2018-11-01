@@ -1,11 +1,15 @@
-package com.example.abdim.donationtracker;
+package com.example.abdim.donationtracker.models;
 
 import android.util.Log;
 
+import com.example.abdim.donationtracker.models.Account;
+
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class RegisteredAccounts {
-    private static ArrayList<Account> accountStorage = new ArrayList<>();
+    private static ArrayList<Account> accountStorage = new ArrayList<>(Collections.singletonList(new Account("1234", "1234", AccountType.Admin)));
 
     public static void addAccount(Account addedAccount) {
         accountStorage.add(addedAccount);

@@ -1,0 +1,123 @@
+package com.example.abdim.donationtracker.controllers;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.SearchView;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.abdim.donationtracker.R;
+import com.example.abdim.donationtracker.models.Account;
+import com.example.abdim.donationtracker.models.Item;
+import com.example.abdim.donationtracker.models.ItemCategories;
+import com.example.abdim.donationtracker.models.ItemCategory;
+import com.example.abdim.donationtracker.models.ItemList;
+import com.example.abdim.donationtracker.models.Location;
+import com.example.abdim.donationtracker.models.Locations;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ItemListActivity extends AppCompatActivity {
+    private SearchView itemSearch;
+    private ListView itemlist;
+    private Button addButton;
+    private Button backButton;
+
+
+
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_item_list);
+        itemlist = findViewById(R.id.itemList);
+        itemSearch = findViewById(R.id.itemSearch);
+        Intent intent = getIntent();
+        Locations.getLocationsAsList();
+        final Location location = (Location) Locations.getLocationsAsList().get(intent.getExtras().getInt("location"));
+        final List<Item> itemArray = location.getLocationItemList().getItemList();
+
+//        // for testing purposes, adds a random item in
+//        itemArray.add(new Item("adidas ultraboost", "good shoes", 6, null, location, new ItemCategory("Clothing"), "Thursday, October 25, 2018 at 9:01 PM", 50.00) );
+        List tempList = new ArrayList<Item>();
+
+        final ArrayAdapter<Item> itemAdapter = new ArrayAdapter<Item>(this, android.R.layout.simple_list_item_1, itemArray);
+        itemlist.setAdapter(itemAdapter);
+
+        itemSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if (itemArray.contains(query)) {
+                    itemAdapter.getFilter().filter(query);
+                } else {
+                    Toast.makeText(ItemListActivity.this, "No Match Found",Toast.LENGTH_LONG).show();
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        final Account currentAccount = (Account) getIntent().getExtras().getSerializable("currentAccount");
+
+        addButton = findViewById(R.id.addButton);
+
+
+        if (currentAccount.getType().equals("Location Employee")) {
+            addButton.setVisibility(View.VISIBLE);
+        }
+
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ItemListActivity.this, AddItemActivity.class);
+
+                intent.putExtra("location", getIntent().getExtras().getInt("location"));
+                intent.putExtra("currentAccount", currentAccount);
+
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        itemlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent itemDetails = new Intent(ItemListActivity.this, ViewItemActivity.class);
+                List<Item> itemsAsList = location.getLocationItemList().getItemList();
+                Item item = itemsAsList.get(position);
+                itemDetails.putExtra("location", location);
+                itemDetails.putExtra("item", item);
+                itemDetails.putExtra("currentAccount", currentAccount);
+                startActivity(itemDetails);
+                finish();
+            }
+        });
+
+        backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ItemListActivity.this, LocationInfoActivity.class);
+                intent.putExtra("location", getIntent().getExtras().getInt("location"));
+                intent.putExtra("currentAccount", currentAccount);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+    }
+
+}

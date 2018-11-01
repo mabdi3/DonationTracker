@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "120415419790",
+    "firebase_url": "https://donationtracker-5b3be.firebaseio.com",
+    "project_id": "donationtracker-5b3be",
+    "storage_bucket": "donationtracker-5b3be.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:120415419790:android:281f1dca59fb95c3",
+        "android_client_info": {
+          "package_name": "com.example.abdim.donationtracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "120415419790-i29kqcv03qgpabkrikm119750sbslfp4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBO9foHKgOPnog1uMS2FIwVy94oBVUc3S0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
