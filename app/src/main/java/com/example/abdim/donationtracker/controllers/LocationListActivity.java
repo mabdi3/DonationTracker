@@ -23,6 +23,7 @@ public class LocationListActivity extends AppCompatActivity implements View.OnCl
 
     private ListView locationListView;
     private Button btnBack;
+    private Button btnSearchAll;
 
     private ArrayAdapter<Location> locationAdapter;
 
@@ -32,8 +33,11 @@ public class LocationListActivity extends AppCompatActivity implements View.OnCl
 
         locationListView = findViewById(R.id.location_list);
         btnBack = findViewById(R.id.backButton);
+        btnSearchAll = findViewById(R.id.searchAllButton);
+
 
         btnBack.setOnClickListener(this);
+        btnSearchAll.setOnClickListener(this);
 
         locationAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         locationListView.setAdapter(locationAdapter);
@@ -83,6 +87,13 @@ public class LocationListActivity extends AppCompatActivity implements View.OnCl
 
         if (i == R.id.backButton) {
             startActivity(new Intent(LocationListActivity.this, LoggedInActivity.class));
+            finish();
+        } else if (i == R.id.searchAllButton) {
+            Intent intent = new Intent(LocationListActivity.this, ItemListActivity.class);
+
+            intent.putExtra("searchAllLocations", true);
+
+            startActivity(intent);
             finish();
         }
     }
