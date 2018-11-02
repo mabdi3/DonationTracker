@@ -13,7 +13,6 @@ import com.example.abdim.donationtracker.R;
 import com.example.abdim.donationtracker.models.Account;
 import com.example.abdim.donationtracker.models.Location;
 import com.example.abdim.donationtracker.models.LocationType;
-import com.example.abdim.donationtracker.models.Locations;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -49,8 +48,6 @@ public class LocationListActivity extends AppCompatActivity implements View.OnCl
 
         btnBack.setOnClickListener(this);
 
-        // final List<Location> locationsAsList = Locations.getLocationsAsList();
-
         locationAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         locationListView.setAdapter(locationAdapter);
 
@@ -60,8 +57,6 @@ public class LocationListActivity extends AppCompatActivity implements View.OnCl
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent locationInfoIntent = new Intent(
                         LocationListActivity.this, LocationInfoActivity.class);
-
-                // Location location = locationsAsList.get(position);
 
                 String locationName = locationListView.getItemAtPosition(position).toString();
                 Log.d(TAG, locationName);

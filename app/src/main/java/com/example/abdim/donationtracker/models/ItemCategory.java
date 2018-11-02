@@ -9,6 +9,9 @@ public class ItemCategory implements Serializable {
         categoryName = name;
     }
 
+    public ItemCategory() {
+    }
+
     public String toString(){
         return categoryName;
     }

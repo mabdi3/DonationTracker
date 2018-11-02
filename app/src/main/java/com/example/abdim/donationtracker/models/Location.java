@@ -137,12 +137,6 @@ public class Location implements Serializable {
         locationItemList.addItem(item);
     }
 
-    public void addDonation (Donation donation) {
-        for (Item i : donation.getItems().getItemList()) {
-            addItem(i);
-        }
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.example.abdim.donationtracker.R;
 import com.example.abdim.donationtracker.models.Location;
 import com.example.abdim.donationtracker.models.LocationType;
-import com.example.abdim.donationtracker.models.Locations;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -31,7 +30,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private TextView welcome;
 
     private Button btnLogin;
-    private Button btnReadCSV;
     private Button btnRegister;
 
     private DatabaseReference mDatabase;
@@ -47,11 +45,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
 
         btnLogin = findViewById(R.id.btnLogin);
-        btnReadCSV = findViewById(R.id.btnReadCSV);
         btnRegister = findViewById(R.id.btnRegister);
 
         btnLogin.setOnClickListener(this);
-        btnReadCSV.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -69,13 +65,15 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         } else if (i == R.id.btnRegister) {
             startActivity(new Intent(HomeActivity.this, RegisterActivity.class));
             finish();
-        } else if (i == R.id.btnReadCSV) {
+        }
+        /*
+        else if (i == R.id.btnReadCSV) {
             readSDFile();
         }
+        */
     }
 
     private void writeNewLocation(Location newLocation) {
-        // String key = mDatabase.child("locations").push().getKey();
         Map<String, Object> locationValues = newLocation.toMap();
 
         Map<String, Object> childUpdates = new HashMap<>();
@@ -133,7 +131,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
                 writeNewLocation(newLocal);
-                // Locations.addLocation(newLocal);
             }
             br.close();
         } catch (IOException e) {
