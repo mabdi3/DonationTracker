@@ -83,14 +83,12 @@ public class LocationInfoActivity extends AppCompatActivity implements View.OnCl
         btnToItemList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*
-                // Intent intent = new Intent(LocationInfoActivity.this, ItemListActivity.class);
+                Intent intent = new Intent(LocationInfoActivity.this, ItemListActivity.class);
 
-                intent.putExtra("location", intents.getExtras().getInt("location"));
+                //intent.putExtra("location", intents.getExtras().getInt("location"));
 
                 startActivity(intent);
                 finish();
-                */
             }
         });
     }
