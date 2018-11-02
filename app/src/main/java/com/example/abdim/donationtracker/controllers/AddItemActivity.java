@@ -16,12 +16,13 @@ import com.example.abdim.donationtracker.models.Account;
 import com.example.abdim.donationtracker.models.Item;
 import com.example.abdim.donationtracker.models.ItemCategories;
 import com.example.abdim.donationtracker.models.ItemCategory;
-import com.example.abdim.donationtracker.models.ItemList;
-import com.example.abdim.donationtracker.models.Location;
-import com.example.abdim.donationtracker.models.Locations;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import android.text.TextWatcher;
-import android.util.Log;
+
+import java.util.Map;
+import java.util.HashMap;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -30,15 +31,130 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class AddItemActivity extends AppCompatActivity {
+public class AddItemActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText itemname;
     private EditText itemquantity;
     private EditText itemdesc;
     private EditText itemvalue;
     private TextView addcategory;
     private Spinner spinnercate;
-    private Button addbutton;
-    private Button backbutton;
+
+    private Button btnAdd;
+    private Button btnBack;
+
+    private String locationKey;
+    private String locationName;
+
+    private DatabaseReference mDatabase;
+
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_add_item);
+
+        itemname = findViewById(R.id.itemname);
+        itemquantity = findViewById(R.id.itemquantity);
+        itemdesc = findViewById(R.id.itemdesc);
+        itemvalue = findViewById(R.id.itemvalue);
+        addcategory = findViewById(R.id.itemaddcategory);
+        spinnercate = findViewById(R.id.spinnercate);
+
+        btnAdd = findViewById(R.id.buttonAddItem);
+        btnBack = findViewById(R.id.buttonBack);
+
+        btnAdd.setOnClickListener(this);
+        btnBack.setOnClickListener(this);
+
+        btnAdd.setEnabled(enableAdd());
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        // get intent information
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if (extras == null) {
+                locationKey = null;
+                locationName = null;
+            } else {
+                locationKey = extras.getString("locationKey");
+                locationName = extras.getString("locationName");
+            }
+        } else {
+            locationKey = (String) savedInstanceState.getSerializable("locationKey");
+            locationName = (String) savedInstanceState.getSerializable("locationName");
+        }
+
+        spinnercate.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, ItemCategories.getItemCategoriesAsList()));
+
+        itemvalue.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                double itemValueDouble = itemvalue.getText().toString().equals("") ? 0 : Double.parseDouble(
+                        itemvalue.getText().toString());
+
+                if (!(itemValueDouble >= 0)) {
+                    itemvalue.setError("Passwords must match");
+                }
+                btnAdd.setEnabled(enableAdd());
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+        });
+    }
+
+    private void writeNewItem(Item newItem) {
+        Map<String, Object>  itemValues = newItem.toMap();
+
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put("/items/" + newItem.getId(), itemValues);
+
+        mDatabase.updateChildren(childUpdates);
+
+
+    }
+    @Override
+    public void onClick(View v) {
+        int i = v.getId();
+
+        if (i == R.id.buttonAddItem) {
+            Intent intent = new Intent(AddItemActivity.this, ItemListActivity.class);
+            intent.putExtra("locationKey", locationKey);
+            intent.putExtra("locationName", locationName);
+
+            Calendar calendar = Calendar.getInstance();
+            SimpleDateFormat format = new SimpleDateFormat("EEEE, MMMM d, yyyy 'at' h:mm a");
+            String dateTime = format.format(calendar.getTime());
+
+            DatabaseReference pushedItemRef = FirebaseDatabase.getInstance().getReference("items").push();
+            String itemId = pushedItemRef.getKey();
+
+            Item newItem = new Item(
+                    itemId,
+                    itemname.getText().toString(),
+                    itemdesc.getText().toString(),
+                    Integer.parseInt(itemquantity.getText().toString()),
+                    locationKey,
+                    new ItemCategory(spinnercate.getSelectedItem().toString()),
+                    dateTime,
+                    Double.parseDouble(itemvalue.getText().toString())
+            );
+
+            writeNewItem(newItem);
+
+            startActivity(intent);
+            finish();
+        } else if (i == R.id.buttonBack) {
+            Intent intent = new Intent(AddItemActivity.this, ItemListActivity.class);
+            intent.putExtra("locationKey", locationKey);
+            intent.putExtra("locationName", locationName);
+            startActivity(intent);
+            finish();
+        }
+    }
 
     private boolean enableAdd() {
         boolean valid = false;
@@ -56,82 +172,6 @@ public class AddItemActivity extends AppCompatActivity {
         return valid;
     }
 
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_item);
-        itemname = findViewById(R.id.itemname);
-        itemquantity = findViewById(R.id.itemquantity);
-        itemdesc = findViewById(R.id.itemdesc);
-        itemvalue = findViewById(R.id.itemvalue);
-        addcategory = findViewById(R.id.itemaddcategory);
-        spinnercate = findViewById(R.id.spinnercate);
-        addbutton = findViewById(R.id.buttonAddItem);
-        backbutton = findViewById(R.id.buttonBack);
-        final Intent intents = getIntent();
-
-        spinnercate.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, ItemCategories.getItemCategoriesAsList()));
-
-
-        addbutton.setEnabled(enableAdd());
-
-        itemvalue.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void afterTextChanged(Editable arg0) {
-                double itemValueDouble = itemvalue.getText().toString().equals("") ? 0 : Double.parseDouble(
-                        itemvalue.getText().toString());
-
-                if (!(itemValueDouble >= 0)) {
-                    itemvalue.setError("Passwords must match");
-                }
-                addbutton.setEnabled(enableAdd());
-            }
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-        });
-
-        addbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(AddItemActivity.this, ItemListActivity.class);
-
-                Location currLocation = Locations.getLocationsAsList().get(intents.getExtras().getInt("location"));
-
-                Calendar calendar = Calendar.getInstance();
-                SimpleDateFormat format = new SimpleDateFormat("EEEE, MMMM d, yyyy 'at' h:mm a");
-                String datetime = format.format(calendar.getTime());
-
-                currLocation.addItem(new Item(itemname.getText().toString(),
-                        itemdesc.getText().toString(),
-                        Integer.parseInt(itemquantity.getText().toString()),
-                        null,
-                        currLocation,
-                        new ItemCategory(spinnercate.getSelectedItem().toString()),
-                        datetime,
-                        Double.parseDouble(itemvalue.getText().toString())));
-                intent.putExtra("location", intents.getExtras().getInt("location"));
-                startActivity(intent);
-                finish();
-            }
-        });
-
-        backbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(AddItemActivity.this, ItemListActivity.class);
-                intent.putExtra("location", getIntent().getExtras().getSerializable("location"));
-                startActivity(intent);
-                finish();
-            }
-        });
-
-
-
-    }
 
 
 }

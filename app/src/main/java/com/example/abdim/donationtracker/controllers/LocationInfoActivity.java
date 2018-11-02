@@ -1,7 +1,6 @@
 package com.example.abdim.donationtracker.controllers;
 
 import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,26 +8,15 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.abdim.donationtracker.R;
-import com.example.abdim.donationtracker.models.Account;
-import com.example.abdim.donationtracker.models.Item;
 import com.example.abdim.donationtracker.models.Location;
-import com.example.abdim.donationtracker.models.Locations;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import org.w3c.dom.Text;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class LocationInfoActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -37,8 +25,9 @@ public class LocationInfoActivity extends AppCompatActivity implements View.OnCl
     private Button btnBack;
     private ListView locationInfoListView;
     private String locationName;
-
+    private String locationKey;
     private ArrayAdapter<String> locationAdapter;
+    private DatabaseReference locationInfoRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,43 +55,47 @@ public class LocationInfoActivity extends AppCompatActivity implements View.OnCl
             locationName = (String) savedInstanceState.getSerializable("locationName");
         }
 
-        // Location receivedLocation = Locations.getLocationsAsList().get(intents.getExtras().getInt("location"));
-        /*
-        final List<String> locationPropertiesList = new ArrayList<>(Arrays.asList(
-                "Name: " + receivedLocation.getName(),
-                "Location Type: " + receivedLocation.getLocationType().toString(),
-                "Latitude, Longitude: " + Double.toString(receivedLocation.getLatitude()) + ", " + Double.toString(receivedLocation.getLongitude()),
-                "Address: " + receivedLocation.getAddress(),
-                "Phone Number: " + receivedLocation.getPhoneNumber(),
-                "Website: " + receivedLocation.getWebsiteLink()
-        ));
-        */
-
-
-
-        btnToItemList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /*
-                // Intent intent = new Intent(LocationInfoActivity.this, ItemListActivity.class);
-
-                intent.putExtra("location", intents.getExtras().getInt("location"));
-
-                startActivity(intent);
-                finish();
-                */
-            }
-        });
+        setLocationInfo();
     }
-    @Override
-    public void onStart() {
-        super.onStart();
 
-        DatabaseReference locationsRef = FirebaseDatabase.getInstance().getReference("location");
+    private void setLocationKey(String key) {
+        locationKey = key;
+    }
+
+    private void setLocationInfo() {
+        DatabaseReference locationsRef = FirebaseDatabase.getInstance().getReference("locations");
+
+        Log.d(TAG, "location name is " + locationName);
+
         locationsRef.orderByChild("name").equalTo(locationName).addChildEventListener(new ChildEventListener() {
+
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-                Log.d(TAG, "heyo " + dataSnapshot.getKey());
+                setLocationKey(dataSnapshot.getKey());
+
+                locationInfoRef = FirebaseDatabase.getInstance().getReference("locations/" + locationKey);
+
+                locationInfoRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Log.d(TAG, "locationKey" + locationKey);
+                        Location locationValue = dataSnapshot.getValue(Location.class);
+                        Log.d(TAG, "locationName " + locationName);
+
+                        locationAdapter.add("Name: " + locationValue.getName());
+                        locationAdapter.add("Location Type: " + locationValue.getLocationType().toString());
+                        locationAdapter.add("Latitude, Longitude: " +
+                                Double.toString(locationValue.getLatitude()) + ", " + Double.toString(locationValue.getLongitude()));
+                        locationAdapter.add("Address: " + locationValue.getAddress());
+                        locationAdapter.add("Phone Number: " + locationValue.getPhoneNumber());
+                        locationAdapter.add("Website: " + locationValue.getWebsiteLink());
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                        Log.d(TAG, "Failed to read value" + error.toException());
+                    }
+                });
             }
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
@@ -117,23 +110,6 @@ public class LocationInfoActivity extends AppCompatActivity implements View.OnCl
             public void onChildMoved(DataSnapshot dataSnapshot, String string) {
             }
         });
-        /*
-        locationsRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot locationShot : dataSnapshot.getChildren()) {
-                    Location locationValue = locationShot.getValue(Location.class);
-                    locationAdapter.add();
-                    Log.d(TAG, "here is location name " + locationValue.getName());
-
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError error) {
-                Log.d(TAG, "Failed to read value" + error.toException());
-            }
-        });
-        */
 
     }
     @Override
@@ -144,7 +120,11 @@ public class LocationInfoActivity extends AppCompatActivity implements View.OnCl
             startActivity(new Intent(LocationInfoActivity.this, LocationListActivity.class));
             finish();
         } else if (i == R.id.lookAtInventoryButton) {
-
+            Intent intent = new Intent(LocationInfoActivity.this, ItemListActivity.class);
+            intent.putExtra("locationName", locationName);
+            intent.putExtra("locationKey", locationKey);
+            startActivity(intent);
+            finish();
         }
     }
 }

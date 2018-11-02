@@ -101,9 +101,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         Log.d(TAG, "current user: " + mAuth.getCurrentUser());
 
         if (mAuth.getCurrentUser() != null) {
-            // onAuthSuccess(mAuth.getCurrentUser());
+            onAuthSuccess(mAuth.getCurrentUser());
+            /*
             Log.d(TAG, "signing out");
             mAuth.signOut();
+            */
         }
     }
 
