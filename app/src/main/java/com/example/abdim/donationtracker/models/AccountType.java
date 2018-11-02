@@ -1,8 +1,6 @@
 package com.example.abdim.donationtracker.models;
 
-import java.io.Serializable;
-
-public enum AccountType implements Serializable {
+public enum AccountType {
     User("User"),
     Location_Employee("Location Employee"),
     Manager("Manager"),
@@ -13,6 +11,7 @@ public enum AccountType implements Serializable {
     AccountType(String typeName) {
         name = typeName;
     }
+
     public String toString() {
         return name;
     }

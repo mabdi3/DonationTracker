@@ -71,7 +71,6 @@ public class AddItemActivity extends AppCompatActivity {
 
         spinnercate.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, ItemCategories.getItemCategoriesAsList()));
 
-        final Account currentAccount = (Account) getIntent().getExtras().getSerializable("currentAccount");
 
         addbutton.setEnabled(enableAdd());
 
@@ -115,7 +114,6 @@ public class AddItemActivity extends AppCompatActivity {
                         datetime,
                         Double.parseDouble(itemvalue.getText().toString())));
                 intent.putExtra("location", intents.getExtras().getInt("location"));
-                intent.putExtra("currentAccount", currentAccount);
                 startActivity(intent);
                 finish();
             }
@@ -126,7 +124,6 @@ public class AddItemActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(AddItemActivity.this, ItemListActivity.class);
                 intent.putExtra("location", getIntent().getExtras().getSerializable("location"));
-                intent.putExtra("currentAccount", currentAccount);
                 startActivity(intent);
                 finish();
             }

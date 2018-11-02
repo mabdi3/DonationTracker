@@ -10,56 +10,95 @@ import android.util.Log;
 
 import com.example.abdim.donationtracker.R;
 import com.example.abdim.donationtracker.models.Account;
+import com.example.abdim.donationtracker.models.AccountType;
 
-public class LoggedInActivity extends AppCompatActivity {
+import com.example.abdim.donationtracker.R;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
-    private Button toList;
-    private Button logout;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+
+public class LoggedInActivity extends AppCompatActivity implements View.OnClickListener {
+
 
     private static final String TAG = "LocationListActivity";
 
-    private boolean shouldAllowBack = false;
+    private Button btnToList;
+    private Button btnLogout;
+
+    private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logged_in);
 
-        final Account currentAccount = (Account) getIntent().getExtras().getSerializable("currentAccount");
+        btnToList = findViewById(R.id.btnToList);
+        btnLogout = findViewById(R.id.btnLogout);
 
-        toList = findViewById(R.id.btnToList);
-        toList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // add static boolean to track if location list activity is opened for the first time
+        btnToList.setOnClickListener(this);
+        btnLogout.setOnClickListener(this);
 
-                Intent goList = new Intent(LoggedInActivity.this, LocationListActivity.class);
-
-                goList.putExtra("currentAccount", currentAccount);
-
-                startActivity(goList);
-                finish();
-
-            }
-        });
-
-        logout = findViewById(R.id.btnLogout);
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent goList = new Intent(LoggedInActivity.this, MainActivity.class);
-                startActivity(goList);
-                finish();
-
-            }
-        });
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
     @Override
-    public void onBackPressed() {
-        if (shouldAllowBack) {
-            super.onBackPressed();
+    public void onStart() {
+        super.onStart();
+        Log.d(TAG, "current user is " + mAuth.getCurrentUser());
+
+        if (mAuth.getCurrentUser() == null) {
+            startActivity(new Intent(LoggedInActivity.this, HomeActivity.class));
+        } else {
+            String mUid = mAuth.getCurrentUser().getUid();
+
+            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users/" + mUid);
+
+            userRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Log.d(TAG, "yeet" + AccountType.valueOf("Location_Employee"));
+                    Account value = dataSnapshot.getValue(Account.class);
+
+                    Log.d(TAG, "value is " + value);
+                    Log.d(TAG, "type is" + value.getType());
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    Log.d(TAG, "Failed to read value" + error.toException());
+                }
+
+
+            });
+
         }
+
     }
 
+    @Override
+    public void onClick(View v) {
+        int i = v.getId();
+
+        if (i == R.id.btnToList) {
+            startActivity(new Intent(LoggedInActivity.this, LocationListActivity.class));
+        } else if (i == R.id.btnLogout) {
+            startActivity(new Intent(LoggedInActivity.this, HomeActivity.class));
+            mAuth.signOut();
+        }
+        finish();
+    }
 }

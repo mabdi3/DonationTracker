@@ -15,6 +15,7 @@ public class Donation {
         items = new ItemList();
     }
 
+
     public Location getLocation() {
         return location;
     }
