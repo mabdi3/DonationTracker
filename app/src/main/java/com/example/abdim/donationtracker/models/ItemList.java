@@ -2,7 +2,6 @@ package com.example.abdim.donationtracker.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ItemList implements Serializable {
     private ArrayList<Item> itemList;
