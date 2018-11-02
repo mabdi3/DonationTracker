@@ -1,7 +1,6 @@
 package com.example.abdim.donationtracker.controllers;
 
 import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,11 +8,8 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.abdim.donationtracker.R;
-import com.example.abdim.donationtracker.models.Account;
-import com.example.abdim.donationtracker.models.Item;
 import com.example.abdim.donationtracker.models.Location;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -21,13 +17,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import org.w3c.dom.Text;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class LocationInfoActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -65,15 +54,15 @@ public class LocationInfoActivity extends AppCompatActivity implements View.OnCl
         } else {
             locationName = (String) savedInstanceState.getSerializable("locationName");
         }
+
+        setLocationInfo();
     }
 
     private void setLocationKey(String key) {
         locationKey = key;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
+    private void setLocationInfo() {
         DatabaseReference locationsRef = FirebaseDatabase.getInstance().getReference("locations");
 
         Log.d(TAG, "location name is " + locationName);
@@ -121,6 +110,7 @@ public class LocationInfoActivity extends AppCompatActivity implements View.OnCl
             public void onChildMoved(DataSnapshot dataSnapshot, String string) {
             }
         });
+
     }
     @Override
     public void onClick(View v) {

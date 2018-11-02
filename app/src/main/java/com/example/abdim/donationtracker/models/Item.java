@@ -1,13 +1,8 @@
 package com.example.abdim.donationtracker.models;
-
-import android.media.Image;
-
-import java.io.Serializable;
-import java.util.Locale;
 import java.util.Map;
 import java.util.HashMap;
 
-public class Item implements Serializable {
+public class Item {
     private String id;
     private String name;
     private String description;

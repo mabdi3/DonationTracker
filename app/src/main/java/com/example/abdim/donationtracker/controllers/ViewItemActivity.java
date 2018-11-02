@@ -5,38 +5,23 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.abdim.donationtracker.R;
-import com.example.abdim.donationtracker.models.Account;
 import com.example.abdim.donationtracker.models.Item;
-import com.example.abdim.donationtracker.models.Location;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public class ViewItemActivity extends AppCompatActivity implements View.OnClickListener {
 
     private final static String TAG = "ViewItemActivity";
 
     private ListView list;
-//    TextView name;
-//    TextView description;
-//    TextView quantity;
-//    TextView location;
-//    TextView category;
-//    TextView time;
-//    TextView value;
     private Button btnBack;
     private String locationKey;
     private String locationName;
@@ -73,36 +58,14 @@ public class ViewItemActivity extends AppCompatActivity implements View.OnClickL
             locationName = (String) savedInstanceState.getSerializable("locationName");
             itemKey = (String) savedInstanceState.getSerializable("itemKey");
         }
-
-        /*
-        Item receievedItem = (Item) intents.getExtras().getSerializable("item");
-        final List<String> itemPropertiesList = new ArrayList<>(Arrays.asList(
-                "Name: " + receievedItem.getName(),
-                "Description:\n" + receievedItem.getDescription(),
-                "Quantity: " + Integer.toString(receievedItem.getQuantity()),
-                // "Location: " + receievedItem.getLocation().toString(),
-                "Category: " + receievedItem.getCategory().toString(),
-                "Time of Donation: " + receievedItem.getTime(),
-                "Value: " + String.format("$%.2f", receievedItem.getValue())
-                ));
-        */
         itemDetailAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         list.setAdapter(itemDetailAdapter);
 
-
-//        name.setText(receievedItem.getName());
-//        description.setText(receievedItem.getDescription());
-//        quantity.setText((new Integer(receievedItem.getQuantity())).toString());
-//        location.setText(receievedItem.getLocation().toString());
-//        category.setText(receievedItem.getCategory().toString());
-//        time.setText(receievedItem.getTime());
-//        value.setText(String.format("$%.2f", receievedItem.getValue()));
+        setItemInformation();
 
     }
-    @Override
-    public void onStart() {
-        super.onStart();
 
+    private void setItemInformation() {
         itemRef = FirebaseDatabase.getInstance().getReference("items/" + itemKey);
         itemRef.addValueEventListener(new ValueEventListener() {
             @Override

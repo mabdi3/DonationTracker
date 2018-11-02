@@ -1,14 +1,10 @@
 package com.example.abdim.donationtracker.models;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import java.io.Serializable;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
 
-public class Location implements Serializable {
+public class Location {
 
     private int locationId;
     private String name;
