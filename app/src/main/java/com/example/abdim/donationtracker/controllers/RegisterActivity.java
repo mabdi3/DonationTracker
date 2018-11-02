@@ -21,7 +21,6 @@ import android.widget.Toast;
 
 
 import com.example.abdim.donationtracker.R;
-import com.example.abdim.donationtracker.models.RegisteredAccounts;
 import com.example.abdim.donationtracker.models.Account;
 import com.example.abdim.donationtracker.models.AccountType;
 
@@ -41,12 +40,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     private static final String TAG = "RegisterActivity";
 
-    private Button back;
-    private Button register;
     private EditText emailField;
     private EditText passField;
     private EditText confirmPassField;
     private Spinner accountTypeField;
+
+    private Button btnBack;
+    private Button btnRegister;
 
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
@@ -75,12 +75,16 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         emailField = (EditText) findViewById(R.id.new_username);
         passField = (EditText) findViewById(R.id.new_password);
         confirmPassField = (EditText) findViewById(R.id.confirm_password);
-        back = (Button) findViewById(R.id.back_button);
-        register = (Button) findViewById(R.id.register_button);
         accountTypeField = (Spinner) findViewById(R.id.account_type_spinner);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
+
+        btnBack = (Button) findViewById(R.id.back_button);
+        btnRegister = (Button) findViewById(R.id.register_button);
+
+        btnBack.setOnClickListener(this);
+        btnRegister.setOnClickListener(this);
 
         /*
           Set up the adapter to display the allowable AccountTypes in the spinner
@@ -89,11 +93,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 android.R.layout.simple_spinner_item, AccountType.values());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         accountTypeField.setAdapter(adapter);
-
-
-        // click listeners
-        register.setOnClickListener(this);
-
     }
 
     @Override
@@ -148,8 +147,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         // Write new user
         writeNewUser(user.getUid(), username, user.getEmail(), password, accountType);
 
+        // Notify user
+        Toast.makeText(RegisterActivity.this, "Sign Up Successful",
+                Toast.LENGTH_SHORT).show();
         // Go to MainActivity
-        startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+        startActivity(new Intent(RegisterActivity.this, HomeActivity.class));
         finish();
     }
 
@@ -193,7 +195,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         if (i == R.id.register_button) {
             register();
         } else if (i == R.id.back_button) {
-            startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+            startActivity(new Intent(RegisterActivity.this, HomeActivity.class));
             finish();
         }
     }
