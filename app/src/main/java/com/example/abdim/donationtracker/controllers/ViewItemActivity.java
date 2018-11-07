@@ -27,6 +27,8 @@ public class ViewItemActivity extends AppCompatActivity implements View.OnClickL
     private String locationName;
     private String itemKey;
 
+    private boolean backSearchAllLocations;
+
     private DatabaseReference itemRef;
 
     private ArrayAdapter<String> itemDetailAdapter;
@@ -48,15 +50,21 @@ public class ViewItemActivity extends AppCompatActivity implements View.OnClickL
                 locationKey = null;
                 locationName = null;
                 itemKey = null;
+
+                backSearchAllLocations = false;
             } else {
                 locationKey = extras.getString("locationKey");
                 locationName = extras.getString("locationName");
                 itemKey = extras.getString("itemKey");
+
+                backSearchAllLocations = extras.getBoolean("backSearchAllLocations");
             }
         } else {
             locationKey = (String) savedInstanceState.getSerializable("locationKey");
             locationName = (String) savedInstanceState.getSerializable("locationName");
             itemKey = (String) savedInstanceState.getSerializable("itemKey");
+
+            backSearchAllLocations = (Boolean) savedInstanceState.getSerializable("backSearchAllLocations");
         }
         itemDetailAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         list.setAdapter(itemDetailAdapter);
@@ -89,8 +97,15 @@ public class ViewItemActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         int i = v.getId();
+        Log.d(TAG, "backSearchAll" + backSearchAllLocations);
+        if (i == R.id.backButton && backSearchAllLocations) {
 
-        if (i == R.id.backButton) {
+            Intent intent = new Intent(ViewItemActivity.this, LocationListActivity.class);
+            startActivity(intent);
+            finish();
+        } else if (i == R.id.backButton) {
+
+
             Intent intent = new Intent(ViewItemActivity.this, ItemListActivity.class);
 
             intent.putExtra("locationName", locationName);

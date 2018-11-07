@@ -27,6 +27,7 @@ public class LoggedInActivity extends AppCompatActivity implements View.OnClickL
 
     private Button btnToList;
     private Button btnLogout;
+    private Button btnToLocationMap;
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -39,9 +40,11 @@ public class LoggedInActivity extends AppCompatActivity implements View.OnClickL
 
         btnToList = findViewById(R.id.btnToList);
         btnLogout = findViewById(R.id.btnLogout);
+        btnToLocationMap = findViewById(R.id.btnToLocationMap);
 
         btnToList.setOnClickListener(this);
         btnLogout.setOnClickListener(this);
+        btnToLocationMap.setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -87,6 +90,8 @@ public class LoggedInActivity extends AppCompatActivity implements View.OnClickL
 
         if (i == R.id.btnToList) {
             startActivity(new Intent(LoggedInActivity.this, LocationListActivity.class));
+        } else if (i == R.id.btnToLocationMap) {
+            startActivity(new Intent(LoggedInActivity.this, MapsActivity.class));
         } else if (i == R.id.btnLogout) {
             startActivity(new Intent(LoggedInActivity.this, HomeActivity.class));
             mAuth.signOut();
