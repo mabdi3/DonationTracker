@@ -10,6 +10,10 @@ public class ItemCategory {
     public ItemCategory() {
     }
 
+    /**
+     * converts the itemcategory to a string by taking the name
+     * @return the category's name
+     */
     public String toString(){
         return categoryName;
     }

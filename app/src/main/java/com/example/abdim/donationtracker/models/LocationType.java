@@ -14,10 +14,18 @@ public enum LocationType implements Serializable {
         name = typeName;
     }
 
+    /**
+     * @return name of the enumerated LocationType
+     */
     public String toString() {
         return name;
     }
 
+    /**
+     * If it matches, converts and input string into it's corresponding Enum
+     * @param str
+     * @return the locationType if it matches the input string
+     */
     public static LocationType parseLocationType(String str) {
         for (LocationType type : LocationType.values()) {
             if(str.equals(type.toString())) {
