@@ -44,18 +44,34 @@ public class ItemCategories {
         }
     }
 
+    /**
+     * Returns the list of itemcategories as a set
+     * @return The item catergories as a hashset
+     */
     public static Set<ItemCategory> getItemCategoriesAsHashSet() {
         return itemCategoriesAsHashSet;
     }
 
+    /**
+     * Sets a new hashset as the set of all itemcategories
+     * @param itemCategoriesAsHashSet new hashset of categories
+     */
     public static void setItemCategoriesAsHashSet(Set<ItemCategory> itemCategoriesAsHashSet) {
         ItemCategories.itemCategoriesAsHashSet = itemCategoriesAsHashSet;
     }
 
+    /**
+     * Returns the list of itemcategories as an ArrayList
+     * @return The item catergories as an ArrayList
+     */
     public static List<ItemCategory> getItemCategoriesAsList() {
         return itemCategoriesAsList;
     }
 
+    /**
+     * Sets the arraylist variation of the itemcategories
+     * @param itemCategoriesAsList a list of itemcategories
+     */
     public static void setItemCategoriesAsList(List<ItemCategory> itemCategoriesAsList) {
         ItemCategories.itemCategoriesAsList = itemCategoriesAsList;
     }
