@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ArrayAdapter;
 import com.example.abdim.donationtracker.R;
+import com.example.abdim.donationtracker.models.Item;
 import com.example.abdim.donationtracker.models.Location;
 
 import com.google.firebase.database.DataSnapshot;
@@ -18,11 +19,16 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 public class LocationListActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "LocationListActivity";
 
     private ListView locationListView;
     private Button btnBack;
+    private Button invetoryButton;
+    private ArrayList<Location> localList;
+    private ArrayList<Item> allItems;
 
     private ArrayAdapter<Location> locationAdapter;
 
@@ -32,8 +38,9 @@ public class LocationListActivity extends AppCompatActivity implements View.OnCl
 
         locationListView = findViewById(R.id.location_list);
         btnBack = findViewById(R.id.backButton);
-
+        invetoryButton = findViewById(R.id.fullInventoryButton);
         btnBack.setOnClickListener(this);
+        invetoryButton.setOnClickListener(this);
 
         locationAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         locationListView.setAdapter(locationAdapter);
@@ -53,7 +60,6 @@ public class LocationListActivity extends AppCompatActivity implements View.OnCl
                 finish();
             }
         });
-
         setLocations();
     }
 
@@ -66,6 +72,7 @@ public class LocationListActivity extends AppCompatActivity implements View.OnCl
                 for (DataSnapshot locationShot : dataSnapshot.getChildren()) {
                     Location locationValue = locationShot.getValue(Location.class);
                     locationAdapter.add(locationValue);
+                    localList.add(locationValue);
                     Log.d(TAG, "here is location name " + locationValue.getName());
 
                 }
@@ -83,6 +90,15 @@ public class LocationListActivity extends AppCompatActivity implements View.OnCl
 
         if (i == R.id.backButton) {
             startActivity(new Intent(LocationListActivity.this, LoggedInActivity.class));
+            finish();
+        } else if (i == R.id.fullInventoryButton) {
+            startActivity(new Intent(LocationListActivity.this, ItemListActivity.class));
+            for (Location l : localList) {
+                for (Item li : l.getLocationItemList().getItemList()) {
+                    allItems.add(li);
+                }
+            }
+            Location allLocationsLocation = new Location()
             finish();
         }
     }
