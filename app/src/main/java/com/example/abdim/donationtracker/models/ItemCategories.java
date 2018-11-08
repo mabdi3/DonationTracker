@@ -29,10 +29,9 @@ public class ItemCategories {
     ));
 
     /**
-     * Attempts to add a new location to the container. Returns true if added a whole new location.
-     * False otherwise.
-     *
-     *
+     * Attempts to add a new category to the item categories hash set.
+     * @param newCategory the category to add to the hash set
+     * @return true if an item is added, false otherwise
      */
     public static boolean addItemCategory(ItemCategory newCategory) {
         if (itemCategoriesAsHashSet.contains(newCategory)) {

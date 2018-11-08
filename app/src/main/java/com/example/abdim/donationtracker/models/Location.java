@@ -16,10 +16,24 @@ public class Location {
     private String websiteLink;
     private ItemList locationItemList;
 
+    /**
+     * Constructs location object leaving attributes null.
+     */
     public Location() {
         //Default constructor
     }
 
+    /**
+     * Constructs location object.
+     * @param id an integer representing the location's ID
+     * @param name name of the location
+     * @param LocationType enum type of location
+     * @param longitude longitudinal coordinate of the location
+     * @param latitude latitudinal coordinate of the location
+     * @param address string address of the location
+     * @param phoneNumber location's phone number
+     * @param websiteLink link to location's website
+     */
     public Location(int id, String name, LocationType LocationType, double longitude, double latitude, String address, String phoneNumber, String websiteLink) {
         this.locationId = id;
         this.name = name;
@@ -32,6 +46,10 @@ public class Location {
         this.locationItemList = new ItemList();
     }
 
+    /**
+     * Converts attributes of location into a HashMap.
+     * @return HashMap representing the location
+     */
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
 

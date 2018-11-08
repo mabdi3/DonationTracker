@@ -6,6 +6,9 @@ import java.util.ArrayList;
 public class ItemList implements Serializable {
     private ArrayList<Item> itemList;
 
+    /**
+     * Creates ItemList object and assigns to empty ArrayList.
+     */
     public ItemList() {
         itemList = new ArrayList<>();
     }

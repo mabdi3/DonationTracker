@@ -8,6 +8,10 @@ public enum AccountType {
 
     private final String name;
 
+    /**
+     * Creates AccountType object for tracking an account's type.
+     * @param typeName string representation of the AccountType object
+     */
     AccountType(String typeName) {
         name = typeName;
     }
