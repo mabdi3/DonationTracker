@@ -3,16 +3,15 @@ package com.example.abdim.donationtracker.controllers;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.text.Editable;
 import android.widget.TextView;
 import com.example.abdim.donationtracker.R;
-import com.example.abdim.donationtracker.models.Account;
 import com.example.abdim.donationtracker.models.Item;
 import com.example.abdim.donationtracker.models.ItemCategories;
 import com.example.abdim.donationtracker.models.ItemCategory;
@@ -25,28 +24,32 @@ import java.util.Map;
 import java.util.HashMap;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Locale;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
+@SuppressWarnings("ALL")
 public class AddItemActivity extends AppCompatActivity implements View.OnClickListener {
+    private static final String TAG = "AddItemActivity";
+
     private EditText itemname;
     private EditText itemquantity;
     private EditText itemdesc;
     private EditText itemvalue;
-    private TextView addcategory;
     private Spinner spinnercate;
 
     private Button btnAdd;
-    private Button btnBack;
 
     private String locationKey;
     private String locationName;
 
+    private Item newItem;
+
     private DatabaseReference mDatabase;
 
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
@@ -55,11 +58,11 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
         itemquantity = findViewById(R.id.itemquantity);
         itemdesc = findViewById(R.id.itemdesc);
         itemvalue = findViewById(R.id.itemvalue);
-        addcategory = findViewById(R.id.itemaddcategory);
+        TextView addcategory = findViewById(R.id.itemaddcategory);
         spinnercate = findViewById(R.id.spinnercate);
 
         btnAdd = findViewById(R.id.buttonAddItem);
-        btnBack = findViewById(R.id.buttonBack);
+        Button btnBack = findViewById(R.id.buttonBack);
 
         btnAdd.setOnClickListener(this);
         btnBack.setOnClickListener(this);
@@ -88,6 +91,7 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
         itemvalue.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable arg0) {
+
                 double itemValueDouble = itemvalue.getText().toString().equals("") ? 0 : Double.parseDouble(
                         itemvalue.getText().toString());
 
@@ -132,7 +136,7 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
             DatabaseReference pushedItemRef = FirebaseDatabase.getInstance().getReference("items").push();
             String itemId = pushedItemRef.getKey();
 
-            Item newItem = new Item(
+            newItem = new Item(
                     itemId,
                     itemname.getText().toString(),
                     itemdesc.getText().toString(),
@@ -142,9 +146,28 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
                     dateTime,
                     Double.parseDouble(itemvalue.getText().toString())
             );
+            /*
+            ExecutorService executorService = Executors.newSingleThreadExecutor();
+            Future future = executorService.submit(new Runnable() {
+                public void run() {
+                    createLocation(AddItemActivity.this.newItem);
+                }
+            });
+            Object object = null;
+            try {
+                object = future.get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+            if (object != null) {
 
+                Log.d(TAG, "heyo3.0 " + newItem.getLocationName());
+                writeNewItem(newItem);
+            }
+            */
             writeNewItem(newItem);
-
             startActivity(intent);
             finish();
         } else if (i == R.id.buttonBack) {
@@ -155,18 +178,21 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
             finish();
         }
     }
-
+    private void createLocation(Item item) {
+        item.createLocationName(item.getLocationId());
+        Log.d(TAG, "HEEEEY");
+    }
     private boolean enableAdd() {
         boolean valid = false;
 
-        int itemQuantityInt = itemquantity.getText().toString().equals("") ? 0 : Integer.parseInt(
+        int itemQuantityInt = itemvalue.getText().toString().equals("") ? 0 : Integer.parseInt(
                 itemquantity.getText().toString());
         double itemValueDouble = itemvalue.getText().toString().equals("") ? 0 : Double.parseDouble(
                 itemvalue.getText().toString());
-        if (itemname.getText().toString().length() >= 4
-                && itemdesc.getText().toString().length() > 0
-                && itemQuantityInt > 0
-                && itemValueDouble >= 0) {
+        if ((itemname.getText().toString().length() >= 4)
+                && !itemdesc.getText().toString().isEmpty()
+                && (itemQuantityInt > 0)
+                && (itemValueDouble >= 0)) {
             valid = true;
         }
         return valid;

@@ -1,5 +1,8 @@
 package com.example.abdim.donationtracker.models;
 
+/**
+ * Represents an ItemCategory
+ */
 public class ItemCategory {
     String categoryName;
 

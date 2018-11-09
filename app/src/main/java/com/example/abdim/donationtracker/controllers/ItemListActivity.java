@@ -1,6 +1,7 @@
 package com.example.abdim.donationtracker.controllers;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import android.content.Intent;
@@ -17,10 +18,11 @@ import android.widget.Toast;
 
 import com.example.abdim.donationtracker.R;
 import com.example.abdim.donationtracker.models.Account;
+import com.example.abdim.donationtracker.models.AccountType;
 import com.example.abdim.donationtracker.models.Item;
 
-import com.example.abdim.donationtracker.models.Location;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,18 +30,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+@SuppressWarnings("ALL")
 public class ItemListActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "ItemListActivity";
 
-    private ListView itemList;
     private Button btnAdd;
-    private Button btnBack;
 
     private EditText editSearch;
-
-    private Button btnSearchCategory;
-    private Button btnSearchName;
 
     private String locationKey;
     private String locationName;
@@ -50,27 +48,28 @@ public class ItemListActivity extends AppCompatActivity implements View.OnClickL
     private String itemKey;
     private ArrayAdapter<Item> itemAdapter;
 
-    private ArrayList<Item> itemArray = new ArrayList<>();
+    private final Collection<Item> itemArray = new ArrayList<>();
 
-    private ArrayList<String> itemKeyList = new ArrayList<>();
+    private List<String> itemKeyList = new ArrayList<>();
 
     private boolean searchAllLocations;
     // private ArrayList<Item> tempArray;
 
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
 
         mAuth = FirebaseAuth.getInstance();
 
-        itemList = findViewById(R.id.itemList);
+        ListView itemList = findViewById(R.id.itemList);
         btnAdd = findViewById(R.id.addButton);
-        btnBack = findViewById(R.id.backButton);
+        Button btnBack = findViewById(R.id.backButton);
 
         editSearch = findViewById(R.id.editSearch);
 
-        btnSearchCategory = findViewById(R.id.btnSearchCategory);
-        btnSearchName = findViewById(R.id.btnSearchName);
+        Button btnSearchCategory = findViewById(R.id.btnSearchCategory);
+        Button btnSearchName = findViewById(R.id.btnSearchName);
 
         btnAdd.setOnClickListener(this);
         btnBack.setOnClickListener(this);
@@ -83,7 +82,8 @@ public class ItemListActivity extends AppCompatActivity implements View.OnClickL
 
         // get intent information
         if (savedInstanceState == null) {
-            Bundle extras = getIntent().getExtras();
+            Intent intent = getIntent();
+            Bundle extras = intent.getExtras();
             if (extras == null) {
                 locationKey = null;
                 locationName = null;
@@ -96,7 +96,9 @@ public class ItemListActivity extends AppCompatActivity implements View.OnClickL
         } else {
             locationKey = (String) savedInstanceState.getSerializable("locationKey");
             locationName = (String) savedInstanceState.getSerializable("locationName");
-            searchAllLocations = (Boolean) savedInstanceState.getSerializable("searchAllLocations");
+            searchAllLocations = (savedInstanceState.getSerializable("searchAllLocations") ==
+                    null) ? (Boolean) savedInstanceState.getSerializable("searchAllLocations")
+                    : null;
         }
 
 
@@ -138,8 +140,11 @@ public class ItemListActivity extends AppCompatActivity implements View.OnClickL
         if (mAuth.getCurrentUser() == null) {
             startActivity(new Intent(ItemListActivity.this, HomeActivity.class));
         } else {
-            String mUid = mAuth.getCurrentUser().getUid();
-            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users/" + mUid);
+            FirebaseUser mUser = mAuth.getCurrentUser();
+            String mUid = mUser.getUid();
+
+            FirebaseDatabase mInstance = FirebaseDatabase.getInstance();
+            DatabaseReference userRef = mInstance.getReference("users/" + mUid);
 
             userRef.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -147,7 +152,11 @@ public class ItemListActivity extends AppCompatActivity implements View.OnClickL
                     Account value = dataSnapshot.getValue(Account.class);
 
                     Log.d(TAG, "value is " + value);
-                    if (value.getType().toString().equals("Location Employee") && !searchAllLocations) {
+
+                    AccountType valueType = value.getType();
+
+                    String valueTypeString = valueType.toString();
+                    if ("Location Employee".equals(valueTypeString) && !searchAllLocations) {
                         btnAdd.setVisibility(View.VISIBLE);
                     } else {
                         btnAdd.setVisibility(View.INVISIBLE);
@@ -164,7 +173,7 @@ public class ItemListActivity extends AppCompatActivity implements View.OnClickL
     private void searchItems(String searchParam) {
 
         String query = editSearch.getText().toString();
-        List<Item> newList = new ArrayList<>();
+        Collection<Item> newList = new ArrayList<>();
 
         Log.d(TAG, "query " + query);
 
@@ -175,9 +184,12 @@ public class ItemListActivity extends AppCompatActivity implements View.OnClickL
             } else {
                 itemAdapter.clear();
 
-                ArrayList<String> newItemKeyList = new ArrayList<>();
+                List<String> newItemKeyList = new ArrayList<>();
                 for (Item i : itemArray) {
-                    if (i.getName().toString().equals(query)) {
+                    Log.d(TAG, "i " + i.toString());
+                    Log.d(TAG, "query " + query);
+                    if (i.toString().equals(query)) {
+                        Log.d(TAG, "getting in here");
                         newList.add(i);
 
                         newItemKeyList.add(i.getId());
@@ -186,7 +198,7 @@ public class ItemListActivity extends AppCompatActivity implements View.OnClickL
 
 
                 itemKeyList = newItemKeyList;
-                if (newList.size() == 0) {
+                if (newList.isEmpty()) {
                     Toast.makeText(ItemListActivity.this, "Nothing matched query",
                             Toast.LENGTH_SHORT).show();
                 }
@@ -199,7 +211,7 @@ public class ItemListActivity extends AppCompatActivity implements View.OnClickL
             } else {
                 itemAdapter.clear();
 
-                ArrayList<String> newItemKeyList = new ArrayList<>();
+                List<String> newItemKeyList = new ArrayList<>();
 
                 for (Item i : itemArray) {
                     if (i.getCategory().toString().toLowerCase().equals(query)) {
@@ -209,7 +221,7 @@ public class ItemListActivity extends AppCompatActivity implements View.OnClickL
                 }
 
                 itemKeyList = newItemKeyList;
-                if (newList.size() == 0) {
+                if (newList.isEmpty()) {
                     Toast.makeText(ItemListActivity.this, "Nothing matched query",
                             Toast.LENGTH_SHORT).show();
                 }
@@ -296,7 +308,7 @@ public class ItemListActivity extends AppCompatActivity implements View.OnClickL
             intent.putExtra("locationName", locationName);
             startActivity(intent);
             finish();
-        } else if (i == R.id.backButton && !searchAllLocations) {
+        } else if ((i == R.id.backButton) && !searchAllLocations) {
             Intent intent = new Intent(ItemListActivity.this, LocationInfoActivity.class);
 
             intent.putExtra("locationKey", locationKey);
@@ -304,9 +316,9 @@ public class ItemListActivity extends AppCompatActivity implements View.OnClickL
             startActivity(intent);
             finish();
         } else if (i == R.id.btnSearchCategory) {
-            searchItems("category");
+            this.searchItems("category");
         } else if (i == R.id.btnSearchName) {
-            searchItems("name");
+            this.searchItems("name");
         } else if (i == R.id.backButton) {
             startActivity(new Intent(ItemListActivity.this, LocationListActivity.class));
             finish();

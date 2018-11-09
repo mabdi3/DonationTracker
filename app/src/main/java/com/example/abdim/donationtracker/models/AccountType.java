@@ -1,5 +1,8 @@
 package com.example.abdim.donationtracker.models;
 
+/**
+ * Enum of AccountTypes
+ */
 public enum AccountType {
     User("User"),
     Location_Employee("Location Employee"),

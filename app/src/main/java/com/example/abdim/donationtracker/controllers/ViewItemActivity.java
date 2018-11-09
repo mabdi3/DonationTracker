@@ -17,19 +17,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+@SuppressWarnings("ALL")
 public class ViewItemActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private final static String TAG = "ViewItemActivity";
+    private static final String TAG = "ViewItemActivity";
 
-    private ListView list;
-    private Button btnBack;
     private String locationKey;
     private String locationName;
     private String itemKey;
 
     private boolean backSearchAllLocations;
-
-    private DatabaseReference itemRef;
 
     private ArrayAdapter<String> itemDetailAdapter;
 
@@ -38,8 +35,8 @@ public class ViewItemActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_description);
 
-        list = findViewById(R.id.item_properties);
-        btnBack = findViewById(R.id.backButton);
+        ListView list = findViewById(R.id.item_properties);
+        Button btnBack = findViewById(R.id.backButton);
 
         btnBack.setOnClickListener(this);
 
@@ -69,12 +66,12 @@ public class ViewItemActivity extends AppCompatActivity implements View.OnClickL
         itemDetailAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         list.setAdapter(itemDetailAdapter);
 
-        setItemInformation();
+        this.setItemInformation();
 
     }
 
     private void setItemInformation() {
-        itemRef = FirebaseDatabase.getInstance().getReference("items/" + itemKey);
+        DatabaseReference itemRef = FirebaseDatabase.getInstance().getReference("items/" + itemKey);
         itemRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -82,6 +79,7 @@ public class ViewItemActivity extends AppCompatActivity implements View.OnClickL
                 Item item = dataSnapshot.getValue(Item.class);
                 itemDetailAdapter.add("Name: " + item.getName());
                 itemDetailAdapter.add("Description:\n" + item.getDescription());
+                itemDetailAdapter.add("Location Id: " + item.getLocationId());
                 itemDetailAdapter.add("Quantity: " + Integer.toString(item.getQuantity()));
                 itemDetailAdapter.add("Category: " + item.getCategory().toString());
                 itemDetailAdapter.add("Time of Donation: " + item.getTime());
@@ -98,7 +96,7 @@ public class ViewItemActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         int i = v.getId();
         Log.d(TAG, "backSearchAll" + backSearchAllLocations);
-        if (i == R.id.backButton && backSearchAllLocations) {
+        if ((i == R.id.backButton) && backSearchAllLocations) {
 
             Intent intent = new Intent(ViewItemActivity.this, LocationListActivity.class);
             startActivity(intent);

@@ -1,7 +1,10 @@
 package com.example.abdim.donationtracker.models;
 
+/**
+ * Represents an Account object
+ */
 public class Account {
-    public String username;
+    private String username;
     private String email;
     private String pass;
     private AccountType type;
