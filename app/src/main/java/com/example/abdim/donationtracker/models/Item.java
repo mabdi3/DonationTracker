@@ -12,6 +12,9 @@ public class Item {
     private String time;
     private Double value;
 
+    /**
+     * Creates Item object.
+     */
     public Item() {
         // default constructor
     }
