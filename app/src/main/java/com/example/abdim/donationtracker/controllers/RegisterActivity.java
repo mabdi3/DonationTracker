@@ -46,8 +46,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
 
-    private final int USERNAME_MINLENGTH = 4;
-    private final int PASSWORD_MINLENGTH = 4;
+    private final int USERNAME_MIN_LENGTH = 4;
+    private final int PASSWORD_MIN_LENGTH = 4;
 
     /*
      * Check to see if passwords match, if username filled out to enable register button
@@ -55,7 +55,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     /*
     private void enableRegister() {
 
-        boolean isReady = username.getText().toString().length() >= USERNAME_MINLENGTH
+        boolean isReady = username.getText().toString().length() >= USERNAME_MIN_LENGTH
                 && password.getText().toString().length() > 0
                 && confirmPassword.getText().toString().equals(password.getText().toString());
         register.setEnabled(isReady);
@@ -206,8 +206,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         username.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable arg0) {
-                if (!(username.getText().toString().length() >= USERNAME_MINLENGTH)) {
-                    username.setError("Username must be " + USERNAME_MINLENGTH +
+                if (!(username.getText().toString().length() >= USERNAME_MIN_LENGTH)) {
+                    username.setError("Username must be " + USERNAME_MIN_LENGTH +
                             " characters or greater");
                 }
             }
@@ -228,7 +228,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     password.setError("Password must have at least one character");
                 }
                 if (password.getText().toString().length() < 4) {
-                    password.setError("Password must be " + PASSWORD_MINLENGTH
+                    password.setError("Password must be " + PASSWORD_MIN_LENGTH
                         + " characters or greater");
                 }
             }

@@ -1,10 +1,8 @@
 package com.example.abdim.donationtracker.models;
-
 /**
  * Represents a LocationType
  */
-public enum LocationType{
-//    Dropoff-only, Store (drop-off and sales), Warehouse (inventory storage only)
+public enum LocationType  {
     DROPOFFONLY("Dropoff-only"),
     STORE("Store"),
     WAREHOUSE("Warehouse");
