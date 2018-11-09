@@ -65,7 +65,7 @@ public class LoggedInActivity extends AppCompatActivity implements View.OnClickL
             userRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    Log.d(TAG, "yeet" + AccountType.valueOf("Location_Employee"));
+                    Log.d(TAG, AccountType.valueOf("Location_Employee"));
                     Account value = dataSnapshot.getValue(Account.class);
 
                     Log.d(TAG, "value is " + value);

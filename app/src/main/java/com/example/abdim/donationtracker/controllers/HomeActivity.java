@@ -104,7 +104,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         try {
             //open a stream on the raw file
             InputStream is = getResources().openRawResource(R.raw.locationdata);
-            //from here we probably should call a model method and pass the inputstream
+            //from here we probably should call a model method and pass the input stream
             //wrap it in a BufferedReader so that we get the readLine() method
 
             BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));

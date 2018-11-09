@@ -31,7 +31,7 @@ public class Account {
      * Creates an account object, but leaves email empty
      * @param userIn username
      * @param passIn password
-     * @param ut accounttype
+     * @param ut account type
      */
     public Account(String userIn, String passIn, AccountType ut) {
         this(userIn, passIn, ut, "");
@@ -41,7 +41,7 @@ public class Account {
 
     /**
      * Getter for username
-     * @return usename
+     * @return username
      */
     public String getUsername() {
         return username;
@@ -91,7 +91,7 @@ public class Account {
 
     /**
      * Sets password for account
-     * @param pass poassword
+     * @param pass password
      */
     public void setPass(String pass) {
         this.pass = pass;

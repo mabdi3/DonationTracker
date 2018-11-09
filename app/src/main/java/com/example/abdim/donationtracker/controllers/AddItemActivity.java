@@ -32,12 +32,12 @@ import java.util.Calendar;
 import java.util.Locale;
 
 public class AddItemActivity extends AppCompatActivity implements View.OnClickListener {
-    private EditText itemname;
-    private EditText itemquantity;
-    private EditText itemdesc;
-    private EditText itemvalue;
-    private TextView addcategory;
-    private Spinner spinnercate;
+    private EditText itemName;
+    private EditText itemQuantity;
+    private EditText itemDescription;
+    private EditText itemValue;
+    private TextView itemAddCategory;
+    private Spinner spinnerCategory;
 
     private Button btnAdd;
     private Button btnBack;
@@ -51,12 +51,12 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
 
-        itemname = findViewById(R.id.itemname);
-        itemquantity = findViewById(R.id.itemquantity);
-        itemdesc = findViewById(R.id.itemdesc);
-        itemvalue = findViewById(R.id.itemvalue);
-        addcategory = findViewById(R.id.itemaddcategory);
-        spinnercate = findViewById(R.id.spinnercate);
+        itemName = findViewById(R.id.itemName);
+        itemQuantity = findViewById(R.id.itemQuantity);
+        itemDescription = findViewById(R.id.itemDescription);
+        itemValue = findViewById(R.id.itemValue);
+        itemAddCategory = findViewById(R.id.itemAddCategory);
+        spinnerCategory = findViewById(R.id.spinnerCategory);
 
         btnAdd = findViewById(R.id.buttonAddItem);
         btnBack = findViewById(R.id.buttonBack);
@@ -83,16 +83,16 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
             locationName = (String) savedInstanceState.getSerializable("locationName");
         }
 
-        spinnercate.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, ItemCategories.getItemCategoriesAsList()));
+        spinnerCategory.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, ItemCategories.getItemCategoriesAsList()));
 
-        itemvalue.addTextChangedListener(new TextWatcher() {
+        itemValue.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable arg0) {
-                double itemValueDouble = itemvalue.getText().toString().equals("") ? 0 : Double.parseDouble(
-                        itemvalue.getText().toString());
+                double itemValueDouble = itemValue.getText().toString().equals("") ? 0 : Double.parseDouble(
+                        itemValue.getText().toString());
 
                 if (!(itemValueDouble >= 0)) {
-                    itemvalue.setError("Passwords must match");
+                    itemValue.setError("Passwords must match");
                 }
                 btnAdd.setEnabled(enableAdd());
             }
@@ -134,13 +134,13 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
 
             Item newItem = new Item(
                     itemId,
-                    itemname.getText().toString(),
-                    itemdesc.getText().toString(),
-                    Integer.parseInt(itemquantity.getText().toString()),
+                    itemName.getText().toString(),
+                    itemDescription.getText().toString(),
+                    Integer.parseInt(itemQuantity.getText().toString()),
                     locationKey,
-                    new ItemCategory(spinnercate.getSelectedItem().toString()),
+                    new ItemCategory(spinnerCategory.getSelectedItem().toString()),
                     dateTime,
-                    Double.parseDouble(itemvalue.getText().toString())
+                    Double.parseDouble(itemValue.getText().toString())
             );
 
             writeNewItem(newItem);
@@ -159,12 +159,12 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
     private boolean enableAdd() {
         boolean valid = false;
 
-        int itemQuantityInt = itemquantity.getText().toString().equals("") ? 0 : Integer.parseInt(
-                itemquantity.getText().toString());
-        double itemValueDouble = itemvalue.getText().toString().equals("") ? 0 : Double.parseDouble(
-                itemvalue.getText().toString());
-        if (itemname.getText().toString().length() >= 4
-                && itemdesc.getText().toString().length() > 0
+        int itemQuantityInt = itemQuantity.getText().toString().equals("") ? 0 : Integer.parseInt(
+                itemQuantity.getText().toString());
+        double itemValueDouble = itemValue.getText().toString().equals("") ? 0 : Double.parseDouble(
+                itemValue.getText().toString());
+        if (itemName.getText().toString().length() >= 4
+                && itemDescription.getText().toString().length() > 0
                 && itemQuantityInt > 0
                 && itemValueDouble >= 0) {
             valid = true;

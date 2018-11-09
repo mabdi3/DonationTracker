@@ -150,7 +150,7 @@ public class Location {
     }
 
     /**
-     * sets Locationtype
+     * sets Location type
      * @param LocationType enum defining what kind of location this instance is
      */
     public void setLocationType(LocationType LocationType) {
