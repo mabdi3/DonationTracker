@@ -1,13 +1,8 @@
 package com.example.abdim.donationtracker.controllers;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -25,34 +20,34 @@ import com.example.abdim.donationtracker.models.Account;
 import com.example.abdim.donationtracker.models.AccountType;
 
 
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import java.util.Objects;
 
+/**
+ * RegisterActivity
+ */
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "RegisterActivity";
 
     private EditText emailField;
     private EditText passField;
-    private EditText confirmPassField;
     private Spinner accountTypeField;
-
-    private Button btnBack;
-    private Button btnRegister;
 
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
 
-    private final int USERNAME_MINLENGTH = 4;
-    private final int PASSWORD_MINLENGTH = 4;
+    private final int USERNAME_MIN_LENGTH = 4;
+    private final int PASSWORD_MIN_LENGTH = 4;
 
     /*
      * Check to see if passwords match, if username filled out to enable register button
@@ -60,7 +55,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     /*
     private void enableRegister() {
 
-        boolean isReady = username.getText().toString().length() >= USERNAME_MINLENGTH
+        boolean isReady = username.getText().toString().length() >= USERNAME_MIN_LENGTH
                 && password.getText().toString().length() > 0
                 && confirmPassword.getText().toString().equals(password.getText().toString());
         register.setEnabled(isReady);
@@ -72,16 +67,16 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        emailField = (EditText) findViewById(R.id.new_username);
-        passField = (EditText) findViewById(R.id.new_password);
-        confirmPassField = (EditText) findViewById(R.id.confirm_password);
-        accountTypeField = (Spinner) findViewById(R.id.account_type_spinner);
+        emailField = findViewById(R.id.new_username);
+        passField = findViewById(R.id.new_password);
+        EditText confirmPassField = findViewById(R.id.confirm_password);
+        accountTypeField = findViewById(R.id.account_type_spinner);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
 
-        btnBack = (Button) findViewById(R.id.back_button);
-        btnRegister = (Button) findViewById(R.id.register_button);
+        Button btnBack = findViewById(R.id.back_button);
+        Button btnRegister = findViewById(R.id.register_button);
 
         btnBack.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
@@ -89,7 +84,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         /*
           Set up the adapter to display the allowable AccountTypes in the spinner
          */
-        ArrayAdapter<AccountType> adapter = new ArrayAdapter<AccountType>(this,
+        ArrayAdapter<AccountType> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, AccountType.values());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         accountTypeField.setAdapter(adapter);
@@ -132,7 +127,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         Log.d(TAG, "onComplete EXCEPTION " + task.getException().getMessage());
                     }
                     if (task.isSuccessful()) {
-                        onAuthSuccess(task.getResult().getUser());
+                        AuthResult result = Objects.requireNonNull(task).getResult();
+                        onAuthSuccess(Objects.requireNonNull(result).getUser());
                     } else {
                         Toast.makeText(RegisterActivity.this, "Sign Up Failed",
                                 Toast.LENGTH_SHORT).show();
@@ -141,13 +137,15 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         });
     }
 
-    private void onAuthSuccess(FirebaseUser user) {
-        String username = usernameFromEmail(user.getEmail());
+    private void onAuthSuccess(UserInfo user) {
+        String username = usernameFromEmail(Objects.
+                requireNonNull(Objects.requireNonNull(user).getEmail()));
         String password = passField.getText().toString();
         AccountType accountType = (AccountType) accountTypeField.getSelectedItem();
 
         // Write new user
-        writeNewUser(user.getUid(), username, user.getEmail(), password, accountType);
+        String userEmail = Objects.requireNonNull(user).getEmail();
+        writeNewUser(user.getUid(), username, userEmail, password, accountType);
 
         // Notify user
         Toast.makeText(RegisterActivity.this, "Sign Up Successful",
@@ -208,8 +206,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         username.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable arg0) {
-                if (!(username.getText().toString().length() >= USERNAME_MINLENGTH)) {
-                    username.setError("Username must be " + USERNAME_MINLENGTH +
+                if (!(username.getText().toString().length() >= USERNAME_MIN_LENGTH)) {
+                    username.setError("Username must be " + USERNAME_MIN_LENGTH +
                             " characters or greater");
                 }
             }
@@ -230,7 +228,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     password.setError("Password must have at least one character");
                 }
                 if (password.getText().toString().length() < 4) {
-                    password.setError("Password must be " + PASSWORD_MINLENGTH
+                    password.setError("Password must be " + PASSWORD_MIN_LENGTH
                         + " characters or greater");
                 }
             }

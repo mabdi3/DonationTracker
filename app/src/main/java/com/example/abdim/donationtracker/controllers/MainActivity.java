@@ -1,7 +1,5 @@
 package com.example.abdim.donationtracker.controllers;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,16 +14,15 @@ import android.widget.Toast;
 
 import com.example.abdim.donationtracker.R;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 
+@SuppressWarnings("ALL")
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "MainActivity";
@@ -34,8 +31,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText passField;
     private TextView loginInfo;
 
-    private Button btnCancel;
-    private Button btnRegister;
     private Button btnSubmit;
 
     private DatabaseReference mDatabase;
@@ -46,13 +41,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        emailField = (EditText) findViewById(R.id.etUser);
-        passField = (EditText) findViewById(R.id.etPassword);
-        loginInfo = (TextView) findViewById(R.id.textLoginInfo);
+        emailField = findViewById(R.id.etUser);
+        passField = findViewById(R.id.etPassword);
+        loginInfo = findViewById(R.id.textLoginInfo);
 
-        btnCancel = (Button) findViewById(R.id.btnCancel);
-        btnSubmit = (Button) findViewById(R.id.btnSubmit);
-        btnRegister = (Button) findViewById(R.id.btnRegister);
+        Button btnCancel = findViewById(R.id.btnCancel);
+        btnSubmit = findViewById(R.id.btnSubmit);
+        Button btnRegister = findViewById(R.id.btnRegister);
 
         btnCancel.setOnClickListener(this);
         btnSubmit.setOnClickListener(this);
@@ -130,12 +125,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.d(TAG, "getting here");
         int i = v.getId();
 
-        if (i == R.id.btnSubmit) {
-            signIn();
-        } else if (i == R.id.btnCancel) {
-            startActivity(new Intent(MainActivity.this, HomeActivity.class));
-        } else if (i == R.id.btnRegister) {
-            startActivity(new Intent(MainActivity.this, RegisterActivity.class));
+        switch(i) {
+            case R.id.btnSubmit : {
+                signIn();
+            }
+            break;
+            case R.id.btnCancel : {
+                startActivity(new Intent(MainActivity.this, HomeActivity.class));
+            }
+            break;
+            case R.id.btnRegister : {
+                startActivity(new Intent(MainActivity.this, RegisterActivity.class));
+            }
+            break;
+            default : {
+            }
         }
     }
 }

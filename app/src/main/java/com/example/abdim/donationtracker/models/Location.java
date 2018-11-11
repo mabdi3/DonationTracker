@@ -4,6 +4,9 @@ import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
 
+/**
+ * Represents a Location Object
+ */
 public class Location {
 
     private int locationId;
@@ -34,7 +37,9 @@ public class Location {
      * @param phoneNumber location's phone number
      * @param websiteLink link to location's website
      */
-    public Location(int id, String name, LocationType LocationType, double longitude, double latitude, String address, String phoneNumber, String websiteLink) {
+    @SuppressWarnings("ConstructorWithTooManyParameters")
+    public Location(int id, String name, LocationType LocationType, double longitude,
+                    double latitude, String address, String phoneNumber, String websiteLink) {
         this.locationId = id;
         this.name = name;
         this.LocationType = LocationType;
@@ -51,7 +56,7 @@ public class Location {
      * @return HashMap representing the location
      */
     public Map<String, Object> toMap() {
-        HashMap<String, Object> result = new HashMap<>();
+        Map<String, Object> result = new HashMap<>();
 
         result.put("locationId", locationId);
         result.put("name", name);
@@ -150,7 +155,7 @@ public class Location {
     }
 
     /**
-     * sets Locationtype
+     * sets Location type
      * @param LocationType enum defining what kind of location this instance is
      */
     public void setLocationType(LocationType LocationType) {
@@ -215,7 +220,7 @@ public class Location {
 
     /**
      * Adds item to this Location's inventory
-     * @param item
+     * @param item item location
      */
     public void addItem(Item item) {
         locationItemList.addItem(item);
@@ -223,10 +228,14 @@ public class Location {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if ((o == null) || (getClass() != o.getClass())) {
+            return false;
+        }
         Location location = (Location) o;
-        return locationId == location.locationId &&
+        return (locationId == location.locationId) &&
                 Objects.equals(name, location.name);
     }
 
