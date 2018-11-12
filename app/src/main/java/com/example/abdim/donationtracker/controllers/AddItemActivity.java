@@ -58,6 +58,7 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
         itemDescription = findViewById(R.id.itemDescription);
         itemValue = findViewById(R.id.itemValue);
         itemAddCategory = findViewById(R.id.itemAddCategory);
+        spinnerCategory = findViewById(R.id.spinnerCategory);
 
         btnAdd = findViewById(R.id.buttonAddItem);
         Button btnBack = findViewById(R.id.buttonBack);
