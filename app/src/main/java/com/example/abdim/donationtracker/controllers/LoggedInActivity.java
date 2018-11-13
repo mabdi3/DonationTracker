@@ -1,6 +1,7 @@
 package com.example.abdim.donationtracker.controllers;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -20,17 +21,15 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 
+/**
+ * Activity for logged in user
+ */
 public class LoggedInActivity extends AppCompatActivity implements View.OnClickListener {
 
 
     private static final String TAG = "LocationListActivity";
 
-    private Button btnToList;
-    private Button btnLogout;
-    private Button btnToLocationMap;
-
     private FirebaseAuth mAuth;
-    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,16 +37,16 @@ public class LoggedInActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logged_in);
 
-        btnToList = findViewById(R.id.btnToList);
-        btnLogout = findViewById(R.id.btnLogout);
-        btnToLocationMap = findViewById(R.id.btnToLocationMap);
+        Button btnToList = findViewById(R.id.btnToList);
+        Button btnLogout = findViewById(R.id.btnLogout);
+        Button btnToLocationMap = findViewById(R.id.btnToLocationMap);
 
         btnToList.setOnClickListener(this);
         btnLogout.setOnClickListener(this);
         btnToLocationMap.setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
     @Override
@@ -60,20 +59,19 @@ public class LoggedInActivity extends AppCompatActivity implements View.OnClickL
         } else {
             String mUid = mAuth.getCurrentUser().getUid();
 
-            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users/" + mUid);
+            DatabaseReference userRef = FirebaseDatabase.getInstance().
+                    getReference("users/" + mUid);
 
             userRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    Log.d(TAG, "yeet" + AccountType.valueOf("Location_Employee"));
                     Account value = dataSnapshot.getValue(Account.class);
 
                     Log.d(TAG, "value is " + value);
-                    Log.d(TAG, "type is" + value.getType());
                 }
 
                 @Override
-                public void onCancelled(DatabaseError error) {
+                public void onCancelled(@NonNull DatabaseError error) {
                     Log.d(TAG, "Failed to read value" + error.toException());
                 }
 
@@ -88,14 +86,25 @@ public class LoggedInActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         int i = v.getId();
 
-        if (i == R.id.btnToList) {
-            startActivity(new Intent(LoggedInActivity.this, LocationListActivity.class));
-        } else if (i == R.id.btnToLocationMap) {
-            startActivity(new Intent(LoggedInActivity.this, MapsActivity.class));
-        } else if (i == R.id.btnLogout) {
-            startActivity(new Intent(LoggedInActivity.this, HomeActivity.class));
-            mAuth.signOut();
+        switch(i) {
+            case R.id.btnToList : {
+                startActivity(new Intent(LoggedInActivity.this, LocationListActivity.class));
+                finish();
+            }
+            break;
+            case R.id.btnToLocationMap : {
+                startActivity(new Intent(LoggedInActivity.this, MapsActivity.class));
+                finish();
+            }
+            break;
+            case R.id.btnLogout : {
+                startActivity(new Intent(LoggedInActivity.this, HomeActivity.class));
+                mAuth.signOut();
+                finish();
+            }
+            break;
+            default : {
+            }
         }
-        finish();
     }
 }

@@ -1,8 +1,12 @@
 package com.example.abdim.donationtracker.controllers;
 
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.example.abdim.donationtracker.R;
 import com.example.abdim.donationtracker.models.Location;
@@ -18,13 +22,20 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.Locale;
+import java.util.Objects;
 
+/**
+ * MapsActivity
+ */
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
 
     private static final String TAG = "MapsActivity";
+
+    private static final double LAT = 33.749007;
+    private static final double LONG = -84.387632;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +62,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-//        LatLng sydney = new LatLng(-34, 151);
-//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        //        LatLng sydney = new LatLng(-34, 151);
+        //        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        //        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
-        LatLng atlanta = new LatLng(33.749007, -84.387632);
-        //Create a float variable called zoom and set the variable to your desired initial zoom level. The following list gives you an idea of what level of detail each level of zoom shows:
+        LatLng atlanta = new LatLng(LAT, LONG);
+        // Create a float variable called zoom and set the variable to your desired
+        // initial zoom level. The following list gives you an idea of what level of detail
+        // each level of zoom shows:
         //1: World
         //5: Landmass/continent
         //10: City
@@ -67,22 +80,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         DatabaseReference locationsRef = FirebaseDatabase.getInstance().getReference("locations");
         locationsRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot locationShot : dataSnapshot.getChildren()) {
                     Location location = locationShot.getValue(Location.class);
 
+                    double latitude = Objects.requireNonNull(location).getLatitude();
+                    double longitude = Objects.requireNonNull(location).getLongitude();
                     // do something with the location
                     mMap.addMarker(new MarkerOptions()
-                            .position(new LatLng(location.getLatitude(), location.getLongitude()))
-                            .title(location.getName())
+                            .position(new LatLng(latitude, longitude))
+                            .title(Objects.requireNonNull(location).getName())
                             .snippet("Phone: " + location.getPhoneNumber()));
                 }
             }
             @Override
-            public void onCancelled(DatabaseError error) {
+            public void onCancelled(@NonNull DatabaseError error) {
                 Log.d(TAG, "Failed to read value" + error.toException());
             }
         });
+    }
+
+    @Override
+    public void onBackPressed()  {
+        startActivity(new Intent(MapsActivity.this, LoggedInActivity.class));
+        finish();
     }
 
 }

@@ -1,6 +1,7 @@
 package com.example.abdim.donationtracker.controllers;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -18,22 +19,24 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import com.google.firebase.database.ValueEventListener;
 
+/**
+ * Activity for Location List Activity
+ */
 public class LocationListActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "LocationListActivity";
 
     private ListView locationListView;
-    private Button btnBack;
-    private Button btnSearchAll;
 
     private ArrayAdapter<Location> locationAdapter;
 
+    @Override
     protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.activity_location_list);
 
         locationListView = findViewById(R.id.location_list);
-        btnBack = findViewById(R.id.backButton);
-        btnSearchAll = findViewById(R.id.searchAllButton);
+        Button btnBack = findViewById(R.id.backButton);
+        Button btnSearchAll = findViewById(R.id.searchAllButton);
 
 
         btnBack.setOnClickListener(this);
@@ -66,16 +69,14 @@ public class LocationListActivity extends AppCompatActivity implements View.OnCl
 
         locationsRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot locationShot : dataSnapshot.getChildren()) {
                     Location locationValue = locationShot.getValue(Location.class);
                     locationAdapter.add(locationValue);
-                    Log.d(TAG, "here is location name " + locationValue.getName());
-
                 }
             }
             @Override
-            public void onCancelled(DatabaseError error) {
+            public void onCancelled(@NonNull DatabaseError error) {
                 Log.d(TAG, "Failed to read value" + error.toException());
             }
         });

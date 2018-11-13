@@ -1,9 +1,8 @@
 package com.example.abdim.donationtracker.models;
-
-import java.io.Serializable;
-
-public enum LocationType implements Serializable {
-//    Dropoff-only, Store (drop-off and sales), Warehouse (inventory storage only)
+/**
+ * Represents a LocationType
+ */
+public enum LocationType  {
     DROPOFFONLY("Dropoff-only"),
     STORE("Store"),
     WAREHOUSE("Warehouse");

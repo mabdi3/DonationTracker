@@ -23,14 +23,12 @@ import java.util.HashMap;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+/**
+ * Activity for home page
+ */
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "HomeActivity";
-
-    private TextView welcome;
-
-    private Button btnLogin;
-    private Button btnRegister;
 
     private DatabaseReference mDatabase;
 
@@ -40,12 +38,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_home);
-        welcome = findViewById(R.id.textWelcome);
+        TextView welcome = findViewById(R.id.textWelcome);
         welcome.setText("Welcome to Donation Tracker");
 
 
-        btnLogin = findViewById(R.id.btnLogin);
-        btnRegister = findViewById(R.id.btnRegister);
+        Button btnLogin = findViewById(R.id.btnLogin);
+        Button btnRegister = findViewById(R.id.btnRegister);
 
         btnLogin.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
@@ -104,10 +102,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         try {
             //open a stream on the raw file
             InputStream is = getResources().openRawResource(R.raw.locationdata);
-            //from here we probably should call a model method and pass the inputstream
             //wrap it in a BufferedReader so that we get the readLine() method
 
-            BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
+            BufferedReader br = new BufferedReader(
+                    new InputStreamReader(is, StandardCharsets.UTF_8));
 
             String line;
             br.readLine();
@@ -124,9 +122,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                                 tokens[7],
                         tokens[9],
                         tokens[10]);
-                if (tokens[8].equals("Store")) {
+                if ("Store".equals(tokens[8])) {
                     newLocal.setLocationType(LocationType.STORE);
-                } else if (tokens[8].equals("Warehouse")) {
+                } else if ("Warehouse".equals(tokens[8])) {
                     newLocal.setLocationType(LocationType.WAREHOUSE);
                 }
 

@@ -18,12 +18,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+@SuppressWarnings("ALL")
 public class LocationInfoActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "LocationInfoActivity";
-    private Button btnToItemList;
-    private Button btnBack;
-    private ListView locationInfoListView;
     private String locationName;
     private String locationKey;
     private ArrayAdapter<String> locationAdapter;
@@ -34,12 +32,12 @@ public class LocationInfoActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location_info);
 
-        locationInfoListView = findViewById(R.id.locationInfoList);
+        ListView locationInfoListView = findViewById(R.id.locationInfoList);
         locationAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         locationInfoListView.setAdapter(locationAdapter);
 
-        btnToItemList = findViewById(R.id.lookAtInventoryButton);
-        btnBack = findViewById(R.id.backButton);
+        Button btnToItemList = findViewById(R.id.lookAtInventoryButton);
+        Button btnBack = findViewById(R.id.backButton);
         btnToItemList.setOnClickListener(this);
         btnBack.setOnClickListener(this);
 
@@ -82,7 +80,6 @@ public class LocationInfoActivity extends AppCompatActivity implements View.OnCl
                         Location locationValue = dataSnapshot.getValue(Location.class);
                         Log.d(TAG, "locationName " + locationName);
 
-                        locationAdapter.add("Name: " + locationValue.getName());
                         locationAdapter.add("Location Type: " + locationValue.getLocationType().toString());
                         locationAdapter.add("Latitude, Longitude: " +
                                 Double.toString(locationValue.getLatitude()) + ", " + Double.toString(locationValue.getLongitude()));
