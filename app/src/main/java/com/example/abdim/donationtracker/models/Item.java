@@ -1,5 +1,4 @@
 package com.example.abdim.donationtracker.models;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.firebase.database.ChildEventListener;
@@ -7,11 +6,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.Map;
 import java.util.HashMap;
-import java.util.UUID;
 
 /**
  * Class that represents an Item object
@@ -230,12 +227,20 @@ public class Item {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
                         Log.d(TAG, "hanging out over here");
-
-                        Log.d(TAG, "locationName is " + dataSnapshot.getValue(Location.class).getName());
-                        String locationName = dataSnapshot.getValue(Location.class).getName();
-                        Log.d(TAG, "heyo " + Item.this.getName());
+                        try {
+                            Log.d(TAG, "locationName is " + dataSnapshot.getValue(Location.class).getName());
+                        } catch (NullPointerException e) {
+                            Log.d(TAG, "locationName is null");
+                        }
+                        try {
+                            String locationName = dataSnapshot.getValue(Location.class).getName();
+                        } catch (NullPointerException e) {
+                            Log.d(TAG, "locationName is null");
+                            locationName = null;
+                        }
+                        Log.d(TAG, "hey " + Item.this.getName());
                         Item.this.setLocationName(locationName);
-                        Log.d(TAG, "heyo2.0" + Item.this.getLocationName());
+                        Log.d(TAG, "hey 2.0" + Item.this.getLocationName());
                     }
                     @Override
                     public void onChildRemoved(DataSnapshot dataSnapshot) {

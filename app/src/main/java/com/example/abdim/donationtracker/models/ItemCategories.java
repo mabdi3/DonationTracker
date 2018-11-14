@@ -14,7 +14,7 @@ import java.util.Set;
 @SuppressWarnings("UtilityClass")
 public class ItemCategories {
     // use this hashset to do O(1) contains
-    private static Set<ItemCategory> itemCategoriesAsHashSet = new HashSet<ItemCategory>(Arrays.asList(
+    private static Set<ItemCategory> itemCategoriesAsHashSet = new HashSet<>(Arrays.asList(
             new ItemCategory("Clothing"),
             new ItemCategory("Hat"),
             new ItemCategory("Kitchen"),

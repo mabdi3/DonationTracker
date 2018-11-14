@@ -11,7 +11,6 @@ import android.util.Log;
 
 import com.example.abdim.donationtracker.R;
 import com.example.abdim.donationtracker.models.Account;
-import com.example.abdim.donationtracker.models.AccountType;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
