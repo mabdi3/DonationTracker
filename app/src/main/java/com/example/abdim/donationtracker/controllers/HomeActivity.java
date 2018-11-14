@@ -109,7 +109,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
             String line;
             br.readLine();
-            while((line = br.readLine()) != null) {
+            line = br.readLine();
+            while(line != null) {
                 Log.d(HomeActivity.TAG, line);
                 String[] tokens = line.split(",");
                 Location newLocal = new Location(Integer.parseInt(tokens[0]),
@@ -129,6 +130,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
                 writeNewLocation(newLocal);
+                line = br.readLine();
             }
             br.close();
         } catch (IOException e) {
