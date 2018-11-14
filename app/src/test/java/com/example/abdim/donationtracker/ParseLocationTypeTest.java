@@ -20,4 +20,9 @@ public class ParseLocationTypeTest {
         String locationType = "DROPOFF";
         assertNotEquals(LocationType.DROPOFFONLY, LocationType.parseLocationType(locationType));
     }
+    @Test
+    public void parseLocationNull() {
+        String locationType = null;
+        assertEquals(null, LocationType.parseLocationType(locationType));
+    }
 }
