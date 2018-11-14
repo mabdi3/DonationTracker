@@ -224,14 +224,17 @@ public class Item {
     public void createLocationName(String locationId) {
         Log.d(TAG, "getting in here");
         Log.d(TAG, "locationId " + locationId);
-        DatabaseReference locationsRef = FirebaseDatabase.getInstance().getReference("locations");
-        locationsRef.orderByChild("locationId").equalTo(Integer.parseInt(locationId)).addChildEventListener(
+        DatabaseReference locationsRef = FirebaseDatabase.getInstance().getReference(
+                "locations");
+        locationsRef.orderByChild("locationId").equalTo(
+                Integer.parseInt(locationId)).addChildEventListener(
                 new ChildEventListener() {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
                         Log.d(TAG, "hanging out over here");
 
-                        Log.d(TAG, "locationName is " + dataSnapshot.getValue(Location.class).getName());
+                        Log.d(TAG, "locationName is " + dataSnapshot.getValue(
+                                Location.class).getName());
                         String locationName = dataSnapshot.getValue(Location.class).getName();
                         Log.d(TAG, "heyo " + Item.this.getName());
                         Item.this.setLocationName(locationName);

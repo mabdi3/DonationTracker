@@ -14,7 +14,7 @@ import java.util.Set;
 @SuppressWarnings("UtilityClass")
 public class ItemCategories {
     // use this hashset to do O(1) contains
-    private static Set<ItemCategory> itemCategoriesAsHashSet = new HashSet<ItemCategory>(Arrays.asList(
+    private static Set<ItemCategory> itemCategoriesAsHashSet = new HashSet<>(Arrays.asList(
             new ItemCategory("Clothing"),
             new ItemCategory("Hat"),
             new ItemCategory("Kitchen"),
@@ -23,7 +23,10 @@ public class ItemCategories {
             new ItemCategory("Other")
     ));
 
-    // use this because a lot of views need a list, so instead of always converting from hashset to arraylist, just keep an arraylist handy
+    /*
+    use this because a lot of views need a list, so instead of always converting f
+    from hashSet to arrayList, just keep an arrayList handy
+    */
     private static List<ItemCategory> itemCategoriesAsList = new ArrayList<>(Arrays.asList(
             new ItemCategory("Clothing"),
             new ItemCategory("Hat"),
@@ -32,6 +35,16 @@ public class ItemCategories {
             new ItemCategory("Household"),
             new ItemCategory("Other")
     ));
+
+    /**
+     * Attempts to add a new location to the container. Returns true if added a whole new location.
+     * False otherwise.
+     *
+     *
+     */
+    public static boolean addItemCategory() {
+        return addItemCategory();
+    }
 
     /**
      * Attempts to add a new location to the container. Returns true if added a whole new location.
