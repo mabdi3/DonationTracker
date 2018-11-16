@@ -11,8 +11,8 @@ import android.util.Log;
 
 import com.example.abdim.donationtracker.R;
 import com.example.abdim.donationtracker.models.Account;
-import com.example.abdim.donationtracker.models.AccountType;
 
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.auth.FirebaseAuth;
@@ -46,7 +46,6 @@ public class LoggedInActivity extends AppCompatActivity implements View.OnClickL
         btnToLocationMap.setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
     @Override
@@ -57,14 +56,15 @@ public class LoggedInActivity extends AppCompatActivity implements View.OnClickL
         if (mAuth.getCurrentUser() == null) {
             startActivity(new Intent(LoggedInActivity.this, HomeActivity.class));
         } else {
-            String mUid = mAuth.getCurrentUser().getUid();
+            FirebaseUser mUser = mAuth.getCurrentUser();
+            String mUid = mUser.getUid();
 
-            DatabaseReference userRef = FirebaseDatabase.getInstance().
-                    getReference("users/" + mUid);
+            FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+            DatabaseReference userRef = mDatabase.getReference("users/" + mUid);
 
             userRef.addValueEventListener(new ValueEventListener() {
                 @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     Account value = dataSnapshot.getValue(Account.class);
 
                     Log.d(TAG, "value is " + value);

@@ -1,12 +1,10 @@
 package com.example.abdim.donationtracker.controllers;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 
 import com.example.abdim.donationtracker.R;
 import com.example.abdim.donationtracker.models.Location;
@@ -77,7 +75,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //20: Buildings
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(atlanta, 10));
 
-        DatabaseReference locationsRef = FirebaseDatabase.getInstance().getReference("locations");
+        FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference locationsRef = mDatabase.getReference("locations");
         locationsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -98,12 +97,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Log.d(TAG, "Failed to read value" + error.toException());
             }
         });
-    }
 
+
+    }
     @Override
     public void onBackPressed()  {
         startActivity(new Intent(MapsActivity.this, LoggedInActivity.class));
         finish();
     }
+
 
 }

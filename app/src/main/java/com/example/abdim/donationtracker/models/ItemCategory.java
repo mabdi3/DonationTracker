@@ -6,7 +6,13 @@ import java.util.Objects;
  * Represents an ItemCategory
  */
 public class ItemCategory {
-    String categoryName;
+    private String categoryName;
+
+    /**
+     * Default constructor
+     */
+    public ItemCategory() {
+    }
 
     /**
      * Constructs ItemCategory object.
@@ -17,9 +23,11 @@ public class ItemCategory {
     }
 
     /**
-     * Constructs ItemCategory object, leaving categoryNam as null.
+     * Getter for categoryName
+     * @return categoryName
      */
-    public ItemCategory() {
+    public String getCategoryName() {
+        return categoryName;
     }
 
     /**

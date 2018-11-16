@@ -3,7 +3,7 @@ package com.example.abdim.donationtracker.models;
  * Represents a LocationType
  */
 public enum LocationType  {
-    DROPOFFONLY("Dropoff-only"),
+    DROPOFFONLY("DropOff-only"),
     STORE("Store"),
     WAREHOUSE("Warehouse");
 
@@ -24,17 +24,4 @@ public enum LocationType  {
         return name;
     }
 
-    /**
-     * If it matches, converts and input string into it's corresponding Enum
-     * @param str the string to look for in LocationType.values()
-     * @return the locationType if it matches the input string
-     */
-    public static LocationType parseLocationType(String str) {
-        for (LocationType type : LocationType.values()) {
-            if(str.equals(type.toString())) {
-                return type;
-            }
-        }
-        return null;
-    }
 }

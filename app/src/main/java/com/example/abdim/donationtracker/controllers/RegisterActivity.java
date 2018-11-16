@@ -3,6 +3,7 @@ package com.example.abdim.donationtracker.controllers;
 import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -46,9 +47,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
 
-    private final int USERNAME_MIN_LENGTH = 4;
-    private final int PASSWORD_MIN_LENGTH = 4;
-
     /*
      * Check to see if passwords match, if username filled out to enable register button
      */
@@ -69,10 +67,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         emailField = findViewById(R.id.new_username);
         passField = findViewById(R.id.new_password);
-        EditText confirmPassField = findViewById(R.id.confirm_password);
+        // EditText confirmPassField = findViewById(R.id.confirm_password);
         accountTypeField = findViewById(R.id.account_type_spinner);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        FirebaseDatabase mDatabaseInstance = FirebaseDatabase.getInstance();
+        mDatabase = mDatabaseInstance.getReference();
         mAuth = FirebaseAuth.getInstance();
 
         Button btnBack = findViewById(R.id.back_button);
@@ -111,21 +110,22 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             return;
         }
 
-        String username = emailField.getText().toString();
-        String password = passField.getText().toString();
+        Editable userNameEditText = emailField.getText();
+        Editable passFieldEditText = passField.getText();
+        String username = userNameEditText.toString();
+        String password = passFieldEditText.toString();
 
         Log.d(TAG, "username: " + username);
         Log.d(TAG, "password: " + password);
-
         mAuth.createUserWithEmailAndPassword(username, password)
             .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     Log.d(TAG, "createUser:onComplete: " + task.isSuccessful());
                     // Log.d(TAG, "onComplete" + task.getException().getMessage());
-                    if (task.getException() != null) {
-                        Log.d(TAG, "onComplete EXCEPTION " + task.getException().getMessage());
-                    }
+//                    if (task.getException() != null) {
+//                        Log.d(TAG, "onComplete EXCEPTION " + task.getException().getMessage());
+//                    }
                     if (task.isSuccessful()) {
                         AuthResult result = Objects.requireNonNull(task).getResult();
                         onAuthSuccess(Objects.requireNonNull(result).getUser());
@@ -159,7 +159,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                               AccountType accountType) {
 
         Account account = new Account(username, pass, accountType, email);
-        mDatabase.child("users").child(userId).setValue(account);
+        DatabaseReference childRef = mDatabase.child("users");
+        childRef.child(userId).setValue(account);
     }
 
     private String usernameFromEmail(String email) {
@@ -186,6 +187,39 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             passField.setError(null);
         }
         return valid;
+    }
+
+    /**
+     * Checks if a given String called username and another String password are
+     * correct. Such criteria is that username must be an email address and password must be
+     * at least of length MIN_PASS_LENGTH as defined in the beginning of this class.
+     *
+     * @param username username to check
+     * @param password password to check
+     * @return true if both username and password are valid
+     */
+    public boolean usernameAndPassIsValid(CharSequence username, CharSequence password) {
+        if ((username == null) || (password == null)) {
+            return false;
+        }
+
+        boolean hasAtAndDot = false;
+        //check if username is in format xyz@gmail.com
+        for (int i = 0; i < username.length(); i++) {
+            if (username.charAt(i) == '@') {
+                for (int j = i + 1; j < username.length(); j++) {
+                    if (username.charAt(j) == '.') {
+                        hasAtAndDot = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        //check if password is of at least length MIN_PASS_LENGTH
+
+        int MIN_PASS_LENGTH = 6;
+        return (password.length() >= MIN_PASS_LENGTH) && (hasAtAndDot);
     }
 
     @Override
