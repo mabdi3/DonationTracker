@@ -96,12 +96,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Log.d(TAG, "Failed to read value" + error.toException());
             }
         });
-    }
 
+
+    }
     @Override
     public void onBackPressed()  {
         startActivity(new Intent(MapsActivity.this, LoggedInActivity.class));
         finish();
     }
+
 
 }
