@@ -45,7 +45,7 @@ public class LoggedInActivity extends AppCompatActivity implements View.OnClickL
         btnToLocationMap.setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        FirebaseDatabase.getInstance().getReference();
     }
 
     @Override
