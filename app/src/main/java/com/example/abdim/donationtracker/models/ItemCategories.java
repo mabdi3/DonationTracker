@@ -1,32 +1,29 @@
 package com.example.abdim.donationtracker.models;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Represents ItemCategories
  */
-@SuppressWarnings("UtilityClass")
+//@SuppressWarnings("UtilityClass")
 public class ItemCategories {
-    private static Set<ItemCategory> itemCategoriesAsHashSet = new HashSet<>(Arrays.asList(
-            new ItemCategory("Clothing"),
-            new ItemCategory("Hat"),
-            new ItemCategory("Kitchen"),
-            new ItemCategory("Electronics"),
-            new ItemCategory("Household"),
-            new ItemCategory("Other")
-    ));
+//    private static final Set<ItemCategory> itemCategoriesAsHashSet = new HashSet<>(Arrays.asList(
+//            new ItemCategory("Clothing"),
+//            new ItemCategory("Hat"),
+//            new ItemCategory("Kitchen"),
+//            new ItemCategory("Electronics"),
+//            new ItemCategory("Household"),
+//            new ItemCategory("Other")
+//    ));
 
     /*
     use this because a lot of views need a list, so instead of always converting f
     from hashSet to arrayList, just keep an arrayList handy
     */
-    private static List<ItemCategory> itemCategoriesAsList = new ArrayList<>(Arrays.asList(
+    private static final List<ItemCategory> itemCategoriesAsList = new ArrayList<>(Arrays.asList(
             new ItemCategory("Clothing"),
             new ItemCategory("Hat"),
             new ItemCategory("Kitchen"),
@@ -35,8 +32,12 @@ public class ItemCategories {
             new ItemCategory("Other")
     ));
 
+    /**
+     * Getter for itemCategoriesList
+     * @return list of itemCategories
+     */
     public static List<ItemCategory> getItemCategoriesAsList() {
-        return itemCategoriesAsList;
+        return Collections.unmodifiableList(itemCategoriesAsList);
     }
 
 }

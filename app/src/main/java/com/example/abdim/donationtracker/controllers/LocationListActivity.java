@@ -52,7 +52,8 @@ public class LocationListActivity extends AppCompatActivity implements View.OnCl
                 Intent locationInfoIntent = new Intent(
                         LocationListActivity.this, LocationInfoActivity.class);
 
-                String locationName = locationListView.getItemAtPosition(position).toString();
+                Object itemAtPosition = locationListView.getItemAtPosition(position);
+                String locationName = itemAtPosition.toString();
                 Log.d(TAG, locationName);
 
                 locationInfoIntent.putExtra("locationName", locationName);
@@ -65,7 +66,8 @@ public class LocationListActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void setLocations() {
-        DatabaseReference locationsRef = FirebaseDatabase.getInstance().getReference("locations");
+        FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference locationsRef = mDatabase.getReference("locations");
 
         locationsRef.addValueEventListener(new ValueEventListener() {
             @Override

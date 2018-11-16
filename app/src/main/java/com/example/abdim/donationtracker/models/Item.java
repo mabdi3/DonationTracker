@@ -1,11 +1,4 @@
 package com.example.abdim.donationtracker.models;
-import android.util.Log;
-
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -14,13 +7,12 @@ import java.util.HashMap;
  * Class that represents an Item object
  */
 public class Item {
-    private static final String TAG = "ItemModel";
+    // private static final String TAG = "ItemModel";
     private String id;
     private String name;
     private String description;
     private int quantity;
     private String locationId;
-    private String locationName;
     private ItemCategory category;
     private String time;
     private Double value;
@@ -54,7 +46,6 @@ public class Item {
         this.category = category;
         this.time = time;
         this.value = value;
-        // this.locationName = null;
     }
 
     /**
@@ -131,11 +122,11 @@ public class Item {
         return category;
     }
 
-    /**
-     * Item location name getter
-     * @return location name of item
-     */
-    public String getLocationName() { return locationName; }
+//    /**
+//     * Item location name getter
+//     * @return location name of item
+//     */
+//    public String getLocationName() { return locationName; }
     /**
      * Time of item donation getter
      * @return item donation time
@@ -146,55 +137,48 @@ public class Item {
 
     // setters
 
-    /**
-     * setter for location name
-     * @param locationName location name
-     */
-    public void setLocationName(String locationName) {
-        this.locationName = locationName;
-    }
-    /**
-     * create & set location name
-     * @param locationId locationId
-     */
-    public void createLocationName(String locationId) {
-        Log.d(TAG, "getting in here");
-        Log.d(TAG, "locationId " + locationId);
-        DatabaseReference locationsRef = FirebaseDatabase.getInstance().getReference(
-                "locations");
-        locationsRef.orderByChild("locationId").equalTo(
-                Integer.parseInt(locationId)).addChildEventListener(
-                new ChildEventListener() {
-                    @Override
-                    public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-                        String locationName = dataSnapshot.getValue(Location.class).getName();
-                        try {
-                            Log.d(TAG, "locationName is " + dataSnapshot.getValue(
-                                    Location.class).getName());
-                        } catch (NullPointerException e) {
-                            Log.d(TAG, "locationName is null");
-                        }
-                        Item.this.setLocationName(locationName);
-                    }
-                    @Override
-                    public void onChildRemoved(DataSnapshot dataSnapshot) {
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                    }
-                    @Override
-                    public void onChildChanged(DataSnapshot dataSnapshot, String string) {
-                    }
-                    @Override
-                    public void onChildMoved(DataSnapshot dataSnapshot, String string) {
-                    }
-                }
-        );
-    }
-
-
-    // toString
-
+//    /**
+//     * setter for location name
+//     * @param locationName location name
+//     */
+//    private void setLocationName(String locationName) {
+//        String locationName1 = locationName;
+//    }
+//    /**
+//     * create & set location name
+//     * @param locationId locationId
+//     */
+//    public void createLocationName(String locationId) {
+//        Log.d(TAG, "getting in here");
+//        Log.d(TAG, "locationId " + locationId);
+//        DatabaseReference locationsRef = FirebaseDatabase.getInstance().getReference(
+//                "locations");
+//        locationsRef.orderByChild("locationId").equalTo(
+//                Integer.parseInt(locationId)).addChildEventListener(
+//                new ChildEventListener() {
+//                    @Override
+//                    public void onChildAdded(
+//                      @NonNull DataSnapshot dataSnapshot, String prevChildKey) {
+//                        String locationName = Objects.
+//                          requireNonNull(dataSnapshot.getValue(Location.class)).getName();
+//                        Item.this.setLocationName(locationName);
+//                    }
+//                    @Override
+//                    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+//                    }
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError databaseError) {
+//                    }
+//                    @Override
+//                    public void onChildChanged(
+//                      @NonNull DataSnapshot dataSnapshot, String string) {
+//                    }
+//                    @Override
+//                    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, String string) {
+//                    }
+//                }
+//        );
+//    }
     /**
      * Item toString
      * @return item's String representation

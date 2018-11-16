@@ -3,35 +3,22 @@ package com.example.abdim.donationtracker.controllers;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.abdim.donationtracker.R;
-import com.example.abdim.donationtracker.models.Location;
-import com.example.abdim.donationtracker.models.LocationType;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.Map;
-import java.util.HashMap;
-
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Activity for home page
  */
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String TAG = "HomeActivity";
+    // private static final String TAG = "HomeActivity";
 
-    private DatabaseReference mDatabase;
-
+//    private FirebaseDatabase mDatabaseInstance;
+//
+//    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +34,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         btnLogin.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
-
-        mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
     @Override
@@ -71,13 +56,13 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         */
     }
 
-    private void writeNewLocation(Location newLocation) {
-        Map<String, Object> locationValues = newLocation.toMap();
-
-        Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put("/locations/" + newLocation.getLocationId(), locationValues);
-
-        mDatabase.updateChildren(childUpdates);
-    }
+//    private void writeNewLocation(Location newLocation) {
+//        Map<String, Object> locationValues = newLocation.toMap();
+//
+//        Map<String, Object> childUpdates = new HashMap<>();
+//        childUpdates.put("/locations/" + newLocation.getLocationId(), locationValues);
+//
+//        mDatabase.updateChildren(childUpdates);
+//    }
 
 }

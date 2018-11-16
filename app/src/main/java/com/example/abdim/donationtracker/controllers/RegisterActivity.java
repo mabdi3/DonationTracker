@@ -3,6 +3,7 @@ package com.example.abdim.donationtracker.controllers;
 import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -66,10 +67,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         emailField = findViewById(R.id.new_username);
         passField = findViewById(R.id.new_password);
-        EditText confirmPassField = findViewById(R.id.confirm_password);
+        // EditText confirmPassField = findViewById(R.id.confirm_password);
         accountTypeField = findViewById(R.id.account_type_spinner);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        FirebaseDatabase mDatabaseInstance = FirebaseDatabase.getInstance();
+        mDatabase = mDatabaseInstance.getReference();
         mAuth = FirebaseAuth.getInstance();
 
         Button btnBack = findViewById(R.id.back_button);
@@ -108,21 +110,22 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             return;
         }
 
-        String username = emailField.getText().toString();
-        String password = passField.getText().toString();
+        Editable userNameEditText = emailField.getText();
+        Editable passFieldEditText = passField.getText();
+        String username = userNameEditText.toString();
+        String password = passFieldEditText.toString();
 
         Log.d(TAG, "username: " + username);
         Log.d(TAG, "password: " + password);
-
         mAuth.createUserWithEmailAndPassword(username, password)
             .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     Log.d(TAG, "createUser:onComplete: " + task.isSuccessful());
                     // Log.d(TAG, "onComplete" + task.getException().getMessage());
-                    if (task.getException() != null) {
-                        Log.d(TAG, "onComplete EXCEPTION " + task.getException().getMessage());
-                    }
+//                    if (task.getException() != null) {
+//                        Log.d(TAG, "onComplete EXCEPTION " + task.getException().getMessage());
+//                    }
                     if (task.isSuccessful()) {
                         AuthResult result = Objects.requireNonNull(task).getResult();
                         onAuthSuccess(Objects.requireNonNull(result).getUser());
@@ -156,7 +159,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                               AccountType accountType) {
 
         Account account = new Account(username, pass, accountType, email);
-        mDatabase.child("users").child(userId).setValue(account);
+        DatabaseReference childRef = mDatabase.child("users");
+        childRef.child(userId).setValue(account);
     }
 
     private String usernameFromEmail(String email) {

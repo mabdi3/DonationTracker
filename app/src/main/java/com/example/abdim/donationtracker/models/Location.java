@@ -1,8 +1,6 @@
 package com.example.abdim.donationtracker.models;
 
 import java.util.Objects;
-import java.util.Map;
-import java.util.HashMap;
 
 /**
  * Represents a Location Object
@@ -17,7 +15,7 @@ public class Location {
     private String address;
     private String phoneNumber;
     private String websiteLink;
-    private ItemList locationItemList;
+    // private ItemList locationItemList;
 
     /**
      * Constructs location object leaving attributes null.
@@ -48,28 +46,28 @@ public class Location {
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.websiteLink = websiteLink;
-        this.locationItemList = new ItemList();
+        // this.locationItemList = new ItemList();
     }
 
-    /**
-     * Converts attributes of location into a HashMap.
-     * @return HashMap representing the location
-     */
-    public Map<String, Object> toMap() {
-        Map<String, Object> result = new HashMap<>();
-
-        result.put("locationId", locationId);
-        result.put("name", name);
-        result.put("LocationType", LocationType);
-        result.put("longitude", longitude);
-        result.put("latitude", latitude);
-        result.put("address", address);
-        result.put("phoneNumber", phoneNumber);
-        result.put("websiteLink", websiteLink);
-        result.put("locationItemList", locationItemList);
-
-        return result;
-    }
+//    /**
+//     * Converts attributes of location into a HashMap.
+//     * @return HashMap representing the location
+//     */
+//    public Map<String, Object> toMap() {
+//        Map<String, Object> result = new HashMap<>();
+//
+//        result.put("locationId", locationId);
+//        result.put("name", name);
+//        result.put("LocationType", LocationType);
+//        result.put("longitude", longitude);
+//        result.put("latitude", latitude);
+//        result.put("address", address);
+//        result.put("phoneNumber", phoneNumber);
+//        result.put("websiteLink", websiteLink);
+//        // result.put("locationItemList", locationItemList);
+//
+//        return result;
+//    }
 
     // getters
 
@@ -133,13 +131,13 @@ public class Location {
 
     // setters
 
-    /**
-     * sets Location type
-     * @param LocationType enum defining what kind of location this instance is
-     */
-    public void setLocationType(LocationType LocationType) {
-        this.LocationType = LocationType;
-    }
+//    /**
+//     * sets Location type
+//     * @param LocationType enum defining what kind of location this instance is
+//     */
+//    public void setLocationType(LocationType LocationType) {
+//        this.LocationType = LocationType;
+//    }
 
     /**
      * Returns the location's name

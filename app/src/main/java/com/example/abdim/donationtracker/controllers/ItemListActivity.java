@@ -3,9 +3,12 @@ package com.example.abdim.donationtracker.controllers;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -30,7 +33,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-@SuppressWarnings("ALL")
+/**
+ * ItemListActivity class
+ */
 public class ItemListActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "ItemListActivity";
@@ -39,7 +44,9 @@ public class ItemListActivity extends AppCompatActivity implements View.OnClickL
 
     private EditText editSearch;
 
+    @Nullable
     private String locationKey;
+    @Nullable
     private String locationName;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -48,7 +55,7 @@ public class ItemListActivity extends AppCompatActivity implements View.OnClickL
     private String itemKey;
     private ArrayAdapter<Item> itemAdapter;
 
-    private List<Item> itemArray = new ArrayList<>();
+    private final Collection<Item> itemArray = new ArrayList<>();
 
     private List<String> itemKeyList = new ArrayList<>();
 
@@ -148,12 +155,12 @@ public class ItemListActivity extends AppCompatActivity implements View.OnClickL
 
             userRef.addValueEventListener(new ValueEventListener() {
                 @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     Account value = dataSnapshot.getValue(Account.class);
 
                     Log.d(TAG, "value is " + value);
 
-                    AccountType valueType = value.getType();
+                    AccountType valueType = Objects.requireNonNull(value).getType();
 
                     String valueTypeString = valueType.toString();
                     if ("Location Employee".equals(valueTypeString) && !searchAllLocations) {
@@ -163,7 +170,7 @@ public class ItemListActivity extends AppCompatActivity implements View.OnClickL
                     }
                 }
                 @Override
-                public void onCancelled(DatabaseError error) {
+                public void onCancelled(@NonNull DatabaseError error) {
                     Log.d(TAG, "Failed to read value" + error.toException());
                 }
             });
@@ -174,29 +181,19 @@ public class ItemListActivity extends AppCompatActivity implements View.OnClickL
 
         String query = editSearch.getText().toString();
         Collection<Item> newList = new ArrayList<>();
-
-        Log.d(TAG, "query " + query);
-
         if (searchParam.equals("name")) {
             if (query.equals("")) {
                 itemAdapter.clear();
                 itemAdapter.addAll(itemArray);
             } else {
                 itemAdapter.clear();
-
                 List<String> newItemKeyList = new ArrayList<>();
                 for (Item i : itemArray) {
-                    Log.d(TAG, "i " + i.toString());
-                    Log.d(TAG, "query " + query);
                     if (i.toString().equals(query)) {
-                        Log.d(TAG, "getting in here");
                         newList.add(i);
-
                         newItemKeyList.add(i.getId());
                     }
                 }
-
-
                 itemKeyList = newItemKeyList;
                 if (newList.isEmpty()) {
                     Toast.makeText(ItemListActivity.this, "Nothing matched query",
@@ -210,16 +207,13 @@ public class ItemListActivity extends AppCompatActivity implements View.OnClickL
                 itemAdapter.addAll(itemArray);
             } else {
                 itemAdapter.clear();
-
                 List<String> newItemKeyList = new ArrayList<>();
-
                 for (Item i : itemArray) {
                     if (i.getCategory().toString().toLowerCase().equals(query)) {
                         newList.add(i);
                         newItemKeyList.add(i.getId());
                     }
                 }
-
                 itemKeyList = newItemKeyList;
                 if (newList.isEmpty()) {
                     Toast.makeText(ItemListActivity.this, "Nothing matched query",
@@ -235,9 +229,10 @@ public class ItemListActivity extends AppCompatActivity implements View.OnClickL
         Log.d(TAG, "locationKey is " + locationKey);
         Log.d(TAG, "searchAllLocations is " + searchAllLocations);
         if (!searchAllLocations) {
-            itemsRef.orderByChild("locationId").equalTo(locationKey).addChildEventListener(new ChildEventListener() {
+            itemsRef.orderByChild("locationId").equalTo(locationKey).addChildEventListener(
+                    new ChildEventListener() {
                 @Override
-                public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String prevChildKey) {
 
                     Log.d(TAG, "key is " + dataSnapshot.getKey());
 
@@ -246,35 +241,35 @@ public class ItemListActivity extends AppCompatActivity implements View.OnClickL
                     itemRef = FirebaseDatabase.getInstance().getReference("items/" + itemKey);
                     itemRef.addValueEventListener(new ValueEventListener() {
                         @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             Log.d(TAG, "items/" + itemKey);
                             Item item = dataSnapshot.getValue(Item.class);
                             itemAdapter.add(item);
                             itemArray.add(item);
                         }
                         @Override
-                        public void onCancelled(DatabaseError error) {
+                        public void onCancelled(@NonNull DatabaseError error) {
                             Log.d(TAG, "Failed to read value" + error.toException());
                         }
                     });
                 }
                 @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
+                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
                 }
                 @Override
-                public void onCancelled(DatabaseError databaseError) {
+                public void onCancelled(@NonNull DatabaseError databaseError) {
                 }
                 @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String string) {
+                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, String string) {
                 }
                 @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String string) {
+                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, String string) {
                 }
             });
         } else {
             itemsRef.addValueEventListener(new ValueEventListener() {
                 @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot itemShot : dataSnapshot.getChildren()) {
 
                         setItemKey(itemShot.getKey());
@@ -282,12 +277,13 @@ public class ItemListActivity extends AppCompatActivity implements View.OnClickL
                         Item itemValue = itemShot.getValue(Item.class);
                         itemAdapter.add(itemValue);
                         itemArray.add(itemValue);
-                        Log.d(TAG, "here is item name " + itemValue.getName());
+                        Log.d(TAG, "here is item name "
+                                + Objects.requireNonNull(itemValue).getName());
 
                     }
                 }
                 @Override
-                public void onCancelled(DatabaseError error) {
+                public void onCancelled(@NonNull DatabaseError error) {
                     Log.d(TAG, "Failed to read value" + error.toException());
                 }
             });

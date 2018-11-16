@@ -21,8 +21,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
-
-@SuppressWarnings("ALL")
+/**
+ * MainActivity
+ */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "MainActivity";
@@ -92,7 +93,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             Toast.makeText(MainActivity.this, "Sign in Failed",
                                     Toast.LENGTH_SHORT).show();
                             loginAttemptsRemaining--;
-                            loginInfo.setText("Login Attempts Remaining: " + String.valueOf(loginAttemptsRemaining));
+                            loginInfo.setText(
+                                    "Login Attempts Remaining: "
+                                            + String.valueOf(loginAttemptsRemaining));
                             if (loginAttemptsRemaining == 0) {
                                 btnSubmit.setEnabled(false);
                             }

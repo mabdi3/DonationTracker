@@ -75,7 +75,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //20: Buildings
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(atlanta, 10));
 
-        DatabaseReference locationsRef = FirebaseDatabase.getInstance().getReference("locations");
+        FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference locationsRef = mDatabase.getReference("locations");
         locationsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

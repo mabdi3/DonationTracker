@@ -1,6 +1,8 @@
 package com.example.abdim.donationtracker.controllers;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,10 +20,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-@SuppressWarnings("ALL")
+import java.util.Objects;
+
+/**
+ * LocationInfoActivity
+ */
 public class LocationInfoActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "LocationInfoActivity";
+    @Nullable
     private String locationName;
     private String locationKey;
     private ArrayAdapter<String> locationAdapter;
@@ -65,46 +72,51 @@ public class LocationInfoActivity extends AppCompatActivity implements View.OnCl
 
         Log.d(TAG, "location name is " + locationName);
 
-        locationsRef.orderByChild("name").equalTo(locationName).addChildEventListener(new ChildEventListener() {
+        locationsRef.orderByChild("name").equalTo(locationName).addChildEventListener(
+                new ChildEventListener() {
 
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String prevChildKey) {
                 setLocationKey(dataSnapshot.getKey());
 
-                locationInfoRef = FirebaseDatabase.getInstance().getReference("locations/" + locationKey);
+                locationInfoRef = FirebaseDatabase.getInstance().getReference(
+                        "locations/" + locationKey);
 
                 locationInfoRef.addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         Log.d(TAG, "locationKey" + locationKey);
                         Location locationValue = dataSnapshot.getValue(Location.class);
                         Log.d(TAG, "locationName " + locationName);
 
-                        locationAdapter.add("Location Type: " + locationValue.getLocationType().toString());
+                        locationAdapter.add("Location Type: "
+                                + Objects.requireNonNull(locationValue).
+                                getLocationType().toString());
                         locationAdapter.add("Latitude, Longitude: " +
-                                Double.toString(locationValue.getLatitude()) + ", " + Double.toString(locationValue.getLongitude()));
+                                Double.toString(locationValue.getLatitude()) + ", "
+                                + Double.toString(locationValue.getLongitude()));
                         locationAdapter.add("Address: " + locationValue.getAddress());
                         locationAdapter.add("Phone Number: " + locationValue.getPhoneNumber());
                         locationAdapter.add("Website: " + locationValue.getWebsiteLink());
                     }
 
                     @Override
-                    public void onCancelled(DatabaseError error) {
+                    public void onCancelled(@NonNull DatabaseError error) {
                         Log.d(TAG, "Failed to read value" + error.toException());
                     }
                 });
             }
             @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
             }
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
             }
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String string) {
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, String string) {
             }
             @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String string) {
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, String string) {
             }
         });
 
