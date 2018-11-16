@@ -10,18 +10,18 @@ public class Account {
     private AccountType type;
 
     /**
-     * Creates an account object
+     * Creates Account item, leaving attributes blank.
      */
     public Account() {
 
     }
 
     /**
-     * Creates an account object
-     * @param userIn Input username
-     * @param passIn Input password
-     * @param ut accountType
-     * @param emailIn input email address
+     * Creates Account item.
+     * @param userIn userName input
+     * @param passIn password input
+     * @param ut user type input
+     * @param emailIn email input
      */
     public Account(String userIn, String passIn, AccountType ut, String emailIn) {
         username = userIn;
@@ -31,85 +31,82 @@ public class Account {
     }
 
     /**
-     * Creates an account object, but leaves email empty
-     * @param userIn username
-     * @param passIn password
-     * @param ut account type
+     * Constructs Account item and leaves email blank
+     * @param userIn username input
+     * @param passIn password input
+     * @param ut user type input
      */
     public Account(String userIn, String passIn, AccountType ut) {
         this(userIn, passIn, ut, "");
     }
 
-    // getters
-
     /**
-     * Getter for username
-     * @return username
+     * Returns account's username.
+     * @return account's username
      */
     public String getUsername() {
         return username;
     }
 
     /**
-     * Getter for email address
-     * @return email
+     * Returns account's email.
+     * @return account's email
      */
     public String getEmail() {
         return email;
     }
 
     /**
-     * Getter for password
-     * @return password
+     * Returns account's password.
+     * @return account's password
      */
     public String getPass() {
         return pass;
     }
 
     /**
-     * Getter for accountType
-     * @return type
+     * Returns account's user type.
+     * @return account's user type
      */
     public AccountType getType() {
         return type;
     }
 
-    // setters
-
     /**
-     * Sets username for account
-     * @param username username
+     * Sets account's username.
+     * @param username the string to assign the account's username to
      */
     public void setUsername(String username) {
         this.username = username;
     }
 
     /**
-     * Sets email for account
-     * @param email address
+     * Sets account's email.
+     * @param email the string to assign the account's email to
      */
     public void setEmail(String email) {
         this.email = email;
     }
 
     /**
-     * Sets password for account
-     * @param pass password
+     * Sets account's password
+     * @param pass the string to assign the account's password to
      */
     public void setPass(String pass) {
         this.pass = pass;
     }
 
     /**
-     * Sets account type
-     * @param type type of account
+     * Set's account's type
+     * @param type the string to assign the account's type to
      */
     public void setType(AccountType type) {
         this.type = type;
     }
 
     /**
-     * @return the string representation of the Account
+     * Returns a string representation of the account.
+     * @return the account as a string
      */
     public String toString() {
         return username + " has the password: " + pass + " and is a: " + type;

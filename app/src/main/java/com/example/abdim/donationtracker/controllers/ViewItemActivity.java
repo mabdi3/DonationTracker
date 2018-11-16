@@ -2,6 +2,8 @@ package com.example.abdim.donationtracker.controllers;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -17,13 +19,22 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
-@SuppressWarnings("ALL")
+import java.util.Objects;
+
+// @SuppressWarnings("ALL")
+
+/**
+ * ViewItemActivity
+ */
 public class ViewItemActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "ViewItemActivity";
 
+    @Nullable
     private String locationKey;
+    @Nullable
     private String locationName;
+    @Nullable
     private String itemKey;
 
     private boolean backSearchAllLocations;
@@ -61,7 +72,8 @@ public class ViewItemActivity extends AppCompatActivity implements View.OnClickL
             locationName = (String) savedInstanceState.getSerializable("locationName");
             itemKey = (String) savedInstanceState.getSerializable("itemKey");
 
-            backSearchAllLocations = (Boolean) savedInstanceState.getSerializable("backSearchAllLocations");
+            backSearchAllLocations = (Boolean) savedInstanceState.getSerializable(
+                    "backSearchAllLocations");
         }
         itemDetailAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         list.setAdapter(itemDetailAdapter);
@@ -74,10 +86,10 @@ public class ViewItemActivity extends AppCompatActivity implements View.OnClickL
         DatabaseReference itemRef = FirebaseDatabase.getInstance().getReference("items/" + itemKey);
         itemRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Log.d(TAG, "items/" + itemKey);
                 Item item = dataSnapshot.getValue(Item.class);
-                itemDetailAdapter.add("Name: " + item.getName());
+                itemDetailAdapter.add("Name: " + Objects.requireNonNull(item).getName());
                 itemDetailAdapter.add("Description:\n" + item.getDescription());
                 itemDetailAdapter.add("Location Id: " + item.getLocationId());
                 itemDetailAdapter.add("Quantity: " + Integer.toString(item.getQuantity()));
@@ -86,7 +98,7 @@ public class ViewItemActivity extends AppCompatActivity implements View.OnClickL
                 itemDetailAdapter.add("Value: " + String.format("$%.2f", item.getValue()));
             }
             @Override
-            public void onCancelled(DatabaseError error) {
+            public void onCancelled(@NonNull DatabaseError error) {
                 Log.d(TAG, "Failed to read value" + error.toException());
             }
         });
