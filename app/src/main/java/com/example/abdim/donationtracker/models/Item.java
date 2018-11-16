@@ -1,5 +1,4 @@
 package com.example.abdim.donationtracker.models;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.firebase.database.ChildEventListener;
@@ -7,11 +6,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.Map;
 import java.util.HashMap;
-import java.util.UUID;
 
 /**
  * Class that represents an Item object
@@ -150,67 +147,6 @@ public class Item {
     // setters
 
     /**
-     * Sets item id
-     * @param id item id
-     */
-    public void setId(String id) { this.id = id; }
-
-    /**
-     * Sets item name
-     * @param name item name
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * Sets item description
-     * @param description item description
-     */
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    /**
-     * Sets item locationId
-     * @param locationId locationId
-     */
-    public void setLocationId(String locationId) {
-        this.locationId = locationId;
-    }
-    /**
-     * Sets item value
-     * @param value item value
-     */
-    public void setValue(Double value) {
-        this.value = value;
-    }
-
-    /**
-     * Sets item quantity
-     * @param quantity item quantity
-     */
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    /**
-     * Sets item category
-     * @param category item category
-     */
-    public void setCategory(ItemCategory category) {
-        this.category = category;
-    }
-
-    /**
-     * Sets item time
-     * @param time item time
-     */
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    /**
      * setter for location name
      * @param locationName location name
      */
@@ -231,14 +167,14 @@ public class Item {
                 new ChildEventListener() {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-                        Log.d(TAG, "hanging out over here");
-
-                        Log.d(TAG, "locationName is " + dataSnapshot.getValue(
-                                Location.class).getName());
                         String locationName = dataSnapshot.getValue(Location.class).getName();
-                        Log.d(TAG, "heyo " + Item.this.getName());
+                        try {
+                            Log.d(TAG, "locationName is " + dataSnapshot.getValue(
+                                    Location.class).getName());
+                        } catch (NullPointerException e) {
+                            Log.d(TAG, "locationName is null");
+                        }
                         Item.this.setLocationName(locationName);
-                        Log.d(TAG, "heyo2.0" + Item.this.getLocationName());
                     }
                     @Override
                     public void onChildRemoved(DataSnapshot dataSnapshot) {

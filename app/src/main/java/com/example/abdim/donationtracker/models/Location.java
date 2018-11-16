@@ -115,13 +115,7 @@ public class Location {
     public String getAddress() {
         return address;
     }
-    /**
-     * Returns this location's list of items
-     * @return the Location's list of items
-     */
-    public ItemList getLocationItemList() {
-        return locationItemList;
-    }
+
     /**
      * Returns this location's phone number
      * @return the Location's phone number
@@ -140,21 +134,6 @@ public class Location {
     // setters
 
     /**
-     * sets locationID
-     * @param locationId integer value for the new ID
-     */
-    public void setLocationId(int locationId) {
-        this.locationId = locationId;
-    }
-    /**
-     * sets new Name
-     * @param name string value for the new name
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
      * sets Location type
      * @param LocationType enum defining what kind of location this instance is
      */
@@ -163,67 +142,11 @@ public class Location {
     }
 
     /**
-     * sets the location's latitude
-     * @param longitude double value of the longitude
-     */
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-
-    /**
-     * sets the location's latitude
-     * @param latitude double value of the latitude
-     */
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
-    /**
-     * sets the location's address
-     * @param address string of the address
-     */
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    /**
-     * Sets a list of items to serve as this location's inventory
-     * @param locationItemList list of items
-     */
-    public void setLocationItemList(ItemList locationItemList) {
-        this.locationItemList = locationItemList;
-    }
-
-    /**
-     * return's the locations phone number
-     * @param phoneNumber location's phone number
-     */
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    /**
-     * sets the Location's website url
-     * @param websiteLink url of the new website
-     */
-    public void setWebsiteLink(String websiteLink) {
-        this.websiteLink = websiteLink;
-    }
-
-    /**
      * Returns the location's name
      * @return name
      */
     public String toString() {
         return name;
-    }
-
-    /**
-     * Adds item to this Location's inventory
-     * @param item item location
-     */
-    public void addItem(Item item) {
-        locationItemList.addItem(item);
     }
 
     @Override

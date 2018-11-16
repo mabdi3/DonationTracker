@@ -43,30 +43,6 @@ public class Account {
     // getters
 
     /**
-     * Getter for username
-     * @return username
-     */
-    public String getUsername() {
-        return username;
-    }
-
-    /**
-     * Getter for email address
-     * @return email
-     */
-    public String getEmail() {
-        return email;
-    }
-
-    /**
-     * Getter for password
-     * @return password
-     */
-    public String getPass() {
-        return pass;
-    }
-
-    /**
      * Getter for accountType
      * @return type
      */
@@ -75,38 +51,6 @@ public class Account {
     }
 
     // setters
-
-    /**
-     * Sets username for account
-     * @param username username
-     */
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    /**
-     * Sets email for account
-     * @param email address
-     */
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    /**
-     * Sets password for account
-     * @param pass password
-     */
-    public void setPass(String pass) {
-        this.pass = pass;
-    }
-
-    /**
-     * Sets account type
-     * @param type type of account
-     */
-    public void setType(AccountType type) {
-        this.type = type;
-    }
 
     /**
      * @return the string representation of the Account

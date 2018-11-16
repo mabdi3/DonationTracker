@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Represents an Itemlist
+ * Represents an ItemList
  */
 public class ItemList implements Serializable {
     private final List<Item> itemList;
@@ -26,11 +26,4 @@ public class ItemList implements Serializable {
         itemList.add(newItem);
     }
 
-    /**
-     * Returns the list of items
-     * @return the held list of items
-     */
-    public List<Item> getItemList() {
-        return Collections.unmodifiableList(itemList);
-    }
 }

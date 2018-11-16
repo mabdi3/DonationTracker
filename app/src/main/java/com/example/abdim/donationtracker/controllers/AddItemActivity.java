@@ -25,10 +25,6 @@ import java.util.HashMap;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 @SuppressWarnings("ALL")
 public class AddItemActivity extends AppCompatActivity implements View.OnClickListener {
