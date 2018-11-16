@@ -91,14 +91,17 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
         itemValue.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable arg0) {
-                double itemValueDouble = itemValue.getText().toString().equals("")
-                        ? 0
-                        : Double.parseDouble(itemValue.getText().toString());
+                if (validateItem(itemValue.getText().toString())) {
+                    double itemValueDouble = itemValue.getText().toString().equals("")
+                            ? 0
+                            : Double.parseDouble(itemValue.getText().toString());
 
-                if (!(itemValueDouble >= 0)) {
-                    itemValue.setError("Passwords must match");
+                    if (!(itemValueDouble >= 0)) {
+                        itemValue.setError("Passwords must match");
+                    }
+                    btnAdd.setEnabled(enableAdd());
                 }
-                btnAdd.setEnabled(enableAdd());
+
             }
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -173,6 +176,13 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
             valid = true;
         }
         return valid;
+    }
+    public static boolean validateItem(String item) {
+        if (item == null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
 

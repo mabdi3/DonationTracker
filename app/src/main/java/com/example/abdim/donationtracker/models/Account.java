@@ -76,8 +76,12 @@ public class Account {
      * Sets account's username.
      * @param username the string to assign the account's username to
      */
-    public void setUsername(String username) {
+    public boolean setUsername(String username) {
+        if (username == null) {
+            return false;
+        }
         this.username = username;
+        return true;
     }
 
     /**
