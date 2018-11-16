@@ -49,21 +49,10 @@ public class ItemCategories {
         }
     }
 
-    public static Set<ItemCategory> getItemCategoriesAsHashSet() {
-        return itemCategoriesAsHashSet;
-    }
-
-    public static void setItemCategoriesAsHashSet(Set<ItemCategory> itemCategoriesAsHashSet) {
-        ItemCategories.itemCategoriesAsHashSet = itemCategoriesAsHashSet;
-    }
-
     public static List<ItemCategory> getItemCategoriesAsList() {
         Log.d("hello", "getting here");
         Log.d("hello", itemCategoriesAsList.toString());
         return itemCategoriesAsList;
     }
 
-    public static void setItemCategoriesAsList(List<ItemCategory> itemCategoriesAsList) {
-        ItemCategories.itemCategoriesAsList = itemCategoriesAsList;
-    }
 }

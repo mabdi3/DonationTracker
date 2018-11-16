@@ -46,9 +46,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
 
-    private final int USERNAME_MIN_LENGTH = 4;
-    private final int PASSWORD_MIN_LENGTH = 4;
-
     /*
      * Check to see if passwords match, if username filled out to enable register button
      */
@@ -69,7 +66,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         emailField = findViewById(R.id.new_username);
         passField = findViewById(R.id.new_password);
-        EditText confirmPassField = findViewById(R.id.confirm_password);
         accountTypeField = findViewById(R.id.account_type_spinner);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();

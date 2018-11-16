@@ -25,12 +25,4 @@ public class ItemList implements Serializable {
     public void addItem(Item newItem) {
         itemList.add(newItem);
     }
-
-    /**
-     * Returns the list of items
-     * @return the held list of items
-     */
-    public List<Item> getItemList() {
-        return Collections.unmodifiableList(itemList);
-    }
 }

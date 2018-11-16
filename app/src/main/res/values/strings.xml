@@ -1,4 +1,35 @@
 <resources>
     <string name="app_name">DonationTracker</string>
     <string name="title_activity_maps">Map</string>
+    <string name="back">Back</string>
+    <string name="look_at_inventory">Look At Inventory</string>
+    <string name="location_information">Location Information</string>
+    <string name="cancel">Cancel</string>
+    <string name="name">Name</string>
+    <string name="item_description_here">Item Description Here</string>
+    <string name="quantity">Quantity</string>
+    <string name="value_in_dollars">Value in $</string>
+    <string name="category">Category</string>
+    <string name="add_item">Add Item</string>
+    <string name="login">LOGIN</string>
+    <string name="welcome">Welcome to DonationTracker</string>
+    <string name="register">REGISTER</string>
+    <string name="image">Image</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="submit">SUBMIT</string>
+    <string name="login_attempts_remaining">Login attempts remaining: </string>
+    <string name="register_lower">Register</string>
+    <string name="search_cat">SEARCH CAT</string>
+    <string name="search_name">SEARCH NAME</string>
+    <string name="registration">Registration</string>
+    <string name="password2">Password:</string>
+    <string name="confirm_password">Confirm Password:</string>
+    <string name="account_type">Account Type</string>
+    <string name="username2">Username:</string>
+    <string name="search">SEARCH</string>
+    <string name="logged_in">Logged In</string>
+    <string name="location_list">Location List</string>
+    <string name="logout">Logout</string>
+    <string name="location_map">Location Map</string>
 </resources>

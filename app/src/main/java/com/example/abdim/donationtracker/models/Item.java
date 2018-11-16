@@ -147,67 +147,6 @@ public class Item {
     // setters
 
     /**
-     * Sets item id
-     * @param id item id
-     */
-    public void setId(String id) { this.id = id; }
-
-    /**
-     * Sets item name
-     * @param name item name
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * Sets item description
-     * @param description item description
-     */
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    /**
-     * Sets item locationId
-     * @param locationId locationId
-     */
-    public void setLocationId(String locationId) {
-        this.locationId = locationId;
-    }
-    /**
-     * Sets item value
-     * @param value item value
-     */
-    public void setValue(Double value) {
-        this.value = value;
-    }
-
-    /**
-     * Sets item quantity
-     * @param quantity item quantity
-     */
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    /**
-     * Sets item category
-     * @param category item category
-     */
-    public void setCategory(ItemCategory category) {
-        this.category = category;
-    }
-
-    /**
-     * Sets item time
-     * @param time item time
-     */
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    /**
      * setter for location name
      * @param locationName location name
      */
@@ -227,17 +166,15 @@ public class Item {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
                         Log.d(TAG, "hanging out over here");
-                        try {
+                        if (dataSnapshot.getValue(Location.class) != null)
                             Log.d(TAG, "locationName is " + dataSnapshot.getValue(Location.class).getName());
-                        } catch (NullPointerException e) {
+                        else
                             Log.d(TAG, "locationName is null");
-                        }
-                        try {
-                            String locationName = dataSnapshot.getValue(Location.class).getName();
-                        } catch (NullPointerException e) {
+                        String locationName = "";
+                        if (dataSnapshot.getValue(Location.class) != null)
+                            locationName = dataSnapshot.getValue(Location.class).getName();
+                        else
                             Log.d(TAG, "locationName is null");
-                            locationName = null;
-                        }
                         Log.d(TAG, "hey " + Item.this.getName());
                         Item.this.setLocationName(locationName);
                         Log.d(TAG, "hey 2.0" + Item.this.getLocationName());

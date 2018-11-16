@@ -15,12 +15,6 @@ public class ItemCategory {
     }
 
     /**
-     * Constructs ItemCategory object, leaving categoryNam as null.
-     */
-    public ItemCategory() {
-    }
-
-    /**
      * converts the item category to a string by taking the name
      * @return the category's name
      */
