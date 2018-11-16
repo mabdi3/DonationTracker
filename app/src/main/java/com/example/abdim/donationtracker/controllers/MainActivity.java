@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Button btnSubmit;
 
-    private DatabaseReference mDatabase;
+    // private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
 
     @Override
@@ -74,12 +74,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void signIn() {
         Log.d(TAG, "sign in");
 
-        if (!validateForm()) {
-            return;
-        }
 
         String email = emailField.getText().toString();
         String password = passField.getText().toString();
+        if (!validateForm(email, password)) {
+            return;
+        }
 
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -104,16 +104,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 });
     }
 
-    private boolean validateForm() {
+    public boolean validateForm(String email, String password) {
         boolean valid = true;
-        if (TextUtils.isEmpty(emailField.getText().toString())) {
+        if (TextUtils.isEmpty(email)) {
             emailField.setError("Required");
             valid = false;
         } else {
             emailField.setError(null);
         }
 
-        if (TextUtils.isEmpty(passField.getText().toString())) {
+        if (TextUtils.isEmpty(password)) {
             passField.setError("Required");
             valid = false;
         } else {
