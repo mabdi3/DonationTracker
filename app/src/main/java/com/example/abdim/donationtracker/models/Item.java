@@ -32,7 +32,7 @@ public class Item {
     }
 
     public Map<String, Object> toMap() {
-        HashMap<String, Object> result = new HashMap<>();
+        Map<String, Object> result = new HashMap<>();
         result.put("id", id);
         result.put("name", name);
         result.put("description", description);

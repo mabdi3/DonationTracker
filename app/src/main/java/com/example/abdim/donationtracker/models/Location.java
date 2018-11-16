@@ -51,7 +51,7 @@ public class Location {
      * @return HashMap representing the location
      */
     public Map<String, Object> toMap() {
-        HashMap<String, Object> result = new HashMap<>();
+        Map<String, Object> result = new HashMap<>();
 
         result.put("locationId", locationId);
         result.put("name", name);

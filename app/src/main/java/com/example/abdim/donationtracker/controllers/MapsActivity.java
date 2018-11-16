@@ -1,5 +1,6 @@
 package com.example.abdim.donationtracker.controllers;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -83,6 +84,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Log.d(TAG, "Failed to read value" + error.toException());
             }
         });
+
+
+    }
+    @Override
+    public void onBackPressed()  {
+        startActivity(new Intent(MapsActivity.this, LoggedInActivity.class));
+        finish();
     }
 
 }
