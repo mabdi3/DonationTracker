@@ -47,8 +47,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
 
-    final public int MIN_PASS_LENGTH = 6;
-
     /*
      * Check to see if passwords match, if username filled out to enable register button
      */
@@ -200,8 +198,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
      * @param password password to check
      * @return true if both username and password are valid
      */
-    public boolean usernameAndPassIsValid(String username, String password) {
-        if (username == null || password == null) {
+    public boolean usernameAndPassIsValid(CharSequence username, CharSequence password) {
+        if ((username == null) || (password == null)) {
             return false;
         }
 
@@ -220,7 +218,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         //check if password is of at least length MIN_PASS_LENGTH
 
-        return password.length() >= MIN_PASS_LENGTH && hasAtAndDot;
+        int MIN_PASS_LENGTH = 6;
+        return (password.length() >= MIN_PASS_LENGTH) && (hasAtAndDot);
     }
 
     @Override

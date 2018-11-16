@@ -5,18 +5,24 @@ import com.example.abdim.donationtracker.controllers.RegisterActivity;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Random;
+//import java.util.Random;
 
 import static org.junit.Assert.*;
 
+/**
+ * Brandon Vu's UnitTest to test the RegisterActivity's check for valid username and password
+ */
 public class BrandonUnitTest {
 
-    RegisterActivity registerActivity;
-    String badUsername;
-    String badPassword;
-    String goodUsername;
-    String goodPassword;
+    private RegisterActivity registerActivity;
+    private String badUsername;
+    private String badPassword;
+    private String goodUsername;
+    private String goodPassword;
 
+    /**
+     * Runs the setup for each test.
+     */
     @Before
     public void setup() {
         registerActivity = new RegisterActivity();
@@ -50,31 +56,57 @@ public class BrandonUnitTest {
         goodPassword = "12312412412";
     }
 
+    /**
+     * Checks for when either argument is null.
+     */
     @Test
     public void nullUsernameOrNullPassword() {
-        assertFalse(registerActivity.usernameAndPassIsValid(null, goodPassword));
-        assertFalse(registerActivity.usernameAndPassIsValid(goodUsername, null));
-        assertFalse(registerActivity.usernameAndPassIsValid(null, null));
+        assertFalse(callRegisterActivityValidTest(null, goodPassword));
+        assertFalse(callRegisterActivityValidTest(goodUsername, null));
+        assertFalse(callRegisterActivityValidTest(null, null));
     }
 
+    /**
+     * Checks for when both username and password are valid
+     */
     @Test
     public void goodUsernameAndGoodPassword() {
-        assertTrue(registerActivity.usernameAndPassIsValid(goodUsername, goodPassword));
+        assertTrue(callRegisterActivityValidTest(goodUsername, goodPassword));
     }
 
+    /**
+     * Checks for when both username and password are invalid
+     */
     @Test
     public void badUsernameAndBadPassword() {
-        assertFalse(registerActivity.usernameAndPassIsValid(badUsername, badPassword));
+        assertFalse(callRegisterActivityValidTest(badUsername, badPassword));
     }
 
+    /**
+     * Checks for when only the password is valid
+     */
     @Test
     public void badUsernameAndGoodPassword() {
-        assertFalse(registerActivity.usernameAndPassIsValid(badUsername, goodPassword));
+        assertFalse(callRegisterActivityValidTest(badUsername, goodPassword));
     }
 
+    /**
+     * Checks for when only the username is valid
+     */
     @Test
     public void goodUsernameAndBadPassword() {
-        assertFalse(registerActivity.usernameAndPassIsValid(goodUsername, badPassword));
+        assertFalse(callRegisterActivityValidTest(goodUsername, badPassword));
+    }
+
+    /**
+     * Helper method to get rid of feature envy thanks lint
+     *
+     * @param username username to check
+     * @param password password to check
+     * @return true if username and password are both valid
+     */
+    private boolean callRegisterActivityValidTest(CharSequence username, CharSequence password) {
+        return registerActivity.usernameAndPassIsValid(username, password);
     }
 
 }
