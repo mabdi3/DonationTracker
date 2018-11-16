@@ -81,6 +81,21 @@ public class ViewItemActivity extends AppCompatActivity implements View.OnClickL
         this.setItemInformation();
 
     }
+    public static boolean checkIfValidForDisplay(Item i) {
+        if(i.getCategory() == null) {
+            return false;
+        } else if(i.getName() == null) {
+            return false;
+        } else if (i.getDescription() == null) {
+            return false;
+        } else if (i.getId() == null) {
+            return false;
+        } else if (i.getTime() == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
     private void setItemInformation() {
         DatabaseReference itemRef = FirebaseDatabase.getInstance().getReference("items/" + itemKey);
@@ -89,13 +104,15 @@ public class ViewItemActivity extends AppCompatActivity implements View.OnClickL
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Log.d(TAG, "items/" + itemKey);
                 Item item = dataSnapshot.getValue(Item.class);
-                itemDetailAdapter.add("Name: " + Objects.requireNonNull(item).getName());
-                itemDetailAdapter.add("Description:\n" + item.getDescription());
-                itemDetailAdapter.add("Location Id: " + item.getLocationId());
-                itemDetailAdapter.add("Quantity: " + Integer.toString(item.getQuantity()));
-                itemDetailAdapter.add("Category: " + item.getCategory().toString());
-                itemDetailAdapter.add("Time of Donation: " + item.getTime());
-                itemDetailAdapter.add("Value: " + String.format("$%.2f", item.getValue()));
+                if(checkIfValidForDisplay(item)) {
+                    itemDetailAdapter.add("Name: " + Objects.requireNonNull(item).getName());
+                    itemDetailAdapter.add("Description:\n" + item.getDescription());
+                    itemDetailAdapter.add("Location Id: " + item.getLocationId());
+                    itemDetailAdapter.add("Quantity: " + Integer.toString(item.getQuantity()));
+                    itemDetailAdapter.add("Category: " + item.getCategory().toString());
+                    itemDetailAdapter.add("Time of Donation: " + item.getTime());
+                    itemDetailAdapter.add("Value: " + String.format("$%.2f", item.getValue()));
+                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
