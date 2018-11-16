@@ -3,7 +3,6 @@ package com.example.abdim.donationtracker.controllers;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -13,7 +12,6 @@ import android.support.annotation.NonNull;
 import android.widget.Toast;
 
 import com.example.abdim.donationtracker.R;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -32,6 +30,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText passField;
     private TextView loginInfo;
 
+    private boolean emailError;
+    private boolean passError;
     private Button btnSubmit;
 
     // private DatabaseReference mDatabase;
@@ -74,10 +74,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void signIn() {
         Log.d(TAG, "sign in");
 
-
         String email = emailField.getText().toString();
         String password = passField.getText().toString();
-        if (!validateForm(email, password)) {
+
+        boolean valid = validateForm(email, password);
+
+        if (emailError) {
+            emailField.setError("Required");
+        } else {
+            emailField.setError(null);
+        }
+        if (passError) {
+            passField.setError("Required");
+        } else {
+            passField.setError(null);
+        }
+        if (!valid) {
             return;
         }
 
@@ -104,21 +116,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 });
     }
 
+    /**
+     * Method for validateForm
+     * @param email email
+     * @param password password
+     * @return whether validated or not
+     */
     public boolean validateForm(String email, String password) {
         boolean valid = true;
-        if (TextUtils.isEmpty(email)) {
-            emailField.setError("Required");
+
+        if ((email == null) || email.isEmpty()) {
             valid = false;
-        } else {
-            emailField.setError(null);
+            emailError = true;
         }
 
-        if (TextUtils.isEmpty(password)) {
-            passField.setError("Required");
+        if ((password == null) || password.isEmpty()) {
             valid = false;
-        } else {
-            passField.setError(null);
+            passError = true;
         }
+//        if (TextUtils.isEmpty(email)) {
+//            emailField.setError("Required");
+//            valid = false;
+//        } else {
+//            emailField.setError(null);
+//        }
+//
+//        if (TextUtils.isEmpty(password)) {
+//            passField.setError("Required");
+//            valid = false;
+//        } else {
+//            passField.setError(null);
+//        }
         return valid;
     }
 

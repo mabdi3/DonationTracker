@@ -59,6 +59,7 @@ public class ItemListActivity extends AppCompatActivity implements View.OnClickL
 
     private List<String> itemKeyList = new ArrayList<>();
 
+    @Nullable
     private boolean searchAllLocations;
     // private ArrayList<Item> tempArray;
 

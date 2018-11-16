@@ -189,6 +189,39 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         return valid;
     }
 
+    /**
+     * Checks if a given String called username and another String password are
+     * correct. Such criteria is that username must be an email address and password must be
+     * at least of length MIN_PASS_LENGTH as defined in the beginning of this class.
+     *
+     * @param username username to check
+     * @param password password to check
+     * @return true if both username and password are valid
+     */
+    public boolean usernameAndPassIsValid(CharSequence username, CharSequence password) {
+        if ((username == null) || (password == null)) {
+            return false;
+        }
+
+        boolean hasAtAndDot = false;
+        //check if username is in format xyz@gmail.com
+        for (int i = 0; i < username.length(); i++) {
+            if (username.charAt(i) == '@') {
+                for (int j = i + 1; j < username.length(); j++) {
+                    if (username.charAt(j) == '.') {
+                        hasAtAndDot = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        //check if password is of at least length MIN_PASS_LENGTH
+
+        int MIN_PASS_LENGTH = 6;
+        return (password.length() >= MIN_PASS_LENGTH) && (hasAtAndDot);
+    }
+
     @Override
     public void onClick(View v) {
         int i = v.getId();
